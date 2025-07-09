@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul li{
+            margin:40px 40px;
+            list-style: none;
+            position: relative;
+        }
+        
+        ul li a{
+            text-decoration: none;
+            margin-left: 40px;
+        }
+        ul li a:hover{
+           color: brown;
+           cursor:pointer;
+        }
+        ul li ul {
+            display: none;
+        }
+        ul li:hover ul {
+            display: block;
+            position: absolute;
+        }
+        ul li:hover  ul li a:hover{
+            transition: 2s;
+            color: black;
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>
+            <a href="">HELLO</a>
+            <a href="">YELLO
+                <ul>
+                    <li>
+                        <a href="">BYE</a>
+                        <a href="">YYE</a>
+                        <a href="">HHE</a>
+                    </li>
+                </ul>
+            </a>
+            
+        </li>
+        
+    </ul>
+
+</body>
+</html>

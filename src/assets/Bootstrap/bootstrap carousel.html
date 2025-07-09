@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootfiles/bootstrap.css">
+    <style>
+        .aa {
+            filter: brightness(120%) contrast(120%) saturate(120%); 
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Bootstrap Carousel</h1>
+        </div>
+
+        <!-- FIRST CAROUSEL -->
+        <div class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../hi1.jpg" class="w-100 d-block aa" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="../alien.jpg" class="w-100 d-block aa" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item ">
+                    <img src="../heart.jpg" class="w-100 d-block aa" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="../fashion.jpg" class="w-100 d-block aa" alt="" style="height: 300px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- SECOND CAROUSEL with prev and next control -->
+
+        <div class="carousel slide my-5" data-ride="carousel" id="two">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../kizz1.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="../fashion.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item ">
+                    <img src="../hi2.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="../kizz.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                </div>
+            </div>
+
+            <a href="#two" class="carousel-control-prev" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a href="#two" class="carousel-control-next" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+
+        <!-- Third CAROUSEL with Indicator and carousel caption -->
+
+        <div class="carousel slide my-5" data-ride="carousel" id="three">
+            <ol class="carousel-indicators">
+                <li data-slide-to="0" class="active"></li>
+                <li data-slide-to="1"></li>
+                <li data-slide-to="2"></li>
+                <li data-slide-to="3"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../sky.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                    <div class="carousel-caption">
+                        <h2>Smile is beautiful</h2>
+                        <p>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad, consequatur expedita dolor sequi officiis aliquam possimus soluta accusantium beatae nisi est perspiciatis amet delectus omnis iusto perferendis, sit nihil assumenda?
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../kizz4.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item ">
+                    <img src="../kizz3.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="../kizz2.jpg" class="w-100 d-block" alt="" style="height: 300px;">
+                </div>
+            </div>
+
+            <a href="#three" class="carousel-control-prev" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a href="#three" class="carousel-control-next" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+
+
+
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+    <script src="bootfiles/jquery-slim.min.js"></script>
+    <script src="bootfiles/popper.min.js"></script>
+    <script src="bootfiles/bootstrap.js"></script>
+</body>
+</html>
