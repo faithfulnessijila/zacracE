@@ -26,7 +26,7 @@
         />
             </div>
             <div class="  ml-4" style="height: 470px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 55px 30px; ">
-                <h4 style="font-size: 18px;color : #4D148C;">Candidate Registration</h4> <p style=" font-size: 9px;color: #1D1D1D; ">Already have an account?<a style="margin-left: 3px; color: #484ED1;">Login</a></p> 
+                <h4 style="font-size: 18px;color : #4D148C;">Candidate Registration</h4> <p style=" font-size: 9px;color: #1D1D1D; ">Already have an account?<a  @click="$router.push('/sign-up')"  style="margin-left: 3px; color: #484ED1;cursor:pointer;">Login</a></p> 
 
                                 <div class=" w-100" style="height: 45px; background: #F4FAFF; margin-top: -5px;border-radius: 8px;align-items: start;">
                                    <a style="font-size: 13px;margin-left: 8px;color: #000000; ">Student</a> 
@@ -38,32 +38,67 @@
 
 
 
-                                <div class="form-group mt-3 w-100" style=" background-color: yelow;  height: 300px">
-       
-                                  <label for="input1" style="font-size: 10px; margin-bottom: 3px;">Full Name</label>
-                                <input type="email" id="input1" placeholder="Full Name" class="form-control w-100" style=" height:30px;border-radius: 8px;">
+                                <form @submit.prevent="signUpUser" class="form-group mt-3 w-100" style=" background-color: yelow;  height: 300px">
+                                  <p>{{ succmsg }}</p>
+                                  <div class="form-group" style="">
+                                  <label for="input1" class="form-text" style="font-size: 10px; margin-bottom: 3px;">Full Name</label>
+                                <input type="text" required v-model="form.firstName" id="input1" placeholder="Full Name" class="form-control w-100" style=" height:30px;border-radius: 8px;">
+                                  </div> 
+
+
+                                  <div class="form-group">
+                                <label class="form-text" for="input2" style="font-size: 10px; margin-bottom: 3px;">Email Address</label>
+                                <input v-model="form.email" type="email" required id="input2" placeholder="Email" class="form-control w-100" style=" height:30px;border-radius: 8px;">
+                                  </div>
 
 
 
-
-                                <label for="input1" style="font-size: 10px; margin-bottom: 3px;">Email Address</label>
-                                <input type="email" id="input1" placeholder="Email" class="form-control w-100" style=" height:30px;border-radius: 8px;">
-                                
-                                <label for="input1" style="font-size: 10px; margin-bottom: 3px; ">Password</label>
-                                <input type="password" id="fnam2" placeholder="password" class="form-control w-100" style="height:30px; border-radius: 8px;">
+                                  <div class="form-group ">
+                                <label for="input3" style="font-size: 10px; margin-bottom: 3px; ">Password</label>
+                                <input  type="password"  required v-model="form.password" id="input3" placeholder="password" class="form-control w-100" style="height:30px; border-radius: 8px;">
+                                  </div>
 
 
-
-                                <label for="input1" style="font-size: 10px; margin-bottom: 3px; "> Re-enter Password</label>
-                                    <input type="password" id="fnam2" placeholder="password" class="form-control w-100" style="height:30px; border-radius: 8px;">
-                        
+                                  <div class="form-group">
+                                <label for="input4" style="font-size: 10px; margin-bottom: 3px; "> Re-enter Password</label>
+                                    <input required  type="password" v-model="confirmPassword" id="input4" placeholder="password" class="form-control w-100" style="height:30px; border-radius: 8px;">
+                                  </div><p>{{ errormsg }}</p>
                                      
                                         
                                   
                                     
-                                    <div class="btn btn-second w-100 " style="height: 40px; border-radius: 8px; margin-top: 24px; background: #4D148C;color: #FFFFFF;
-                                        font-weight: bold;font-size: 14px;">Create Account</div> 
-                            </div>
+                                    <button class="btn btn-second w-100 " type="submit" :disabled="loader" style="height: 40px; border-radius: 8px; margin-top: 24px; background: #4D148C;color: #FFFFFF;
+                                        font-weight: bold;font-size: 14px;">
+                                        <svg
+          v-show="loader"
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  viewBox="0 0 50 50"
+>
+  <circle
+    cx="25"
+    cy="25"
+    r="20"
+    fill="none"
+    stroke="#fff"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-dasharray="90,150"
+    stroke-dashoffset="0"
+  >
+    <animateTransform
+      attributeName="transform"
+      type="rotate"
+      from="0 25 25"
+      to="360 25 25"
+      dur="1s"
+      repeatCount="indefinite"
+    />
+  </circle>
+</svg>
+Create Account</button> 
+                            </form>
                         </div>
             </div>
 
@@ -73,36 +108,67 @@
   
   
   <script>
- 
-  
-  export default {
-    name: 'SignIn',
-  
-    data() {
-      return {
+ export default {
+  name: 'SignUp',
+  data() {
+    return {
+      form: {
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
-        errors:[],
-      };
-  
-    },
-  
-  
-    methods: {
-      onLogin() {
-        let validations = new SignupValidations(
-          this.email,
-          this.password
-        );
-        this.errors = validations. checkValidations();
-        if (this.errors.length) {
-          return false;
-        }
       },
-  
-    },
-  
-  };
+      confirmPassword: '',
+      loader: false,
+      terms: false,
+    }
+  },
+  mounted() {},
+  methods: {
+    async signUpUser() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.form.email.trim())) {
+        alert("Invalid email address")
+        return
+      }
+      if (this.form.password !== this.confirmPassword) {
+        alert("Passwords do not match")
+        return
+      }
+     
+      this.loader = true
+      let response;
+      try {
+        response = await fetch('     ', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.form),
+        })
+        if (response.ok) {
+  const data = await response.json()
+  console.log('Success:', data);
+  alert("Sign up was successful")
+  this.$router.push('/otp');
+}
+else {
+          try {
+            const errorResponse = await response.json();
+            alert(errorResponse.message || "Error signing up")
+          } catch {
+            alert("Error signing up")
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert("Error signing up")
+      }
+      this.loader = false
+    }
+  }
+}
+ 
   </script>
  <style>
        
