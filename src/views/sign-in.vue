@@ -2,7 +2,7 @@
     
     <div class="bg- w-100" style="height: 100vh; position:relative;  background-color: #E8EEE9; ">
         <img src="/public/c.png" style="position: absolute; z-index: 1; width: 100%; height: 100vh; opacity: 15%;" alt="">
-                             <div class="bg-secondry d-flex w-100" style="height: 60px;position: absolute; z-index: 5; justify-content: space-between; padding: 10px 50px;">
+                             <div class="bg-secondry d-flex w-100" style="height: 60px;position: absolute; z-index: 5; justify-content: space-between; padding: 20px 50px;">
     <div class="bg-warnng" style="width: 180px;cursor:pointer;height: 58px; position: relative; padding: 10px 10px; margin-left: 20px;"><img src="/public/d.png"  style="height: 20px; width: 20px;margin-left: 4px; margin-top:-1.5px; position: absolute;" alt=""> <h3 style="font-size: 14px; margin-left: 30px; color : #4D148C;">Zacrac <a style="color:#FF6600;">Learning </a></h3></div>
     
     <div class="bg-drk " style="width: 290px; height: 40px;margin-left: -120px; ">
@@ -19,7 +19,7 @@
                              </div>
 
 
-            <div class="w-100 btn-secondry d-flex" style="height: 582px;justify-content: space-between; padding: 73px 50px;position: relative; position: absolute; ">
+            <div class="w-100 btn-secondry d-flex" style="height: 582px;justify-content: space-between; padding: 82px 50px;position: relative; position: absolute; ">
             <div class=" bg-primry " style="height: 380px; margin-top: 58px;width: 490px; margin-left: 60px; position: relative;  z-index: 6;">
               <img
           class="bg"
@@ -28,7 +28,7 @@
           alt=""
         />
             </div>
-            <div class=" ml-4" style="height: 490px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 45px 30px; ">
+            <div class=" ml-4" style="height: 485px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 45px 30px; ">
                 <h4 style="font-size: 18px;color : #4D148C;">Welcome Back</h4> <p style=" font-size: 9px; color: #1D1D1D;">Don't have an account?<a  @click="$router.push('/sign-in')" style="margin-left: 3px; color: #484ED1; cursor:pointer;">Create Account</a></p> 
 
                                 <div class="d-flex w-100" style="height: 35px; background-color: purpe; margin-top: -5px; ">
