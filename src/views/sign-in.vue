@@ -1,6 +1,6 @@
 <template>
     
-    <div class="bg- w-100" style="height: 620px; position:relative;  background-color: #E8EEE9; ">
+    <div class="bg- w-100" style="height: 635px; position:relative;  background-color: #E8EEE9; ">
         <img src="/public/c.png" style="position: absolute; z-index: 1; width: 100%; height: 100vh; opacity: 15%;" alt="">
                              <div class="bg-secondry d-flex w-100" style="height: 60px;position: absolute; z-index: 5; justify-content: space-between; padding: 20px 50px;">
     <div class="bg-warnng" style="width: 180px;cursor:pointer;height: 58px; position: relative; padding: 10px 10px; margin-left: 20px;"><img src="/public/d.png"  style="height: 20px; width: 20px;margin-left: 4px; margin-top:-1.5px; position: absolute;" alt=""> <h3 style="font-size: 14px; margin-left: 30px; color : #4D148C;">Zacrac <a style="color:#FF6600;">Learning </a></h3></div>
