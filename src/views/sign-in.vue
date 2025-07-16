@@ -42,7 +42,7 @@
 
 
                                 <form  @submit.prevent="login" class="form-group mt-3 w-100" style=" background-color: yelow;  height: 180px">
-       
+                                  
                                   <label for="input1" style="font-size: 11px; margin-bottom: 3px;">Email Address</label>
                                 <input v-model="email"   type="email" id="input1" placeholder="Email" class="form-control w-100" style=" height:30px;border-radius: 8px;"><div class="error" v-if="errors.email">{{ errors.email}}</div>
                                 
@@ -103,6 +103,8 @@
           const data = await response.json();
           if (data.token) {
             localStorage.setItem('token', data.token);
+           
+            alert("Sign in was successful")
             this.$router.push('/');
           } else {
             this.error = 'Invalid credentials';
