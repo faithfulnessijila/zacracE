@@ -1,34 +1,48 @@
 <template>
     <div>
-      <div class="bg- w-100" style="height: 635px; position:relative; background-color: #E8EEE9;">
-        <img src="/public/c.png" style="position: absolute; z-index: 1; width: 100%; height: 100vh; opacity: 15%;" alt="">
-                             <div class="bg-secndary d-flex w-100" style="height: 60px;position: absolute; z-index: 5; justify-content: space-between; padding: 20px 50px;">
-    <div class="bg-warn" style="width: 180px;cursor:pointer; height: 40px; position: relative; padding: 10px 10px; margin-left: 20px;"><img src="/public/d.png" style="height: 20px; width: 20px; margin-left: 4px; margin-top:-1.5px; position: absolute;" alt=""> <h3 style="font-size: 14px;cursor:pointer; margin-left: 30px; color : #4D148C;">Zacrac <a style="color:#FF6600;">Learning </a></h3></div>
-    
-    <div class="bg-drk " style="width: 290px; height: 40px;margin-left: -120px; ">
-        <ul >
-            <li> Courses </li>
-	<svg  style="margin-top:-2px;margin-left: -5px;cursor:pointer; " xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
-		<path fill="currentColor" d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z" /></svg>
-            <li>Partners</li>
-            <li>Contact us</li>
-        </ul>
-    </div>
-    <button class="btn d-flex  ml-4 btn-sm" style="height: 33px; text-align:center;padding:  5px 20px 10px 18px;   margin-right: 30px;background: #4D148C;color: #FFFFFF; font-weight:bold;border-radius: 5px;"> <a style="font-size: 11px;margin-top:2px;">
-      Start Learning </a><svg style="margin-top:3px;margin-left:6px;" xmlns="http://www.w3.org/2000/svg" width="0.9em" height="0.9em" viewBox="0 0 256 256"><path fill="#fff" d="M222 216a6 6 0 0 1-6 6H40a6 6 0 0 1 0-12h176a6 6 0 0 1 6 6M80 174a6 6 0 0 0 4.24-1.76L186 70.49V152a6 6 0 0 0 12 0V56a6 6 0 0 0-6-6H96a6 6 0 0 0 0 12h81.51L75.76 163.76A6 6 0 0 0 80 174"/></svg></button>
-                             </div>
+      <div class="boom w-100" style="height: 685px; position:relative; background-color: #E8EEE9;">
+        <img class="lol" src="/public/c.png" style="position: absolute; z-index: 1; width: 100%; height: 100vh; opacity: 15%;" alt="">
+        <nav class="navbar" style=" background-color: transparent;">
+
+<div class="navbar-logo">
+  <img style="margin-top: -10px !important;" src="/public/d.png" alt="Logo" class="logo-icon" />
+  <h3 class="logo-text">Zacrac <span>Learning</span></h3>
+</div>
 
 
-            <div class="w-100 btn-secondry d-flex" style="height: 582px;justify-content: space-between; padding: 82px 40px;position: relative; position: absolute; ">
-            <div class="  " style="height: 380px; margin-top: 58px;width: 490px; margin-left: 60px; position: relative;  z-index: 6; background-color: blu;">
+<div class="navbar-links">
+  <ul>
+    <li>
+      Courses
+      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+        <path fill="currentColor" d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z"/>
+      </svg>
+    </li>
+    <li>Partners</li>
+    <li>Contact us</li>
+  </ul>
+</div>
+
+
+<button class="navbar-btn">
+  Start Learning
+  <svg xmlns="http://www.w3.org/2000/svg" width="0.9em" height="0.9em" viewBox="0 0 256 256">
+    <path fill="#fff" d="M222 216a6 6 0 0 1-6 6H40a6 6 0 0 1 0-12h176a6 6 0 0 1 6 6M80 174a6 6 0 0 0 4.24-1.76L186 70.49V152a6 6 0 0 0 12 0V56a6 6 0 0 0-6-6H96a6 6 0 0 0 0 12h81.51L75.76 163.76A6 6 0 0 0 80 174"/>
+  </svg>
+</button>
+</nav>
+
+
+            <div class="hi w-100 aa btn-secondry d-flex" style="height: 620px;justify-content: space-between; padding: 62px 40px;position: relative; position: absolute; ">
+            <div class="  aab" style="height: 380px; margin-top: 58px;width: 490px; margin-left: 60px; position: relative;  z-index: 6; background-color: blu;">
               <img
-          class="bg"
+          class="bg aaba"
           style="height: 100%; width: 70%; margin-left: 142px;"
           src="/public/a.png"
           alt=""
         />
             </div>
-            <div class="  ml-4" style="height: 485px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 45px 30px; ">
+            <div class="aac  ml-4" style="height: 485px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 45px 30px; ">
                 <h4 style="font-size: 18px;color : #4D148C;">Candidate Registration</h4> <p style=" font-size: 9px;color: #1D1D1D; ">Already have an account?<a  @click="$router.push('/sign-up')"  style="margin-left: 3px; color: #484ED1;cursor:pointer;">Login</a></p> 
 
                                 <div class=" w-100" style="height: 45px; background: #F4FAFF; margin-top: -5px;border-radius: 8px;align-items: start;padding: 5px 10px;">
@@ -42,7 +56,7 @@
 
 
 
-                                <form @submit.prevent="signUpUser" class="form-group mt-3 w-100" style=" background-color: yelow;  height: 300px">
+                                <form @submit.prevent="signUpUser" class="form-group mt-3 w-100" style=" background-color: yelow;  height: 180px">
                                   <p>{{ succmsg }}</p>
                                   <div class="form-group" style="">
                                   <label for="input1" class="form-text" style="font-size: 10px; margin-bottom: 3px;">Full Name</label>
@@ -174,155 +188,476 @@ else {
  
   </script>
  <style>
-       
- *{
-     margin: 0px;
-     padding: 0px;
- }
- html {
-scroll-behavior: smooth;
-}
-ul li {
- list-style: none;
- display: inline;
- margin-left: 23px;
- font-size: 13px;
- color: #1E1E26;
- cursor:pointer;
-}
-::placeholder{
- font-size: 9px;
+ @media (max-width: 1255px) {
+   .aa {
+             
+             
+              height: calc(100% ) !important;
+               
+           }
+           .zac {
+             
+              margin-top:-7px !important;
+               
+           }
+           .aab{
+               
+             margin-right: -330px !important;
+           
+ 
+           }
+           .aac{
+             margin-left: 362px !important;
+               width: calc(50% ) !important;
+ 
+           }
+           .aaba {
+             
+             margin-left:130px !important;   
+          }
+          
+       }
+ 
+       @media (max-width: 1200px) {
+   
+           .aab{
+            
+             margin-left:10px !important;
+            
+          
+ 
+             }
+             .aac{
+               
+               width: calc(50% ) !important;
+               
+             }
+             .boom{
+           height: 670px !important; 
+           background-color: #E8EEE9 !important;
+         }
+       .hi{
+           height: 610px !important;
+           background-color: #E8EEE9 !important;
+         }
+       }
+ 
+ 
+ 
+ 
+ 
+ 
+       @media (max-width: 1110px) {
 
-}
-</style>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+           .zac{
+             
+              margin-top:-6px !important;
+               
+           }
+           
+           .aab{
+             
+             
+             margin-left:-40px !important;
+              
+              
+ 
+             }
+             .aaba {
+             
+             margin-left:145px !important;
+ 
+              
+          }
+             
+       }
+       
+ 
+ 
+ 
+       @media (max-width: 1000px) {
+ 
+           .zac{
+             
+              margin-top:-7px !important;
+               
+           }
+           .aaba {
+             
+             margin-left:120px !important;
+ 
+              
+          }
+          
+             
+       }
+ 
+ 
+ 
+       @media (max-width: 900px) {
+   .aa {
+             
+           
+              height: calc(100% ) !important;
+ 
+               
+           }
+           .zac{
+            
+             margin-left:-30px !important;
+             margin-top:-6px !important;
+               
+           }
+           .aaba {
+             
+             margin-left:110px !important;
+ 
+              
+          }
+          
+             .boom{
+           height: 670px !important;
+        
+           
+         }
+       .hi{
+           height: 610px !important;
+           
+           
+         }
+       }
+ 
+ 
+ 
+ 
+ 
+       @media (max-width: 800px) {
+ 
+         .hi{
+           background-color: #E8EEE9 !important;
+         }
+         .lol{
+           height: 670px !important;
+         }
+         .boom{
+           height: 610px !important;
+          
+           
+         }
+       
+   .aa {
+             
+             
+              height: calc(100% ) !important;
+              
+ 
+         }.zac{
+              
+             margin-left:-20px !important;
+             margin-top:-6px !important;
+               
+           }
+           .aaba {
+             
+             margin-left:100px !important;
+ 
+              
+          }
+          
+       ul li{
+         font-size:10px
+       }
+       .zacc{
+         font-size:13px !important;
+       }
+ 
+             
+       }
+       
+ 
+       @media (max-width: 700px) {
+   .bg-secndary {
+     padding: 5px;
+    
+   }
+ 
+     .lol{
+           height: 1150px !important;
+           
+         }
+         .boom{
+           height: 1150px !important;
+           background-color: #E8EEE9 !important;
+           
+         }
+         
+         
+  
+   .zac {
+     padding: 5px;
+   }
+   .aa {
+     padding: 10px;
+   }
+   .aab {
+     height: auto;
+   }
+   .aac {
+     padding: 10px;
+   }
+   .zacc {
+     font-size: 12px;
+   }
+   ul li {
+     font-size: 10px;
+   }
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ @media (max-width: 600px) {
+   .bg-secndary {
+     padding: 5px;
+   }
+   .zac {
+     padding: 5px;
+   }
+   .aa {
+     padding: 10px;
+   }
+   .aab {
+     height: auto;
+   }
+   .aac {
+     padding: 10px;
+   }
+   .zacc {
+     font-size: 14px;
+   }
+   ul li {
+     font-size: 12px;
+   }
+   .aab img {
+     width: 100%;
+     margin-left: 0;
+   }
+   .lol{
+           height: 1150px !important;
+        
+ 
+ 
+         }
+ }
+ 
+ 
+ 
+ 
+ @media (max-width: 720px) {
+ 
+   .bg-secndary {
+     display: block !important;
+     text-align: center;
+     padding: 10px 15px !important;
+     height: auto !important;
+     background: #E8EEE9;
+   }
+ 
+ 
+   .zac {
+     width: auto !important;
+     margin: 0 auto !important;
+     display: inline-block;
+     text-align: center;
+   }
+   .zacc {
+     font-size: 13px !important;
+     margin-left: 25px !important;
+   }
+   .zaci {
+     height: 18px !important;
+     width: 18px !important;
+     margin-top: 2px !important;
+   }
+ 
+ 
+   .bg-drk {
+     width: 100% !important;
+     margin: 10px 0 !important;
+     text-align: center;
+   }
+   .bg-drk ul {
+     display: block !important;
+     padding: 0;
+     margin: 10px auto !important;
+   }
+   .bg-drk ul li {
+     display: block !important;
+     margin: 8px 0 !important;
+     font-size: 14px !important;
+   }
+ 
+   .r {
+     display: inline-block;
+     margin-top: 10px;
+     padding: 6px 12px !important;
+     font-size: 12px !important;
+   }
+   .r a {
+     font-size: 12px !important;
+     margin-top: 0 !important;
+   }
+ 
+ 
+   .aa {
+     flex-direction: column !important;
+     padding: 20px 10px !important;
+     display: block !important;
+     height: auto !important;
+   }
+   .aab {
+     width: 100% !important;
+     margin: 0 auto 20px !important;
+     text-align: center;
+   }
+   .aab img {
+     width: 80% !important;
+     margin: 0 auto !important;
+   }
+   .aac {
+     width: 100% !important;
+     margin: 0 auto !important;
+     padding: 20px 15px !important;
+   }
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ .navbar {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 15px 50px;
+   background: #E8EEE9;
+   height: 60px;
+   position: relative;
+   z-index: 10;
+ }
+ 
+ 
+ .navbar-logo {
+   display: flex;
+   align-items: center;
+   cursor: pointer;
+ }
+ .logo-icon {
+   height: 20px;
+   width: 20px;
+   margin-right: 8px;
+ }
+ .logo-text {
+   font-size: 16px;
+   color: #4D148C;
+ }
+ .logo-text span {
+   color: #FF6600;
+ }
+ 
+ 
+ .navbar-links ul {
+   display: flex;
+   gap: 20px;
+   list-style: none;
+ }
+ .navbar-links ul li {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+   font-size: 14px;
+   color: #1E1E26;
+   cursor: pointer;
+   transition: color 0.3s;
+ }
+ .navbar-links ul li:hover {
+   color: #4D148C;
+ }
+ 
+ 
+ .navbar-btn {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   padding: 5px 20px;
+   background: #4D148C;
+   color: #FFFFFF;
+   border: none;
+   border-radius: 5px;
+   font-weight: bold;
+   font-size: 12px;
+   cursor: pointer;
+   transition: background 0.3s;
+ }
+ .navbar-btn:hover {
+   background: #3b0f6e;
+ }
+ 
+
+ @media (max-width: 720px) {
+   .navbar {
+     flex-direction: column;
+     height: auto;
+     padding: 10px 20px;
+     align-items: flex-start;
+   }
+ 
+   .navbar-links {
+     width: 100%;
+     margin-top: 10px;
+   }
+   .navbar-links ul {
+     flex-direction: column;
+     gap: 10px;
+     padding: 0;
+   }
+ 
+   .navbar-btn {
+     margin-top: 10px;
+     width: 100%;
+     justify-content: center;
+   }
+ }
+ 
+ 
+ 
+ 
+ 
+      
+  *{
+      margin: 0px;
+      padding: 0px;
+  }
+  html {
+ scroll-behavior: smooth;
+ }
+ ul li {
+  list-style: none;
+  display: inline;
+  margin-left: 23px;
+  font-size: 13px;
+  color: #1E1E26;
+  cursor:pointer;
+ }
+ </style>
+  
+
+  
+  
+  
+   
  
