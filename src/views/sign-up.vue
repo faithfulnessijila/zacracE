@@ -1,7 +1,7 @@
  <template>
   <div>
-    <div class="boom w-100" style="height: 685px; position:relative; background-color: #E8EEE9;">
-      <img class="lol" src="/public/c.png" style="position: absolute; z-index: 1; width: 100%; height: 100vh; opacity: 15%;" alt="">
+    <div class="boom w-100" style="height: 745px; position:relative; background-color: #E8EEE9;">
+      <img class="lol" src="/public/c.png" style="position: absolute; z-index: 1; width: 100%; height: 745px;opacity: 15%;" alt="">
       <nav class="navbar" style=" background-color: transparent;">
 
 <div class="navbar-logo" style="margin-top:  -10px !important;">
@@ -33,7 +33,7 @@ Start Learning
 </nav>
 
 
-          <div class="hi w-100 aa btn-secondry d-flex" style="height: 620px;justify-content: space-between; padding: 62px 40px;position: relative; position: absolute; ">
+          <div class="hi w-100 aa btn-secondry d-flex" style="height: 620px;justify-content: space-between; padding: 52px 40px;position: relative; position: absolute; ">
           <div class="  aab" style="height: 380px; margin-top: 58px;width: 490px; margin-left: 60px; position: relative;  z-index: 6; background-color: blu;">
             <img
         class="bg aaba"
@@ -42,7 +42,7 @@ Start Learning
         alt=""
       />
           </div>
-          <div class="aac  ml-4" style="height: 485px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 45px 30px; ">
+          <div class="aac  ml-4" style="height: 595px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 45px 30px; ">
               <h4 style="font-size: 18px;color : #4D148C;">Candidate Registration</h4> <p style=" font-size: 9px;color: #1D1D1D; ">Already have an account?<a  @click="$router.push('/sign-up')"  style="margin-left: 3px; color: #484ED1;cursor:pointer;">Login</a></p> 
 
                               <div class=" w-100" style="height: 45px; background: #F4FAFF; margin-top: -5px;border-radius: 8px;align-items: start;padding: 5px 10px;">
@@ -116,6 +116,40 @@ viewBox="0 0 50 50"
 </circle>
 </svg>
 Create Account</button> 
+
+
+
+
+
+
+
+
+
+<p style=" font-size: 10px; font-weight: 700;  text-align:center;margin-top: 24px;">OR</p>
+          <div class="google" style="">
+            <div
+              class="btn btn-md"
+              style="
+                border: 0.1px solid rgb(188, 183, 183);
+                width: 170px;
+                border-radius: 7px;
+                color: black;
+                font-weight: 700;
+                font-size: 8px;
+                margin-left: 170px;
+              "
+             ><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48"><path fill="#ffc107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"/><path fill="#ff3d00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691"/><path fill="#4caf50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44"/><path fill="#1976d2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917"/></svg>
+
+              <a  style="margin-left: 3px;">Sign up with Goggle</a>
+            </div>
+        
+          </div>
+
+         
+
+          <p style="font-size: 10px; text-align: center; margin-top: 21px; font-weight: 700">
+           Don't have an account? &nbsp;<a @click="$router.push('/sign-in')" style="cursor: pointer; color: gray;font-family:  SUSHI Stroke, sans-serif;">sign in</a>
+          </p>
                           </form>
                       </div>
           </div>
@@ -215,6 +249,14 @@ else {
            
            margin-left:130px !important;   
         }
+        .boom{
+         height: 770px !important; 
+         background-color: #E8EEE9 !important;
+       }
+       .hi{
+        height: 700px !important; 
+       
+       }
         
      }
 
@@ -233,12 +275,15 @@ else {
              
            }
            .boom{
-         height: 670px !important; 
+         height: 750px !important; 
          background-color: #E8EEE9 !important;
        }
      .hi{
          height: 610px !important;
          background-color: #E8EEE9 !important;
+       }
+       .google{
+          margin-left:-30px !important;
        }
      }
 
@@ -268,7 +313,16 @@ else {
            margin-left:145px !important;
 
             
-        }
+        }.boom{
+         height: 750px !important; 
+       
+       }.google{
+          margin-left:-39px !important;
+       }
+       .hi{
+         height: 610px !important;
+         background-color: #E8EEE9 !important;
+       }
            
      }
      
@@ -287,7 +341,10 @@ else {
            margin-left:120px !important;
 
             
-        }
+        }.google{
+          margin-left:-80px !important;
+       }
+        
         
            
      }
@@ -315,16 +372,23 @@ else {
             
         }
         
-           .boom{
-         height: 670px !important;
-      
+           .boom {
+         height: 770px !important;
          
+       }
+       .lol{
+        height: 770px !important;
+
        }
      .hi{
          height: 610px !important;
          
          
+       }.google{
+          margin-left:-110px !important;
        }
+
+       
      }
 
 
@@ -337,11 +401,9 @@ else {
         background-color: #E8EEE9 !important;
 
        }
-       .lol{
-         height: 670px !important;
-       }
+       
        .boom{
-         height: 610px !important;
+         height: 700px !important;
        }
        .navbar-btn {
    margin-left: 22px;
@@ -386,6 +448,9 @@ else {
  padding: 15px 20px !important;
 
 }  
+.google{
+          margin-left:-140px !important;
+       }
 
      }
 
@@ -393,16 +458,19 @@ else {
      @media (max-width: 732px) {
 
 .hi{
-  background-color: puple!important;
+  background-color: pure!important;
+  height: 690px !important;
+
 }
 .lol{
-  height: 670px !important;
+  height: 735px !important;
 }
 .boom{
-  height: 610px !important;
+  height: 750px !important;
   background-color: #E8EEE9 !important;
 
 }
+
 .navbar-btn {
 margin-left: 10px;
 margin-top: -10px;
@@ -421,7 +489,12 @@ cursor: pointer;
  padding: 15px 20px !important;
 
 }
+.google{
+          margin-left:-140px !important;
+       }
+
     }
+   
 
 
 
@@ -431,13 +504,13 @@ cursor: pointer;
     @media (max-width: 722px) {
 
 .hi{
-  background-color: urple!important;
+  background-color: Purle!important;
 }
 .lol{
-  height: 670px !important;
+  height: 690px !important;
 }
 .boom{
-  height: 610px !important;
+  height: 770px !important;
   background-color: #E8EEE9 !important;
 
 }
@@ -458,7 +531,13 @@ cursor: pointer;
  padding: 15px 20px !important;
 
 }
+.google{
+          margin-left:70px !important;
+       }
+
+
 }
+
      
 
      @media (max-width: 700px) {
@@ -474,7 +553,7 @@ cursor: pointer;
          
        }
        .boom{
-         height: 1150px !important;
+         height: 1250px !important;
          background-color: #E8EEE9 !important;
          
        }
@@ -499,7 +578,9 @@ cursor: pointer;
  ul li {
    font-size: 10px;
  }
-
+ .google{
+          margin-left:30px !important;
+       }
 }
 
 
@@ -540,6 +621,10 @@ cursor: pointer;
 
 
        }
+       .google{
+          margin-left:-30px !important;
+       }
+
 }
 
 
