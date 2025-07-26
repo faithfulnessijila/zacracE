@@ -593,7 +593,7 @@ label[for="check-bobo"] {
 }
 
 #check-bobo:checked ~ .navbar-links ul {
-  transform: translateX(500px) !important; 
+  transform: translateX(490px) !important; 
 }
 
 
