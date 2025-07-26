@@ -160,7 +160,7 @@
   align-items: center;
   gap: 5px;
   color: #1e1e26;
-  font-size: 10px !important;
+  font-size: 14px !important;
   transition: color 0.3s;
 }
 .navbar-links ul li:hover {
