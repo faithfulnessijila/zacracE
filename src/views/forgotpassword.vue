@@ -398,7 +398,7 @@ label[for="check-bobo"] {
   }
 
   .navbar-links ul li {
-    font-size: 20px;
+    font-size: 10px!important;
     color: white !important;
   }
 

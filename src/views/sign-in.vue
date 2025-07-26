@@ -648,7 +648,7 @@ label[for="check-bobo"] {
   padding: 20px !important;
   gap: 15px !important;
   transform: translateX(420px) !important; /* Start off-screen to the right */
-  transition: transform 0.4s ease-in-out !important;
+  transition: transform 0s ease-in-out !important;
   z-index: 20 !important;
   border-radius: 8px !important;
 }
@@ -686,7 +686,7 @@ label[for="check-bobo"] {
   padding: 20px !important;
   gap: 15px !important;
   transform: translateX(370px) !important; /* Start off-screen to the right */
-  transition: transform 0.4s ease-in-out !important;
+  transition: transform 0s ease-in-out !important;
   z-index: 20 !important;
   border-radius: 8px !important;
 }
@@ -725,7 +725,7 @@ label[for="check-bobo"] {
   padding: 20px !important;
   gap: 15px !important;
   transform: translateX(308px) !important; /* Start off-screen to the right */
-  transition: transform 0.4s ease-in-out !important;
+  transition: transform 0s ease-in-out !important;
   z-index: 20 !important;
   border-radius: 8px !important;
 }
