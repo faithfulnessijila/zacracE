@@ -564,4 +564,48 @@ label[for="check-bobo"] {
 
 
 
+
+  @media (max-width: 449px) {
+    .otp-inputs{
+    
+    position: relative; 
+    left: -2px;
+     
+
+  
+    }
+}
+
+
+
+@media (max-width: 440px) {
+    .otp-inputs{
+    
+    position: relative; 
+    left: -1px;
+     
+
+  
+    }
+}
+
+@media (max-width: 420px) {
+  .otp-inputs {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .otp-box {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+
+
+
+
+
   </style>
