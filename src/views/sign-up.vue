@@ -1,475 +1,492 @@
- <template>
-  <div>
-    <div class="boom w-100" style="height: 745px; position:relative; background-color: #E8EEE9;">
-      <img class="lol" src="/public/c.png" style="position: absolute; z-index: 1; width: 100%; height: 745px;opacity: 15%;" alt="">
-      <nav class="navbar" style=" background-color: transparent;">
+<template>
+  <div class="page-wrapper">
+    <!-- Navbar -->
+<nav class="navbar" style="padding: 20px 40px;">
+  <div class="navbar-logo">
+    <img src="/public/d.png" style="margin-top: -10px !important;" alt="Logo" class="logo-icon" />
+    <h3 class="logo-text">Zacrac <span>Learning</span></h3>
+  </div>
 
-<div class="navbar-logo" style="margin-top:  -10px !important;">
-<img style="margin-top: -10px !important;" src="/public/d.png" alt="Logo" class="logo-icon" />
-<h3 class="logo-text">Zacrac <span>Learning</span></h3>
-</div>
+  <!-- Checkbox toggle BEFORE .navbar-links -->
+  <input type="checkbox" id="check-bobo" />
+  <label for="check-bobo">
+    <img src="/public/menu 3.svg" alt="Menu Icon" id="menu" />
+  </label>
 
+  <!-- Nav Links -->
+  <div class="navbar-links">
+    <ul>
+      <li><a>Courses  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+        <path fill="currentColor" d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z"/>
+      </svg></a></li>
+      <li><a>Partners</a></li>
+      <li><a>Contact us</a></li>
+    </ul>
+  </div>
 
-<div class="navbar-links">
-<ul>
-  <li>
-    Courses
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-      <path fill="currentColor" d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z"/>
-    </svg>
-  </li>
-  <li>Partners</li>
-  <li>Contact us</li>
-</ul>
-</div>
-
-
-<button class="navbar-btn">
-Start Learning
-<svg xmlns="http://www.w3.org/2000/svg" width="0.9em" height="0.9em" viewBox="0 0 256 256">
-  <path fill="#fff" d="M222 216a6 6 0 0 1-6 6H40a6 6 0 0 1 0-12h176a6 6 0 0 1 6 6M80 174a6 6 0 0 0 4.24-1.76L186 70.49V152a6 6 0 0 0 12 0V56a6 6 0 0 0-6-6H96a6 6 0 0 0 0 12h81.51L75.76 163.76A6 6 0 0 0 80 174"/>
-</svg>
-</button>
+  <button class="navbar-btn" type="button">
+    Start Learning<svg xmlns="http://www.w3.org/2000/svg" width="0.9em" height="0.9em" viewBox="0 0 256 256">
+    <path fill="#fff" d="M222 216a6 6 0 0 1-6 6H40a6 6 0 0 1 0-12h176a6 6 0 0 1 6 6M80 174a6 6 0 0 0 4.24-1.76L186 70.49V152a6 6 0 0 0 12 0V56a6 6 0 0 0-6-6H96a6 6 0 0 0 0 12h81.51L75.76 163.76A6 6 0 0 0 80 174"/>
+  </svg>
+  </button>
 </nav>
 
+    <!-- Main Section -->
+    <section class="main-section">
+      <!-- Left Image -->
+      <div class="image-container">
+        <img src="/public/a.png" alt="Signup Illustration" />
+      </div>
 
-          <div class="hi w-100 aa btn-secondry d-flex" style="height: 620px;justify-content: space-between; padding: 52px 40px;position: relative; position: absolute; ">
-          <div class="  aab" style="height: 380px; margin-top: 58px;width: 490px; margin-left: 60px; position: relative;  z-index: 6; background-color: blu;">
-            <img
-        class="bg aaba"
-        style="height: 100%; width: 70%; margin-left: 142px;"
-        src="/public/a.png"
-        alt=""
-      />
-          </div>
-          <div class="aac  ml-4" style="height: 595px; border-radius: 20px;width: 570px;margin-right: 30px; background-color: white; position: relative; z-index: 11;padding: 45px 30px; ">
-              <h4 style="font-size: 18px;color : #4D148C;">Candidate Registration</h4> <p style=" font-size: 9px;color: #1D1D1D; ">Already have an account?<a  @click="$router.push('/sign-up')"  style="margin-left: 3px; color: #484ED1;cursor:pointer;">Login</a></p> 
+      <!-- Right Form -->
+      <div class="form-container">
+        <h4 class="welcome-text">Candidate Registration</h4>
+        <p class="sub-text">
+          Already have an account?
+          <a @click="$router.push('/sign-in')">Login</a>
+        </p>
 
-                              <div class=" w-100" style="height: 45px; background: #F4FAFF; margin-top: -5px;border-radius: 8px;align-items: start;padding: 5px 10px;">
+        <div class=" w-100" style="height: 45px; background: #F4FAFF; margin-top: -5px;border-radius: 8px;align-items: start;padding: 5px 10px;">
                                 <div class="d-flex" style="justify-content: space-between;"> <a style ="font-size: 11px;font-weight:500; color: #000000; ">Student</a> <svg  style="margin-top:-2px;margin-left: -5px;cursor:pointer; " xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
                                   <path fill="currentColor" d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z" /></svg></div>
                                  <p style = "font-size: 8px; color: #1D1D1DB2;">Learning a course</p>
                               </div>
+        <!-- Signup Form -->
+        <form @submit.prevent="signUpUser" class="login-form mt-3">
+          <p class="success-message" v-if="succmsg">{{ succmsg }}</p>
 
+          <label for="name">Full Name</label>
+          <input type="text" id="name" v-model="form.name" placeholder="Full Name" required />
 
+          <label for="email">Email Address</label>
+          <input type="email" id="email" v-model="form.email" placeholder="Email" required />
 
+          <label for="password">Password</label>
+          <input type="password" id="password" v-model="form.password" placeholder="Password" required />
 
+          <label for="confirm">Re-enter Password</label>
+          <input type="password" id="confirm" v-model="confirmPassword" placeholder="Re-enter Password" required />
 
+          <p class="error-message" v-if="errormsg">{{ errormsg }}</p>
 
-                              <form @submit.prevent="signUpUser" class="form-group mt-3 w-100" style=" background-color: yelow;  height: 180px">
-                                <p>{{ succmsg }}</p>
-                                <div class="form-group" style="">
-                                <label for="input1" class="form-text" style="font-size: 10px; margin-bottom: 3px;">Full Name</label>
-                              <input type="text" required v-model="form.name" id="input1" placeholder="Full Name" class="form-control w-100" style=" height:30px;border-radius: 8px;">
-                                </div> 
+          <button type="submit" class="submit-btn" :disabled="loader">
+            <svg v-show="loader" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 50 50">
+              <circle cx="25" cy="25" r="20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"
+                stroke-dasharray="90,150" stroke-dashoffset="0">
+                <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s"
+                  repeatCount="indefinite" />
+              </circle>
+            </svg>
+            Create Account
+          </button>
+        </form>
 
+        <!-- OR Divider -->
+        <div class="or-divider">OR</div>
 
-                                <div class="form-group">
-                              <label class="form-text" for="input2" style="font-size: 10px; margin-bottom: 3px;">Email Address</label>
-                              <input v-model="form.email" type="email" required id="input2" placeholder="Email" class="form-control w-100" style=" height:30px;border-radius: 8px;">
-                                </div>
+        <!-- Google Signup -->
+        <div class="google-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48">
+            <path fill="#ffc107"
+              d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917" />
+            <path fill="#ff3d00"
+              d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691" />
+            <path fill="#4caf50"
+              d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44" />
+            <path fill="#1976d2"
+              d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917" />
+          </svg>
+          <span>Sign up with Google</span>
+        </div>
 
-
-
-                                <div class="form-group ">
-                              <label for="input3" style="font-size: 10px; margin-bottom: 3px; ">Password</label>
-                              <input  type="password"  required v-model="form.password" id="input3" placeholder="password" class="form-control w-100" style="height:30px; border-radius: 8px;">
-                                </div>
-
-
-                                <div class="form-group">
-                              <label for="input4" style="font-size: 10px; margin-bottom: 3px; "> Re-enter Password</label>
-                                  <input required  type="password" v-model="confirmPassword" id="input4" placeholder="Re-password" class="form-control w-100" style="height:30px; border-radius: 8px;">
-                                </div><p>{{ errormsg }}</p>
-                                   
-                                      
-                                
-                                  
-                                  <button class="btn btn-second w-100 " type="submit" :disabled="loader" style="height: 40px; border-radius: 8px; margin-top: 11px; background: #4D148C;color: #FFFFFF;
-                                      font-weight: bold;font-size: 14px;">
-                                      <svg
-        v-show="loader"
-xmlns="http://www.w3.org/2000/svg"
-width="20"
-height="20"
-viewBox="0 0 50 50"
->
-<circle
-  cx="25"
-  cy="25"
-  r="20"
-  fill="none"
-  stroke="#fff"
-  stroke-width="5"
-  stroke-linecap="round"
-  stroke-dasharray="90,150"
-  stroke-dashoffset="0"
->
-  <animateTransform
-    attributeName="transform"
-    type="rotate"
-    from="0 25 25"
-    to="360 25 25"
-    dur="1s"
-    repeatCount="indefinite"
-  />
-</circle>
-</svg>
-Create Account</button> 
-
-
-
-
-
-
-
-
-
-<p style=" font-size: 10px; font-weight: 700;  text-align:center;margin-top: 24px;">OR</p>
-          <div class="google" style="">
-            <div
-              class="btn btn-md"
-              style="
-                border: 0.1px solid rgb(188, 183, 183);
-                width: 170px;
-                border-radius: 7px;
-                color: black;
-                font-weight: 700;
-                font-size: 8px;
-                margin-left: 170px;
-              "
-             ><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48"><path fill="#ffc107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"/><path fill="#ff3d00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691"/><path fill="#4caf50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44"/><path fill="#1976d2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917"/></svg>
-
-              <a  style="margin-left: 3px;">Sign up with Goggle</a>
-            </div>
-        
-          </div>
-
-         
-
-          <p style="font-size: 10px; text-align: center; margin-top: 21px; font-weight: 700">
-           Don't have an account? &nbsp;<a @click="$router.push('/sign-in')" style="cursor: pointer; color: gray;font-family:  SUSHI Stroke, sans-serif;">sign in</a>
-          </p>
-                          </form>
-                      </div>
-          </div>
-
-  </div>
+        <!-- Switch to Login -->
+        <p class="signup-text" style=" font-weight: 450">
+          Already have an account?
+          <a @click="$router.push('/sign-in')" style="color: gray;">Sign in</a>
+        </p>
+      </div>
+    </section>
   </div>
 </template>
 
-
 <script>
 export default {
-name: 'SignUp',
-data() {
-  return {
-    form: {
-      name: '',
-      email: '',
-      password: '',
-    },
-    confirmPassword: '',
-    loader: false,
-    terms: false,
-  }
-},
-mounted() {},
-methods: {
-  async signUpUser() {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.form.email.trim())) {
-      alert("Invalid email address")
-      return
-    }
-    if (this.form.password !== this.confirmPassword) {
-      alert("Passwords do not match")
-      return
-    }
+  name: 'SignUp',
+  data() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        password: '',
+      },
+      confirmPassword: '',
+      succmsg: '',
+      errormsg: '',
+      loader: false,
+      
+
+    };
+  },
+  methods: {
    
-    this.loader = true
-    let response;
-    try {
-      response = await fetch('https://zacracebookwebsite.onrender.com/ebook/auth/signup ', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.form),
-      })
-      if (response.ok) {
-const data = await response.json()
-console.log('Success:', data);
-alert("Sign up was successful")
-this.$router.push('');
-}
-else {
-        try {
-          const errorResponse = await response.json();
-          alert(errorResponse.message || "Error signing up")
-        } catch {
-          alert("Error signing up")
-        }
+    async signUpUser() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(this.form.email.trim())) {
+        this.errormsg = "Invalid email address";
+        return;
       }
-    } catch (error) {
-      console.error('Error:', error);
-      alert("Error signing up")
+
+      if (this.form.password !== this.confirmPassword) {
+        this.errormsg = "Passwords do not match";
+        return;
+      }
+
+      this.loader = true;
+      this.errormsg = '';
+      this.succmsg = '';
+
+      try {
+        const response = await fetch('https://zacracebookwebsite.onrender.com/ebook/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.form)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          this.succmsg = "Sign up was successful!";
+          this.$router.push('/sign-in');
+        } else {
+          const err = await response.json();
+          this.errormsg = err.message || "Something went wrong.";
+        }
+      } catch (e) {
+        this.errormsg = "Network error. Please try again.";
+      } finally {
+        this.loader = false;
+      }
     }
-    this.loader = false
   }
-}
-}
-
+};
 </script>
+
+
 <style>
-@media (max-width: 1255px) {
- .aa {
-           
-           
-            height: calc(100% ) !important;
-             
-         }
-         .zac {
-           
-            margin-top:-7px !important;
-             
-         }
-         .aab{
-             
-           margin-right: -330px !important;
-         
 
-         }
-         .aac{
-           margin-left: 362px !important;
-             width: calc(50% ) !important;
-
-         }
-         .aaba {
-           
-           margin-left:130px !important;   
-        }
-        .boom{
-         height: 770px !important; 
-         background-color: #E8EEE9 !important;
-       }
-       .hi{
-        height: 700px !important; 
-       
-       }
-        
-     }
-
-     @media (max-width: 1200px) {
- 
-         .aab{
-          
-           margin-left:10px !important;
-          
-        
-
-           }
-           .aac{
-             
-             width: calc(50% ) !important;
-             
-           }
-           .boom{
-         height: 750px !important; 
-         background-color: #E8EEE9 !important;
-       }
-     .hi{
-         height: 610px !important;
-         background-color: #E8EEE9 !important;
-       }
-       .google{
-          margin-left:-30px !important;
-       }
-     }
-
-
-
-
-
-
-     @media (max-width: 1110px) {
-
-         .zac{
-           
-            margin-top:-6px !important;
-             
-         }
-         
-         .aab{
-           
-           
-           margin-left:-40px !important;
-            
-            
-
-           }
-           .aaba {
-           
-           margin-left:145px !important;
-
-            
-        }.boom{
-         height: 750px !important; 
-       
-       }.google{
-          margin-left:-39px !important;
-       }
-       .hi{
-         height: 610px !important;
-         background-color: #E8EEE9 !important;
-       }
-           
-     }
-     
-
-
-
-     @media (max-width: 1000px) {
-
-         .zac{
-           
-            margin-top:-7px !important;
-             
-         }
-         .aaba {
-           
-           margin-left:120px !important;
-
-            
-        }.google{
-          margin-left:-80px !important;
-       }
-        
-        
-           
-     }
-
-
-
-     @media (max-width: 900px) {
- .aa {
-           
-         
-            height: calc(100% ) !important;
-
-             
-         }
-         .zac{
-          
-           margin-left:-30px !important;
-           margin-top:-6px !important;
-             
-         }
-         .aaba {
-           
-           margin-left:110px !important;
-
-            
-        }
-        
-           .boom {
-         height: 770px !important;
-         
-       }
-       .lol{
-        height: 770px !important;
-
-       }
-     .hi{
-         height: 610px !important;
-         
-         
-       }.google{
-          margin-left:-110px !important;
-       }
-
-       
-     }
-
-
-
-
-
-     @media (max-width: 800px) {
-
-       .hi{
-        background-color: #E8EEE9 !important;
-
-       }
-       
-       .boom{
-         height: 700px !important;
-       }
-       .navbar-btn {
-   margin-left: 22px;
-   margin-top: -10px;
-
-   width: 130px;
-   font-size:10px !important;
- }
- .navbar-logo {
- margin-top: -10px;
- cursor: pointer;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-     
- .aa {
-           
-           
-            height: calc(100% ) !important;
-            
 
-       }.zac{
-            
-           margin-left:-20px !important;
-           margin-top:-6px !important;
-             
-         }
-         .aaba {
-           
-           margin-left:100px !important;
-
-            
-        }
-        
-     ul li{
-       font-size:10px
-     }
-     .zacc{
-       font-size:13px !important;
-     }
-
-     .navbar {
- 
- padding: 15px 20px !important;
-
-}  
-.google{
-          margin-left:-140px !important;
-       }
-
-     }
-
-
-     @media (max-width: 732px) {
-
-.hi{
-  background-color: pure!important;
-  height: 690px !important;
-
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #e8eee9;
 }
-.lol{
-  height: 735px !important;
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background: #e8eee9;
 }
-.boom{
-  height: 750px !important;
-  background-color: #E8EEE9 !important;
 
+.navbar-logo {
+  display: flex;
+  align-items: center;
 }
+
+.logo-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 8px;
+}
+
+.logo-text {
+  font-size: 16px;
+  color: #4d148c;
+}
+.logo-text span {
+  color: #ff6600;
+}
+
+.navbar-links ul {
+  display: flex;
+  gap: 20px;
+}
+.navbar-links ul li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #1e1e26;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+.navbar-links ul li:hover {
+  color: #4d148c;
+}
+
+.navbar-btn {
+  background: #4d148c;
+  color: #fff;
+  border: none;
+  padding: 5px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.navbar-btn:hover {
+  background: #3b0f6e;
+}
+
+/* Main Section */
+.main-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 40px;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.form-container {
+  flex: 1;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 30px;
+  max-width: 570px;
+}
+
+.welcome-text {
+  font-size: 18px;
+  color: #4d148c;
+}
+.sub-text {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.sub-text a {
+  color: #484ed1;
+  cursor: pointer;
+}
+
+/* User Type Buttons */
+.user-type {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.user-type .btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12px;
+}
+.user-type .btn.active {
+  background: #f4faff;
+}
+
+/* Main Section */
+.main-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 40px;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.form-container {
+  flex: 1;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 30px;
+  max-width: 570px;
+}
+
+.welcome-text {
+  font-size: 18px;
+  color: #4d148c;
+}
+.sub-text {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.sub-text a {
+  color: #484ed1;
+  cursor: pointer;
+}
+
+/* User Type Buttons */
+.user-type {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.user-type .btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12px;
+}
+.user-type .btn.active {
+  background: #f4faff;
+}
+
+/* Login Form */
+.login-form label {
+  font-size: 12px;
+  display: block;
+  margin-bottom: 5px;
+}
+.login-form input {
+  width: 100%;
+  height: 35px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 10px;
+  margin-bottom: 12px;
+}
+
+.forgot-password {
+  text-align: right;
+  font-size: 12px;
+  color: #8c1823;
+  cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  background: #4d148c;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+.or-divider {
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid #ccc;
+  width: 170px;
+  margin: 0 auto 20px;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.signup-text {
+  text-align: center;
+  font-size: 10px;
+}
+.signup-text a {
+  color: gray;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .main-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  .form-container {
+    width: 100%;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+@media (max-width: 732px) {
+
 
 .navbar-btn {
 margin-left: 10px;
@@ -489,12 +506,7 @@ cursor: pointer;
  padding: 15px 20px !important;
 
 }
-.google{
-          margin-left:-140px !important;
-       }
-
     }
-   
 
 
 
@@ -503,17 +515,6 @@ cursor: pointer;
 
     @media (max-width: 722px) {
 
-.hi{
-  background-color: Purle!important;
-}
-.lol{
-  height: 690px !important;
-}
-.boom{
-  height: 770px !important;
-  background-color: #E8EEE9 !important;
-
-}
 .navbar-btn {
 margin-left: 9px;
 margin-top: -10px;
@@ -531,184 +532,11 @@ cursor: pointer;
  padding: 15px 20px !important;
 
 }
-.google{
-          margin-left:70px !important;
-       }
-
-
 }
-
      
-
-     @media (max-width: 700px) {
- .bg-secndary {
-   padding: 5px;
-  
- }
- .hi{
- background-color: le!important;}
-
-   .lol{
-         height: 1150px !important;
-         
-       }
-       .boom{
-         height: 1250px !important;
-         background-color: #E8EEE9 !important;
-         
-       }
-       
-       
-
- .zac {
-   padding: 5px;
- }
- .aa {
-   padding: 10px;
- }
- .aab {
-   height: auto;
- }
- .aac {
-   padding: 10px;
- }
- .zacc {
-   font-size: 12px;
- }
- ul li {
-   font-size: 10px;
- }
- .google{
-          margin-left:30px !important;
-       }
-}
-
-
-
-
-
-
-
-@media (max-width: 600px) {
- .bg-secndary {
-   padding: 5px;
- }
- .zac {
-   padding: 5px;
- }
- .aa {
-   padding: 10px;
- }
- .aab {
-   height: auto;
- }
- .aac {
-   padding: 10px;
- }
- .zacc {
-   font-size: 14px;
- }
- ul li {
-   font-size: 12px;
- }
- .aab img {
-   width: 100%;
-   margin-left: 0;
- }
- .lol{
-         height: 1150px !important;
-      
-
-
-       }
-       .google{
-          margin-left:-30px !important;
-       }
-
-}
-
-
 
 
 @media (max-width: 720px) {
-
- .bg-secndary {
-   display: block !important;
-   text-align: center;
-   padding: 10px 15px !important;
-   height: auto !important;
-   background: #E8EEE9;
- }
-
-
- .zac {
-   width: auto !important;
-   margin: 0 auto !important;
-   display: inline-block;
-   text-align: center;
- }
- .zacc {
-   font-size: 13px !important;
-   margin-left: 25px !important;
- }
- .zaci {
-   height: 18px !important;
-   width: 18px !important;
-   margin-top: 2px !important;
- }
-
-
- .bg-drk {
-   width: 100% !important;
-   margin: 10px 0 !important;
-   text-align: center;
- }
- .bg-drk ul {
-   display: block !important;
-   padding: 0;
-   margin: 10px auto !important;
- }
- .bg-drk ul li {
-   display: block !important;
-   margin: 8px 0 !important;
-   font-size: 14px !important;
- }
-
- .r {
-   display: inline-block;
-   margin-top: 10px;
-   padding: 6px 12px !important;
-   font-size: 12px !important;
- }
- .r a {
-   font-size: 12px !important;
-   margin-top: 0 !important;
- }
-
-
- .aa {
-   flex-direction: column !important;
-   padding: 20px 10px !important;
-   display: block !important;
-   height: auto !important;
- }
- .aab {
-   width: 100% !important;
-   margin: 0 auto 20px !important;
-   text-align: center;
- }
- .aab img {
-   width: 80% !important;
-   margin: 0 auto !important;
- }
- .aac {
-   width: 100% !important;
-   margin: 0 auto !important;
-   padding: 20px 15px !important;
- }
-}
-
-
 
 
 
@@ -780,6 +608,273 @@ cursor: pointer;
 .navbar-btn:hover {
  background: #3b0f6e;
 }
+}
+
+/* Hide checkbox and menu icon on desktop */
+#check-bobo {
+  display: none;
+}
+
+#menu {
+  display: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  z-index: 25;
+}
+
+label[for="check-bobo"] {
+  display: none;
+  cursor: pointer;
+  z-index: 25;
+}
+
+/* Show hamburger icon and mobile menu on small screens */
+@media (max-width: 720px) {
+  label[for="check-bobo"],
+  #menu {
+    display: block;
+    margin-left: 170px !important;
+    margin-top: -23px !important;
+    height: 30px !important;
+    width:  30px !important;
+
+
+
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    
+    height: auto !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .navbar-links ul {
+    position: absolute !important;;
+    top: 70px !important;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background-color: #4d148c;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 30px;
+    gap: 25px;
+    transition: left 0.3s ease-in-out;
+    z-index: 20;
+  }
+
+  #check-bobo:checked ~ .navbar-links ul {
+    left: 0 !important;;
+  }
+
+  .navbar-links ul li {
+    font-size: 20px;
+    color: white !important;
+  }
+
+  .navbar-btn {
+    display: none !important;
+  }
+
+  .navbar-logo {
+    margin-left: -500px !important;
+ 
+    padding: 20px 20px !important;
+ 
+  }
+}
+
+
+
+@media (max-width: 680px) {
+  .navbar-logo {
+    margin-left: -450px !important;
+ 
+    padding: 20px 20px !important;
+ 
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-logo {
+    margin-left: -360px !important;
+ 
+    padding: 20px 20px !important;
+ 
+  }
+}
+
+
+@media (max-width: 580px) {
+  .navbar-logo {
+    margin-left: -300px !important;
+ 
+    padding: 20px 20px !important;
+ 
+  }
+
+  #menu {
+    display: block;
+    margin-left: 120px !important;
+    margin-top: -23px !important;
+    height: 30px !important;
+    width:  30px !important;
+
+
+
+  }
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 732px) {
+
+
+.navbar-btn {
+margin-left: 10px;
+margin-top: -10px;
+
+width: 130px;
+font-size:10px !important;
+}
+.navbar-logo {
+margin-top: -10px;
+cursor: pointer;
+}
+
+
+.navbar {
+ 
+ padding: 15px 20px !important;
+
+}
+    }
+
+
+
+
+
+
+    @media (max-width: 722px) {
+
+.navbar-btn {
+margin-left: 9px;
+margin-top: -10px;
+
+width: 130px;
+font-size:10px !important;
+}
+.navbar-logo {
+margin-top: -10px;
+cursor: pointer;
+}
+
+.navbar {
+ 
+ padding: 15px 20px !important;
+
+}
+}
+     
+
+
+@media (max-width: 720px) {
+
+
+
+
+.navbar {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 15px 50px;
+ background: #E8EEE9;
+ height: 60px;
+ position: relative;
+ z-index: 10;
+}
+
+
+.navbar-logo {
+ display: flex;
+ align-items: center;
+ cursor: pointer;
+}
+.logo-icon {
+ height: 20px;
+ width: 20px;
+ margin-right: 8px;
+}
+.logo-text {
+ font-size: 16px;
+ color: #4D148C;
+}
+.logo-text span {
+ color: #FF6600;
+}
+
+
+.navbar-links ul {
+ display: flex;
+ gap: 20px;
+ list-style: none;
+}
+.navbar-links ul li {
+ display: flex;
+ align-items: center;
+ gap: 4px;
+ font-size: 10px;
+ color: #1E1E26;
+ cursor: pointer;
+ transition: color 0.3s;
+}
+.navbar-links ul li:hover {
+ color: #4D148C;
+}
+
+
+.navbar-btn {
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ padding: 5px 20px;
+ background: #4D148C;
+ color: #FFFFFF;
+ border: none;
+ border-radius: 5px;
+ font-weight: bold;
+ font-size: 12px;
+ cursor: pointer;
+ transition: background 0.3s;
+}
+.navbar-btn:hover {
+ background: #3b0f6e;
+}}
 
 
 @media (max-width: 720px) {
@@ -819,12 +914,5 @@ cursor: pointer;
 html {
 scroll-behavior: smooth;
 }
-ul li {
-list-style: none;
-display: inline;
-margin-left: 23px;
-font-size: 13px;
-color: #1E1E26;
-cursor:pointer;
-}
+
 </style>
