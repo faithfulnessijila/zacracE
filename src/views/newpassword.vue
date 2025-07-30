@@ -96,7 +96,7 @@
         this.succmsg = "";
   
         try {
-          const res = await fetch("https://your-api.com/change-password", {
+          const res = await fetch("https://zacracebookwebsite.onrender.com/ebook/auth/reset-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ password: this.password })

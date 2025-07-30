@@ -42,7 +42,7 @@
   
           <form @submit.prevent="submitEmail" class="login-form">
             <label for="email">Email Address</label>
-            <input v-model="email" type="email" id="email" placeholder="Enter your email" />
+            <input v-model="email" type="email" id="email" required placeholder="Enter your email" />
             <div class="error" v-if="error">{{ error }}</div>
             <div class="success" v-if="success">{{ success }}</div>
   
@@ -85,7 +85,7 @@
   
         this.loading = true;
         try {
-          const res = await fetch("https://zacracebookwebsite.onrender.com/ebook/auth/forgot-password", {
+          const res = await fetch("https://zacracebookwebsite.onrender.com/ebook/auth/forget-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: this.email }),
@@ -96,9 +96,8 @@
           if (!res.ok) {
             this.error = data.message || "Something went wrong.";
           } else {
-            this.success = "OTP sent to your email!";
-            // Optional: Redirect to OTP page after 2s
-            setTimeout(() => this.$router.push("/otp"), 2000);
+            this.success = "check your email!";
+           
           }
         } catch (err) {
           this.error = "An error occurred. Please try again.";

@@ -57,27 +57,30 @@
           <button class="btn active">Student</button>
           <button class="btn">Seller</button>
         </div>
+       
 
         <!-- Login Form -->
-        <form @submit.prevent="login" class="login-form">
+        <form @submit.prevent="handleSubmit" class="login-form">
           <label for="email">Email Address</label>
-          <input v-model="email" type="email" id="email" placeholder="Email" />
-          <div class="error" v-if="errors.email">{{ errors.email }}</div>
+          <input v-model="form.email" type="email" placeholder="Email" required />
+  <p v-if="errors.email" style="color: red">{{ errors.email }}</p>
 
           <label for="password">Password</label>
-          <input v-model="password" type="password" id="password" placeholder="Password" />
-          <div class="error" v-if="errors.password">{{ errors.password }}</div>
+          <input  v-model="form.password" type="password" placeholder="Password" required />
+  <small v-if="errors.password" class="text-danger">{{ errors.password }}</small>
 
           <p class="forgot-password">   <a @click="$router.push('/forgot-password')">Forgot Password?   </a></p>
+          
+          
 
-          <button :disabled="loading" type="submit" class="submit-btn">
-            <span v-if="loading">Loading...</span>
-            <span v-else>Sign in</span>
+          <button :disabled="loading" type="submit" class="submit-btn">  {{ loading ? "signing in..." : "sign in" }}
+            
+          
           </button>
           <p class="or-divider">OR</p>
 
           <!-- Google Signup -->
-          <div class="google-btn">
+          <button class="google-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 48 48">
               <path
                 fill="#ffc107"
@@ -97,7 +100,7 @@
               />
             </svg>
             <a  href="https://zacracebookwebsite.onrender.com/ebook/auth/google" style="text-decoration:none; color:black;" >Sign up with Google</a>
-          </div>
+          </button>
 
           <p class="signup-text" style=" font-weight: 450">
             Don't have an account? <a style="color: gray;" @click="$router.push('/sign-up')">Sign up</a>
@@ -133,58 +136,91 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      email: "",
-      password: "",
+      form: {
+        email: "",
+        password: ""
+      },
       loading: false,
-      error: null,
-      errors: {},
+      errorMessage: "",
+      errors: {}
     };
   },
+
   methods: {
-    async login() {
+    validateForm() {
+      const errors = {};
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!this.email || !this.password) {
-        this.error = "Please fill in all fields";
-        return;
+
+      if (!this.form.email) {
+        errors.email = "Email is required";
+      } else if (!emailRegex.test(this.form.email)) {
+        errors.email = "Invalid email format";
       }
-      if (!emailRegex.test(this.email)) {
-        this.error = "Invalid email format";
-        return;
+
+      if (!this.form.password) {
+        errors.password = "Password is required";
+      } else if (this.form.password.length < 6) {
+        errors.password = "Password must be at least 6 characters";
       }
-      this.loading = true;
-      this.error = null;
-      this.errors = {};
-      try {
-        const response = await fetch("https://zacracebookwebsite.onrender.com/ebook/auth/signin", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: this.email, password: this.password }),
-        });
-        if (response.ok) {
-          const data = await response.json();
-          if (data.token) {
-            localStorage.setItem("token", data.token);
-            alert("Sign in was successful");
-            this.$router.push("/");
-          } else this.error = "Invalid credentials";
-        } else {
-          const errorData = await response.json();
-          this.errors = errorData.errors || {};
-          this.error = errorData.message || "An error occurred";
-        }
-      } catch (e) {
-        console.error(e);
-        this.error = "An error occurred";
-      } finally {
-        this.loading = false;
-      }
+
+      this.errors = errors;
+      return Object.keys(errors).length === 0;
     },
-  },
+    async handleSubmit() {
+  this.errorMessage = '';
+  this.loading = true;
+
+  const payload = {
+    email: this.form.email,
+    password: this.form.password
+  };
+
+  try {
+    const response = await axios.post(
+      'https://zacracebookwebsite.onrender.com/ebook/auth/signin',
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    const token = response.data.token;
+    localStorage.setItem('token', token);
+    this.$router.push('/');
+  } catch (error) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message;
+
+    if (status === 400) {
+      if (message === "Please sign in with Google") {
+        this.errorMessage = "This account was created using Google. Please sign in with Google.";
+      } else {
+        this.errorMessage = message || "Invalid email or password.";
+      }
+    } else if (status === 404) {
+      this.errorMessage = "User not found.";
+    } else {
+      this.errorMessage = "Something went wrong. Please try again.";
+    }
+  } finally {
+    this.loading = false;
+  }
+}
+
+
+  }
 };
 </script>
+
+
+
 
 <style>
 /* Reset */
