@@ -100,12 +100,6 @@
         this.loading = true;
         this.errormsg = "";
         this.succmsg = "";
-        console.log("Sending to backend:", {
-  token,
-  newPassword: this.password,
-  confirmPassword: this.confirmPassword
-});
-
   
         try {
           const res = await fetch(`https://zacracebookwebsite.onrender.com/ebook/auth/reset-password/${token}`, {
