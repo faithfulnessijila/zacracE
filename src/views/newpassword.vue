@@ -81,44 +81,53 @@
     },
     methods: {
       async submitChangePassword() {
-        if (this.password.length < 6) {
-          this.errormsg = "Password must be at least 6 characters.";
-          return;
-        }
-  
-        if (this.password !== this.confirmPassword) {
-          this.errormsg = "Passwords do not match.";
-          return;
-        }
-  
-        this.loading = true;
-        this.errormsg = "";
-        this.succmsg = "";
-  
-        try {
-          const res = await fetch("https://zacracebookwebsite.onrender.com/ebook/auth/reset-password/:token", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password: this.password })
-          });
-  
-          const data = await res.json();
-  
-          if (!res.ok) {
-            this.errormsg = data.message || "Something went wrong.";
-          } else {
-            this.succmsg = "Password changed successfully!";
-            this.password = "";
-              this.confirmPassword = "";
-              this.$router.push('/sign-in');
-          }
-        } catch (err) {
-          this.errormsg = "Network error. Please try again.";
-        } finally {
-          this.loading = false;
-        }
-      }
+  if (this.password.length < 6) {
+    this.errormsg = "Password must be at least 6 characters.";
+    return;
+  }
+
+  if (this.password !== this.confirmPassword) {
+    this.errormsg = "Passwords do not match.";
+    return;
+  }
+
+  const token = this.$route.params.token; // adjust this if using query
+  if (!token) {
+    this.errormsg = "Invalid or missing token.";
+    return;
+  }
+
+  this.loading = true;
+  this.errormsg = "";
+  this.succmsg = "";
+
+  try {
+    const res = await fetch(`https://zacracebookwebsite.onrender.com/ebook/auth/reset-password/${token}`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ password: this.password })
+});
+
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      this.errormsg = data.message || "Something went wrong.";
+      console.error("Server error:", data);
+    } else {
+      this.succmsg = "Password changed successfully!";
+      this.password = "";
+      this.confirmPassword = "";
+      this.$router.push('/sign-in');
     }
+  } catch (error) {
+    this.errormsg = "Request failed. Please try again.";
+    console.error("Fetch error:", error);
+  } finally {
+    this.loading = false;
+  }
+}
+  }
   };
   </script>
   
