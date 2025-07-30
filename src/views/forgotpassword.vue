@@ -38,7 +38,7 @@
   
         <div class="form-container">
           <h4 class="welcome-text">Forgot Password</h4>
-          <p class="sub-text">Enter your email and we’ll send you an OTP to reset your password.</p>
+          <p class="sub-text">Enter your email to reset your password.</p>
   
           <form @submit.prevent="submitEmail" class="login-form">
             <label for="email">Email Address</label>
@@ -48,7 +48,7 @@
   
             <button :disabled="loading" type="submit" class="submit-btn">
               <span v-if="loading">Sending...</span>
-              <span v-else>Send OTP</span>
+              <span v-else>Verify Email</span>
             </button>
   
             <p class="signup-text" style="margin-top: 10px; font-weight: 450">

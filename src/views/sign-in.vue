@@ -77,6 +77,10 @@
             
           
           </button>
+          <p v-if="errorMessage" class="text-danger mt-2" style="font-weight: 500;">
+  {{ errorMessage }}
+</p>
+
           <p class="or-divider">OR</p>
 
           <!-- Google Signup -->
@@ -195,21 +199,27 @@ export default {
     localStorage.setItem('token', token);
     this.$router.push('/');
   } catch (error) {
-    const status = error.response?.status;
-    const message = error.response?.data?.message;
+  const status = error.response?.status;
+  const message = error.response?.data?.message;
 
-    if (status === 400) {
-      if (message === "Please sign in with Google") {
-        this.errorMessage = "This account was created using Google. Please sign in with Google.";
-      } else {
-        this.errorMessage = message || "Invalid email or password.";
-      }
-    } else if (status === 404) {
-      this.errorMessage = "User not found.";
-    } else {
-      this.errorMessage = "Something went wrong. Please try again.";
-    }
-  } finally {
+  if (status === 400) {
+    this.errorMessage = message || "Invalid form input. Please check your details.";
+  } else if (status === 409) {
+    this.errorMessage = "This email is already registered. Please sign in.";
+  } else if (status === 500) {
+    this.errorMessage = "Server error. Please try again later.";
+  } else {
+    this.errorMessage = message || "Something went wrong. Please try again.";
+  }
+
+  
+  console.error("Registration failed:", {
+    status,
+    message,
+    fullError: error
+  });
+}
+finally {
     this.loading = false;
   }
 }

@@ -245,7 +245,7 @@ export default {
     return {
       form: {
         name: "",
-        email: "", // ✅ Email field added
+        email: "", 
         password: "",
         gender: "",
       },
