@@ -37,8 +37,8 @@
   
           <form @submit.prevent="submitChangePassword">
             <label for="password">New Password</label>
-            <input
-              id="password"
+            <input :disabled="loading" 
+              id="password" name="new-password"
               type="password"
               v-model="password"
               required
@@ -46,9 +46,9 @@
             />
   
             <label for="confirm">Confirm Password</label>
-            <input
+            <input  :disabled="loading" 
               id="confirm"
-              type="password"
+              type="password" name="confirm-password"
               v-model="confirmPassword"
               required
               placeholder="Re-enter new password"
@@ -81,57 +81,91 @@
     },
     methods: {
       async submitChangePassword() {
-  if (this.password.length < 6) {
-    this.errormsg = "Password must be at least 6 characters.";
-    return;
-  }
+        if (this.password.length < 6) {
+          this.errormsg = "Password must be at least 6 characters.";
+          return;
+        }
+  
+        if (this.password !== this.confirmPassword) {
+          this.errormsg = "Passwords do not match.";
+          return;
+        }
+  
+        const token = this.$route.query.token;
+        if (!token) {
+          this.errormsg = "Invalid or missing token.";
+          return;
+        }
+  
+        this.loading = true;
+        this.errormsg = "";
+        this.succmsg = "";
+        console.log("Sending to backend:", {
+  token,
+  newPassword: this.password,
+  confirmPassword: this.confirmPassword
+});
 
-  if (this.password !== this.confirmPassword) {
-    this.errormsg = "Passwords do not match.";
-    return;
-  }
-
-  const token = this.$route.params.token; // adjust this if using query
-  if (!token) {
-    this.errormsg = "Invalid or missing token.";
-    return;
-  }
-
-  this.loading = true;
-  this.errormsg = "";
-  this.succmsg = "";
-
-  try {
-    const res = await fetch(`https://zacracebookwebsite.onrender.com/ebook/auth/reset-password/${token}`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ password: this.password })
+  
+        try {
+          const res = await fetch(`https://zacracebookwebsite.onrender.com/ebook/auth/reset-password/${token}`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    newPassword: this.password,
+    confirmPassword: this.confirmPassword
+  })
 });
 
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      this.errormsg = data.message || "Something went wrong.";
-      console.error("Server error:", data);
-    } else {
-      this.succmsg = "Password changed successfully!";
-      this.password = "";
-      this.confirmPassword = "";
-      this.$router.push('/sign-in');
+        
+  
+          const data = await res.json();
+  
+          if (res.ok) {
+            this.succmsg = "Password reset successfully!";
+            setTimeout(() => this.$router.push('/sign-in'), 2000);
+          } else {
+            this.errormsg = data.message || 'An error occurred';
+          }
+        } catch (error) {
+          console.error(error);
+          this.errormsg = 'Network or server error.';
+        } finally {
+          this.loading = false;
+        }
+      }
     }
-  } catch (error) {
-    this.errormsg = "Request failed. Please try again.";
-    console.error("Fetch error:", error);
-  } finally {
-    this.loading = false;
-  }
-}
-  }
   };
   </script>
   
+
+  
+  
   <style scoped>
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
   .change-password-wrapper {
     background: #e8eee9;
     min-height: 100vh;
