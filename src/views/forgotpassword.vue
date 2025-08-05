@@ -7,28 +7,7 @@
     <h3 class="logo-text">Zacrac <span>Learning</span></h3>
   </div>
 
-  <!-- Checkbox toggle BEFORE .navbar-links -->
-  <input type="checkbox" id="check-bobo" />
-  <label for="check-bobo">
-    <img src="/public/menu 3.svg" alt="Menu Icon" id="menu" />
-  </label>
 
-  <!-- Nav Links -->
-  <div class="navbar-links">
-    <ul>
-      <li><a>Courses  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-        <path fill="currentColor" d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z"/>
-      </svg></a></li>
-      <li><a>Partners</a></li>
-      <li><a>Contact us</a></li>
-    </ul>
-  </div>
-
-  <button class="navbar-btn" type="button">
-    Start Learning<svg xmlns="http://www.w3.org/2000/svg" width="0.9em" height="0.9em" viewBox="0 0 256 256">
-    <path fill="#fff" d="M222 216a6 6 0 0 1-6 6H40a6 6 0 0 1 0-12h176a6 6 0 0 1 6 6M80 174a6 6 0 0 0 4.24-1.76L186 70.49V152a6 6 0 0 0 12 0V56a6 6 0 0 0-6-6H96a6 6 0 0 0 0 12h81.51L75.76 163.76A6 6 0 0 0 80 174"/>
-  </svg>
-  </button>
 </nav>
   
       <div class="main-section">
