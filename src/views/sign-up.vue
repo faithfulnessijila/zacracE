@@ -72,20 +72,8 @@
 
 
 
-          <div class="form-group mb-3">
-  <label for="gender" class="form-label">Gender</label>
-  <select
-    id="gender"
-    v-model="form.gender"
-    class="form-control"
-    required
-  >
-    <option disabled value="">Select Gender</option>
-    <option>Male</option>
-    <option>Female</option>
-    <option>Rather not say</option>
-  </select>
-</div>
+     
+          
 
 <div class="form-group mb-3">
   <label for="gender" class="form-label">Gender</label>
