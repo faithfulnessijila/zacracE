@@ -11697,50 +11697,50 @@
     <div class="row">
       <!-- First Column -->
       <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 text-decoration-underline">All about Rakuten Kobo</h5>
+        <h5 class="mb-3 ">All about Rakuten Kobo</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-none">About Rakuten Kobo</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Management Team</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Kobo in Conversation Podcast</a></li>
-          <li><a href="#" class="text-white text-decoration-none">eRecycling Program</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Free Apps</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Buy eGift Cards</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Get Help</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Sitemap</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">About Rakuten Kobo</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Management Team</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Kobo in Conversation Podcast</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">eRecycling Program</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Free Apps</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Buy eGift Cards</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Get Help</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Sitemap</a></li>
         </ul>
       </div>
 
       <!-- Second Column -->
       <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 text-decoration-underline">Opportunities</h5>
+        <h5 class="mb-3 ">Opportunities</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-none">Self Publish</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Affiliates</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Job Openings</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Self Publish</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Affiliates</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Job Openings</a></li>
         </ul>
       </div>
 
       <!-- Third Column -->
       <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 text-decoration-underline">Latest Blog Posts</h5>
+        <h5 class="mb-3 ">Latest Blog Posts</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-none">The best books Kobo read in July 2025</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Permission to read: check out BTS' favourite b...</a></li>
-          <li><a href="#" class="text-white text-decoration-none">85 new books coming out July 29 – August 11, 2025</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Mystery novels you can read in a day</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Wally Lamb waded into autobiography for The Ri...</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">The best books Kobo read in July 2025</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Permission to read: check out BTS' favourite b...</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">85 new books coming out July 29 – August 11, 2025</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Mystery novels you can read in a day</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Wally Lamb waded into autobiography for The Ri...</a></li>
           <li><a href="#" class="text-white text-decoration-underline">View all posts</a></li>
         </ul>
       </div>
 
       <!-- Fourth Column -->
       <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 text-decoration-underline">Stay Connected</h5>
+        <h5 class="mb-3 ">Stay Connected</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-none">Facebook</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Twitter</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Pinterest</a></li>
-          <li><a href="#" class="text-white text-decoration-none">YouTube</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Facebook</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Twitter</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Pinterest</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">YouTube</a></li>
         </ul>
       </div>
     </div>
