@@ -12,48 +12,10 @@
         <h3 class="logo-text">Zacrac <span>Learning</span></h3>
       </div>
 
-      <!-- Checkbox toggle BEFORE .navbar-links -->
-      <input type="checkbox" id="check-bobo" />
-      <label for="check-bobo">
-        <img src="/public/menu 3.svg" alt="Menu Icon" id="menu" />
-      </label>
+    
 
-      <!-- Nav Links -->
-      <div class="navbar-links">
-        <ul>
-          <li>
-            <a
-              >Courses
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z"
-                /></svg
-            ></a>
-          </li>
-          <li><a>Partners</a></li>
-          <li><a>Contact us</a></li>
-        </ul>
-      </div>
 
-      <button class="navbar-btn" type="button">
-        Start Learning<svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="0.9em"
-          height="0.9em"
-          viewBox="0 0 256 256"
-        >
-          <path
-            fill="#fff"
-            d="M222 216a6 6 0 0 1-6 6H40a6 6 0 0 1 0-12h176a6 6 0 0 1 6 6M80 174a6 6 0 0 0 4.24-1.76L186 70.49V152a6 6 0 0 0 12 0V56a6 6 0 0 0-6-6H96a6 6 0 0 0 0 12h81.51L75.76 163.76A6 6 0 0 0 80 174"
-          />
-        </svg>
-      </button>
+ 
     </nav>
 
     <!-- Main Section -->
@@ -65,42 +27,13 @@
 
       <!-- Right Form -->
       <div class="form-container">
-        <h4 class="welcome-text">Candidate Registration</h4>
+        <h4 class="welcome-text">Customer Registration</h4>
         <p class="sub-text">
           Already have an account?
-          <a @click="$router.push('/sign-in')">Login</a>
+          <a @click="$router.push('/sign-in')" style="color: gray;">Login</a>
         </p>
 
-        <div
-          class="w-100"
-          style="
-            height: 45px;
-            background: #f4faff;
-            margin-top: -5px;
-            border-radius: 8px;
-            align-items: start;
-            padding: 5px 10px;
-          "
-        >
-          <div class="d-flex" style="justify-content: space-between">
-            <a style="font-size: 11px; font-weight: 500; color: #000000"
-              >Student</a
-            >
-            <svg
-              style="margin-top: -2px; margin-left: -5px; cursor: pointer"
-              xmlns="http://www.w3.org/2000/svg"
-              width="1.5em"
-              height="1.5em"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z"
-              />
-            </svg>
-          </div>
-          <p style="font-size: 8px; color: #1d1d1db2">Learning a course</p>
-        </div>
+        
         <!-- Signup Form -->
         <form @submit.prevent="registerUser" class="login-form mt-3">
           <p class="success-message" v-if="succmsg">{{ succmsg }}</p>
@@ -136,7 +69,41 @@
             required
           />
 
-          <label for="gender">Gender</label>
+
+
+
+          <div class="form-group mb-3">
+  <label for="gender" class="form-label">Gender</label>
+  <select
+    id="gender"
+    v-model="form.gender"
+    class="form-control"
+    required
+  >
+    <option disabled value="">Select Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+    <option>Rather not say</option>
+  </select>
+</div>
+
+<div class="form-group mb-3">
+  <label for="gender" class="form-label">Gender</label>
+  <div class="custom-select-wrapper">
+    <select
+      id="gender"
+      v-model="form.gender"
+      class="form-control"
+      required
+    >
+      <option disabled value="">Select Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Rather not say</option>
+    </select>
+  </div>
+</div>
+          <!-- <label for="gender">Gender</label>
           <select
             id="gender"
             v-model="form.gender"
@@ -147,7 +114,7 @@
             <option>Male</option>
             <option>Female</option>
             <option>Rather not say</option>
-          </select>
+          </select> -->
 
           <p v-if="succmsg" class="text-success">{{ succmsg }}</p>
           <p v-if="errormsg" class="text-danger">{{ errormsg }}</p>
@@ -224,7 +191,7 @@
           <a
             href="https://zacracebookwebsite.onrender.com/ebook/auth/google"
             style="text-decoration: none; color: black"
-            >Sign up with Google</a
+            >Sign in with Google</a
           >
         </div>
 
@@ -320,6 +287,22 @@ export default {
 </script>
 
 <style>
+
+.custom-select-wrapper {
+  position: relative;
+}
+
+.custom-select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  bottom: 10px; /* Push it to the bottom */
+  right: 15px;  /* Push it to the right */
+  pointer-events: none;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+
 * {
   margin: 0;
   padding: 0;

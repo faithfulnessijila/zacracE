@@ -9,28 +9,8 @@
     <h3 class="logo-text">Zacrac <span>Learning</span></h3>
   </div>
 
-  <!-- Checkbox toggle BEFORE .navbar-links -->
-  <input type="checkbox" id="check-bobo" />
-  <label for="check-bobo">
-    <img src="/public/menu 3.svg" alt="Menu Icon" id="menu" />
-  </label>
 
-  <!-- Nav Links -->
-  <div class="navbar-links">
-    <ul>
-      <li><a>Courses  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-        <path fill="currentColor" d="m12 15l-4.243-4.242l1.415-1.414L12 12.172l2.828-2.828l1.415 1.414z"/>
-      </svg></a></li>
-      <li><a>Partners</a></li>
-      <li><a>Contact us</a></li>
-    </ul>
-  </div>
 
-  <button class="navbar-btn" type="button">
-    Start Learning<svg xmlns="http://www.w3.org/2000/svg" width="0.9em" height="0.9em" viewBox="0 0 256 256">
-    <path fill="#fff" d="M222 216a6 6 0 0 1-6 6H40a6 6 0 0 1 0-12h176a6 6 0 0 1 6 6M80 174a6 6 0 0 0 4.24-1.76L186 70.49V152a6 6 0 0 0 12 0V56a6 6 0 0 0-6-6H96a6 6 0 0 0 0 12h81.51L75.76 163.76A6 6 0 0 0 80 174"/>
-  </svg>
-  </button>
 </nav>
 
 
@@ -49,12 +29,12 @@
         <h4 class="welcome-text">Welcome Back</h4>
         <p class="sub-text">
           Don't have an account?
-          <a @click="$router.push('/sign-up')">Create Account</a>
+          <a @click="$router.push('/sign-up')"  style="color: gray;">Create Account</a>
         </p>
 
         <!-- User Type Buttons -->
         <div class="user-type">
-          <button class="btn active">Student</button>
+          <button class="btn active">Customer</button>
           <button class="btn">Seller</button>
         </div>
        
@@ -73,7 +53,7 @@
           
           
 
-          <button :disabled="loading" type="submit" class="submit-btn">  {{ loading ? "signing in..." : "sign in" }}
+          <button :disabled="loading" type="submit" class="submit-btn" style="font-size:16px;">  {{ loading ? "signing in..." : "sign in" }}
             
           
           </button>
@@ -103,10 +83,10 @@
                 d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917"
               />
             </svg>
-            <a  href="https://zacracebookwebsite.onrender.com/ebook/auth/google" style="text-decoration:none; color:black;" >Sign up with Google</a>
+            <a  href="https://zacracebookwebsite.onrender.com/ebook/auth/google" style="text-decoration:none; color:black;" >Sign in with Google</a>
           </button>
 
-          <p class="signup-text" style=" font-weight: 450">
+          <p class="signup-text" style=" font-weight: 450;">
             Don't have an account? <a style="color: gray;" @click="$router.push('/sign-up')">Sign up</a>
           </p>
         </form>
