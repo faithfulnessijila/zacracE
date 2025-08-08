@@ -91,18 +91,7 @@
     </select>
   </div>
 </div>
-          <!-- <label for="gender">Gender</label>
-          <select
-            id="gender"
-            v-model="form.gender"
-            class="form-control"
-            required
-          >
-            <option disabled value="">Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Rather not say</option>
-          </select> -->
+          
 
           <p v-if="succmsg" class="text-success">{{ succmsg }}</p>
           <p v-if="errormsg" class="text-danger">{{ errormsg }}</p>

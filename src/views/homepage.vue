@@ -1,93 +1,6 @@
 <template>
   <div>
-    <div
-      class="py-1 px-3 px-md-5"
-      style="
-        background-color: #d9d9d9;
-        height: 34px;
-        padding: 3px 100px !important;
-      "
-    >
-      <div
-        class="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-center gap-2"
-      >
-        <div class="w-100 w-md-auto text-center text-md-start">
-          <a
-            class="text-danger fw-bold custom-underline"
-            style="font-size: 14px"
-          >
-            Earn Rewards
-          </a>
-        </div>
-
-        <div class="w-100 w-md-auto text-center text-md-end">
-          <ul
-            class="list-unstyled d-flex flex-wrap justify-content-center justify-content-md-end align-items-center mb-0 gap-2 gap-md-4"
-          >
-            <li class="dropdown">
-              <a
-                class="dropdown-toggle text-danger text-decoration-none"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style="font-weight: 500"
-              >
-                English
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a
-                    class="dropdown-item custom-dropdown-item text-muted"
-                    href="#"
-                    >English</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item custom-dropdown-item text-muted"
-                    href="#"
-                    >French</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item custom-dropdown-item text-muted"
-                    href="#"
-                    >Spanish</a
-                  >
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <a
-                href="#"
-                class="text-decoration-none text-muted"
-                style="font-weight: 500"
-                >Gift Cards</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-decoration-none text-muted"
-                style="font-weight: 550"
-                >Blog</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-decoration-none text-muted"
-                style="font-weight: 500"
-                >Help</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    
 
     <!-- Navbar -->
     <nav
@@ -100,14 +13,10 @@
     >
       <div class="container-fluid">
         <!-- Brand -->
-        <a
-          class="navbar-brand fw-bold text-danger"
-          href="#"
-          @click="closeNavbar"
-          style="font-size: 29px"
-        >
-          Rakuten Kobo
-        </a>
+        <div class="navbar-logo">
+    <img src="/public/d.png" style="margin-top: -10px !important;" alt="Logo" class="logo-icon" />
+    <h3 class="logo-text" style ="font-size:20px;">Zacrac <span>Learning</span></h3>
+  </div>
 
         <!-- Toggler -->
         <button
@@ -155,9 +64,9 @@
           >
             <div class="input-group">
               <input
-                type="text"
+                type="text" stytle=" font-size:10px;"
                 class="form-control rounded-0"
-                placeholder="Search on Kobo"
+                placeholder="Search on Zacrac Learning"
                 aria-label="Search"
               />
               <button
@@ -229,15 +138,15 @@
 
             <!-- Sign up / Sign in -->
             <li class="nav-item text-center">
-              <button
-                class="btn btn-danger text-white fw-semibold px-3 py-2 w-100"
-                style="border-radius: 0; font-size: 14px"
+              <button  @click="$router.push('/sign-up')"
+                class="btn text-white fw-semibold px-3 py-2 w-100"
+                style="border-radius: 0; font-size: 14px;background-color: #4d148c;"
               >
                 Create account
               </button>
               <span class="d-block mt-1 text-muted" style="font-size: 13px">
                 Have an account?
-                <a href="#" class="text-danger fw-semibold">Sign in</a>
+                <a @click="$router.push('/sign-in')" href="#" class=" fw-semibold"  style="color: #4d148c;">Sign in</a>
               </span>
             </li>
           </ul>
@@ -247,14 +156,25 @@
       <div class="container-fluid">
         <ul class="dropdowns-container" style="margin-top: 10px">
           <!-- eBOOKS -->
-          <li class="custom-dropdown" style="list-style: none !important">
+          <li class="custom-dropdown" style="list-style: none !important">  
             <a
-              href="#"
-              @click="closeNavbar"
-              style="font-size: 20px"
-              class="nav-toggle no-bullets fw-normal"
-              >eBOOKS <span class="arrow">&#9662;</span></a
-            >
+  href="#"
+  @click="closeNavbar"
+  style="
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    color: black;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+    text-decoration: none;
+  "
+  class="nav-toggle no-bullets"
+>
+  eBooks <span class="arrow" style="font-size: 16px; color: black;">&#9662;</span>
+</a>
+
             <ul class="big-dropdown">
               <li><a href="#">Fiction & Literature</a></li>
               <li><a href="#">Romance</a></li>
@@ -269,21 +189,30 @@
               <li><a href="#">Browse all categories</a></li>
               <li><a href="#">Recommended for You</a></li>
               <li><a href="#">Best Selling</a></li>
-              <li><a href="#">eBook Deals</a></li>
-              <li><a href="#">Free eBooks</a></li>
-              <li><a href="#">Browse all eBooks</a></li>
+             
             </ul>
           </li>
 
           <!-- AUDIOBOOKS -->
           <li class="custom-dropdown" style="list-style: none !important">
             <a
-              href="#"
-              @click="closeNavbar"
-              style="font-size: 20px"
-              class="nav-toggle fw-normal"
-              >AUDIOBOOKS <span class="arrow">&#9662;</span></a
-            >
+  href="#"
+  @click="closeNavbar"
+  style="
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    color: black;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+    text-decoration: none;
+  "
+  class="nav-toggle no-bullets"
+>
+AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</span>
+</a>
+
             <ul class="big-dropdown">
               <li><a href="#">Fiction & Literature</a></li>
               <li><a href="#">Romance</a></li>
@@ -302,33 +231,7 @@
             </ul>
           </li>
 
-          <!-- eREADERS & APPS -->
-          <li class="custom-dropdown" style="list-style: none !important">
-            <a
-              href="#"
-              @click="closeNavbar"
-              style="font-size: 20px"
-              class="nav-toggle fw-normal"
-              >eREADERS & APPS <span class="arrow">&#9662;</span></a
-            >
-            <ul class="big-dropdown">
-              <li><strong>eReaders</strong></li>
-              <li><a href="#">Kobo Clara BW</a></li>
-              <li><a href="#">Kobo Clara Colour</a></li>
-              <li><a href="#">Kobo Libra Colour</a></li>
-              <li><a href="#">Kobo Sage</a></li>
-              <li><a href="#">Kobo Elipsa 2E</a></li>
-              <li><a href="#">All eReaders</a></li>
-              <li><a href="#">Where to Buy</a></li>
-              <li><strong>Apps</strong></li>
-              <li><a href="#">Android</a></li>
-              <li><a href="#">Apple</a></li>
-              <li><a href="#">Kobo Desktop - Win | Mac</a></li>
-              <li><a href="#">Learn more</a></li>
-              <li><strong>Accessories</strong></li>
-              <li><a href="#">View all</a></li>
-            </ul>
-          </li>
+       
         </ul>
       </div>
     </nav>
@@ -352,19 +255,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Best-selling and Popular eBooks
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -419,7 +310,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -495,7 +386,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -547,7 +438,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -599,7 +490,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -651,7 +542,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -723,7 +614,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -779,7 +670,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -830,7 +721,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -879,7 +770,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -950,7 +841,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -1004,7 +895,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -1075,7 +966,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -1173,7 +1064,7 @@
           text-decoration: underline;
           transition: color 0.2s;
         "
-        onmouseover="this.style.color='red'"
+       
         onmouseout="this.style.color='black'"
       >
         View all
@@ -1232,7 +1123,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1308,7 +1199,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1360,7 +1251,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1412,7 +1303,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1464,7 +1355,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1536,7 +1427,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1592,7 +1483,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1643,7 +1534,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1692,7 +1583,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1763,7 +1654,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1817,7 +1708,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1888,7 +1779,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -1950,66 +1841,6 @@
 
 
 
-  <div class="container my-5 p-3">
-  <h4 class=" mb-4">
-    From Pulitzer Prize–winning author Elizabeth Strout
-  </h4>
-
-  <div class="row g-3">
-    <!-- Left Section with Image -->
-    <div class="col-12 col-md-4 d-flex align-items-center justify-content-center" 
-         style="background-color: lightblue; height: 400px;">
-      <img 
-        src="/club1.jpg" 
-        alt="Sample Image" 
-        style="width: 50%; height: auto; transition: filter 0.3s ease; display: block; cursor:pointer;" 
-        onmouseover="this.style.filter='brightness(85%)'" 
-        onmouseout="this.style.filter='brightness(100%)'"
-      >
-    </div>
-
-    <!-- Right Section with Book Info and Border -->
-    <div class="col-12 col-md-8" 
-         style="background-color: white; padding: 20px; height: 400px; overflow-y: auto; border: 1px solid #ccc;">
-      <h2 class="fw-bold">Tell Me Everything: Oprah's Book Club</h2>
-
-      <p class="mb-1" style="font-size: 13px; color: black">A Novel</p>
-
-      <p class="text-muted" style="font-size: 15px">
-        by
-        <strong style="text-decoration: underline; cursor: pointer;">Elizabeth Strout</strong>
-      </p>
-
-      <div style="font-size: 22px; margin-top: -4px">
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span style="color: #ccc">★</span>
-        &nbsp;
-        <a class="text-muted" style="font-size: 14px; text-decoration:none;">(331)</a>
-      </div>
-
-      
-
-      <blockquote class="text-muted" style="font-size: 15px">
-        NEW YORK TIMES BESTSELLER • OPRAH’S BOOK CLUB PICK • From Pulitzer
-        <br />Prize–winning author Elizabeth Strout comes a “stunner”
-        (<em>People</em>) of a novel about <br />
-        new friendships, old loves, and the very human desire to leave a mark
-        on the ....
-      </blockquote>
-
-      <p
-        style="font-weight: bold; color: black; text-decoration: underline; cursor: pointer; font-size: 15px;">
-        Read more
-      </p>
-
-      <p class="fw-bold mt-3" style="font-size: 30px; color: black">$13.19</p>
-    </div>
-  </div>
-</div>
-
 
 
 
@@ -2069,19 +1900,7 @@
       New & Hot Audiobooks
     </h4>
 
-    <a
-      href="#"
-      style="
-        color: black;
-        font-weight: bold;
-        text-decoration: underline;
-        transition: color 0.2s;
-      "
-      onmouseover="this.style.color='red'"
-      onmouseout="this.style.color='black'"
-    >
-      View all
-    </a>
+  
   </div>
 
   <!-- Muted Subtext -->
@@ -2144,7 +1963,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2220,7 +2039,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2272,7 +2091,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2324,7 +2143,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2376,7 +2195,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2448,7 +2267,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2504,7 +2323,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2555,7 +2374,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2604,7 +2423,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2675,7 +2494,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2729,7 +2548,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2800,7 +2619,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -2938,19 +2757,7 @@
       Start a new audiobook series
     </h4>
 
-    <a
-      href="#"
-      style="
-        color: black;
-        font-weight: bold;
-        text-decoration: underline;
-        transition: color 0.2s;
-      "
-      onmouseover="this.style.color='red'"
-      onmouseout="this.style.color='black'"
-    >
-      View all
-    </a>
+  
   </div>
 
   <!-- Muted Subtext -->
@@ -3013,7 +2820,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3089,7 +2896,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3141,7 +2948,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3193,7 +3000,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3245,7 +3052,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3317,7 +3124,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3373,7 +3180,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3424,7 +3231,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3473,7 +3280,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3544,7 +3351,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3598,7 +3405,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3669,7 +3476,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -3782,19 +3589,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Guaranteed chills and thrills with these mysteries and thrillers
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -3849,7 +3644,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -3925,7 +3720,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -3977,7 +3772,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4029,7 +3824,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4081,7 +3876,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4153,7 +3948,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4209,7 +4004,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4260,7 +4055,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4309,7 +4104,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4380,7 +4175,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4434,7 +4229,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4505,7 +4300,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4631,19 +4426,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Romantic reads to fall in love with
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -4698,7 +4481,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4774,7 +4557,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4826,7 +4609,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4878,7 +4661,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -4930,7 +4713,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5002,7 +4785,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5058,7 +4841,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5109,7 +4892,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5158,7 +4941,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5229,7 +5012,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5283,7 +5066,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5354,7 +5137,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5448,62 +5231,7 @@
 
 
     
-    <div class="container my-5 p-3">
-  <h4 class="mb-4">
-    From the 2024 Nobel Prize in Literature winner Han Kang
-  </h4>
-
-  <!-- Hover box shadow wrapper -->
-  <div class="row g-3 hover-card">
-    <!-- Left Section -->
-    <div class="col-12 col-md-4 d-flex align-items-center justify-content-center"
-         style="background-color: lightpink; height: 400px;">
-      <img 
-        src="/club2.jpg" 
-        alt="Greek Lessons Book Cover" 
-        style="width: 45%; height: auto; transition: filter 0.3s ease; display: block; cursor: pointer;" 
-        onmouseover="this.style.filter='brightness(85%)'" 
-        onmouseout="this.style.filter='brightness(100%)'">
-    </div>
-
-    <!-- Right Section -->
-    <div class="col-12 col-md-8"
-         style="background-color: white; padding: 20px; height: 400px; overflow-y: auto; border: 1px solid #ccc;">
-      <h2 class="fw-bold">Greek Lessons</h2>
-
-      <p class="mb-1" style="font-size: 13px; color: black">Winner of the 2024 Nobel Prize in Literature</p>
-
-      <p class="text-muted" style="font-size: 15px;">
-        by <strong style="text-decoration: underline; cursor: pointer;">Han Kang</strong><br>
-        Translated by <a style="text-decoration: underline; cursor: pointer;"> Deborah Smith </a>  &nbsp;   <a style="text-decoration: underline; cursor: pointer;"> e. yaewon </a>
-      </p>
-
-      <div style="font-size: 22px; margin-top: -8px">
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span style="color: #ccc">★</span> &nbsp;
-        <a class="text-muted" style="font-size: 14px; text-decoration:none;">(23)</a>
-      </div>
-
-      
-
-      <blockquote class="text-muted" style="font-size: 18px">
-        Book of the Year 2023 according to New Yorker, TIME magazine, Kirkus
-        A <br> powerful novel of the saving grace of language and human connection, from the <br> Nobel Prize-winning author of The Vegetarian.
-        ‘Breathtaking . . . She is simply my ...
-      </blockquote>
-
-      <p style="font-weight: bold; color: black; text-decoration: underline; cursor: pointer; font-size: 15px;">
-        Read more
-      </p>
-
-      <p class="fw-bold mt-3" style="font-size: 30px; color: black">$6.89</p>
-    </div>
-  </div>
-</div>
-
+   
 
 
 
@@ -5569,19 +5297,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Kobo Originals, books you won't read anywhere else
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -5636,7 +5352,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5712,7 +5428,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5764,7 +5480,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5816,7 +5532,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5868,7 +5584,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5940,7 +5656,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -5996,7 +5712,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6047,7 +5763,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6096,7 +5812,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6167,7 +5883,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6221,7 +5937,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6292,7 +6008,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6431,19 +6147,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Page-turners you won't be able to put down
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -6498,7 +6202,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6574,7 +6278,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6626,7 +6330,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6678,7 +6382,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6730,7 +6434,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6802,7 +6506,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6858,7 +6562,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6909,7 +6613,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -6958,7 +6662,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7029,7 +6733,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7083,7 +6787,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7154,7 +6858,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7290,19 +6994,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Nonfiction reads
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -7357,7 +7049,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7433,7 +7125,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7485,7 +7177,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7537,7 +7229,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7589,7 +7281,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7661,7 +7353,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7717,7 +7409,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7768,7 +7460,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7817,7 +7509,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7888,7 +7580,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -7942,7 +7634,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -8013,7 +7705,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -8126,62 +7818,7 @@
 
 
 
-    <div class="container my-5 p-3">
-  <h4 class="mb-4">
-    A tale of magic and intrigue
-  </h4>
-
-  <div class="row g-3">
-    <!-- Left Section with Image -->
-    <div class="col-12 col-md-4 d-flex align-items-center justify-content-center" 
-         style="background-color: lightblue; height: 400px;">
-      <img 
-        src="/club3.jpg" 
-        alt="The Familiar Cover" 
-        style="width: 50%; height: auto; transition: filter 0.3s ease; display: block; cursor: pointer;" 
-        onmouseover="this.style.filter='brightness(85%)'" 
-        onmouseout="this.style.filter='brightness(100%)'"
-      >
-    </div>
-
-    <!-- Right Section with Book Info -->
-    <div class="col-12 col-md-8" 
-         style="background-color: white; padding: 20px; height: 400px; overflow-y: auto; border: 1px solid #ccc;">
-      <h2 class="fw-bold">The Familiar</h2>
-
-      <p class="mb-1 text-muted tw-bold" style="font-size: 15px; color: black">
-        The richly imagined, spellbinding new Sunday Times bestselling novel from the author of <br> Ninth House
-      </p>
-
-      <p class="text-muted" style="font-size: 15px;">
-        by <strong style="text-decoration: underline; cursor: pointer;">Leigh Bardugo</strong>
-      </p>
-
-      <div style="font-size: 22px; margin-top: -4px">
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span style="color: #ccc">★</span>
-        &nbsp;
-        <a class="text-muted" style="font-size: 14px; text-decoration: none;">(31)</a>
-      </div>
-
-      <blockquote class="text-muted mt-2" style="font-size: 15px">
-        AN INSTANT SUNDAY TIMES BESTSELLER 
-        ‘A richly imagined, intricate tale of <br> magic and intrigue’ — Deborah Harkness, #1 bestselling author of A Discovery<br> of Witches
-        ‘Riveting… Leigh Bardugo's characters are so three dimensional you ...
-      </blockquote>
-
-      <p
-        style="font-weight: bold; color: black; text-decoration: underline; cursor: pointer; font-size: 15px;">
-        Read more
-      </p>
-
-      <p class="fw-bold mt-3" style="font-size: 30px; color: black">$6.79</p>
-    </div>
-  </div>
-</div>
+  
 
 
 
@@ -8301,19 +7938,7 @@
       Better life, better you
     </h4>
 
-    <a
-      href="#"
-      style="
-        color: black;
-        font-weight: bold;
-        text-decoration: underline;
-        transition: color 0.2s;
-      "
-      onmouseover="this.style.color='red'"
-      onmouseout="this.style.color='black'"
-    >
-      View all
-    </a>
+  
   </div>
 
   <!-- Muted Subtext -->
@@ -8376,7 +8001,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8452,7 +8077,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8504,7 +8129,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8556,7 +8181,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8608,7 +8233,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8680,7 +8305,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8736,7 +8361,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8787,7 +8412,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8836,7 +8461,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8907,7 +8532,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -8961,7 +8586,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -9032,7 +8657,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -9124,19 +8749,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Pre-order these titles now
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -9191,7 +8804,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9267,7 +8880,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9319,7 +8932,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9371,7 +8984,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9423,7 +9036,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9495,7 +9108,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9551,7 +9164,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9602,7 +9215,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9651,7 +9264,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9722,7 +9335,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9776,7 +9389,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9847,7 +9460,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -9943,19 +9556,7 @@
       Language learning audiobooks
     </h4>
 
-    <a
-      href="#"
-      style="
-        color: black;
-        font-weight: bold;
-        text-decoration: underline;
-        transition: color 0.2s;
-      "
-      onmouseover="this.style.color='red'"
-      onmouseout="this.style.color='black'"
-    >
-      View all
-    </a>
+  
   </div>
 
   <!-- Muted Subtext -->
@@ -10018,7 +9619,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10094,7 +9695,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10146,7 +9747,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10198,7 +9799,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10250,7 +9851,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10322,7 +9923,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10378,7 +9979,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px; margin-top: 50px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10429,7 +10030,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10478,7 +10079,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10549,7 +10150,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10603,7 +10204,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10674,7 +10275,7 @@
                       class="btn custom-cart-btn fw-semibold px-3 py-1"
                       style="font-size: 13px"
                     >
-                      Add to cart
+                      Preview
                     </button>
                   </div>
                 </div>
@@ -10791,19 +10392,7 @@
         <h4 class="hover-red-bold fw-semibold m-0">
           Dictionaries and tools to help with language learning
         </h4>
-        <a
-          href="#"
-          style="
-            color: black;
-            font-weight: bold;
-            text-decoration: underline;
-            transition: color 0.2s;
-          "
-          onmouseover="this.style.color='red'"
-          onmouseout="this.style.color='black'"
-        >
-          View all
-        </a>
+       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
@@ -10858,7 +10447,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -10934,7 +10523,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -10986,7 +10575,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11038,7 +10627,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11090,7 +10679,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11162,7 +10751,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11218,7 +10807,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px; margin-top: 50px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11269,7 +10858,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11318,7 +10907,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11389,7 +10978,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11443,7 +11032,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11514,7 +11103,7 @@
                         class="btn custom-cart-btn fw-semibold px-3 py-1"
                         style="font-size: 13px"
                       >
-                        Add to cart
+                        Preview
                       </button>
                     </div>
                   </div>
@@ -11712,35 +11301,45 @@
 
       <!-- Second Column -->
       <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 ">Opportunities</h5>
+        <h5 class="mb-3 ">Quick Links</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-underline">Self Publish</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Affiliates</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Job Openings</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Blog</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Pricing</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Instructors</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Careers</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Affiliate Program</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Support</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Terms & Condition</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Privacy Policies</a></li>
+
+
+
         </ul>
       </div>
 
       <!-- Third Column -->
       <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 ">Latest Blog Posts</h5>
+        <h5 class="mb-3 ">Ways to learn</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-underline">The best books Kobo read in July 2025</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Permission to read: check out BTS' favourite b...</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">85 new books coming out July 29 – August 11, 2025</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Mystery novels you can read in a day</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Wally Lamb waded into autobiography for The Ri...</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">View all posts</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">self-placed Courses</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Incubator Programs</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Cohort-based Courses</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Enterprise Learning</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Career-building Paths</a></li>
+          
         </ul>
       </div>
 
       <!-- Fourth Column -->
       <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 ">Stay Connected</h5>
+        <h5 class="mb-3 ">Courses</h5>
         <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-underline">Facebook</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Twitter</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Pinterest</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">YouTube</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">MS Excel</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">R</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Power Bi</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">Python</a></li>
+          <li><a href="#" class="text-white text-decoration-underline">SQL</a></li>
+
         </ul>
       </div>
     </div>
@@ -11823,7 +11422,7 @@ export default {
   cursor: pointer;
 }
 .hover-red-bold:hover {
-  color: red;
+  color: #4d148c;
 }
 
 .navbar-toggler:focus {
@@ -11858,7 +11457,7 @@ export default {
 /* Hover effect */
 .custom-dropdown:hover .nav-toggle,
 .custom-dropdown:hover .arrow {
-  color: red;
+color: #4d148c !important;
 }
 
 .custom-dropdown:hover .arrow {
@@ -11907,7 +11506,7 @@ export default {
 }
 
 .big-dropdown a:hover {
-  background-color: #dc3545;
+  background-color: #4d148c;
   color: white;
 }
 
@@ -11953,12 +11552,12 @@ export default {
 
 /* Turn toggle red and rotate arrow */
 .custom-dropdown:hover .nav-toggle {
-  color: red;
+  color: #4d148c;
 }
 
 .custom-dropdown:hover .arrow {
   transform: rotate(180deg);
-  color: red;
+  color: #4d148c;
 }
 
 /* Arrow styling */
@@ -11972,7 +11571,7 @@ export default {
 }
 
 .custom-dropdown-item:hover {
-  color: red !important; /* Change to green on hover */
+  color:  #4d148c !important; /* Change to green on hover */
   background-color: #f8f9fa; /* Optional: lighter background on hover */
 }
 .custom-underline {
