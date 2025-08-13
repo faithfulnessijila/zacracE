@@ -20,19 +20,19 @@
 
         <!-- Toggler -->
         <button
-          class="navbar-toggler bg-danger"
+          class="navbar-toggler "
           type="button"
           @click="toggleNavbar"
           aria-label="Toggle navigation"
           style="
-            background-color: #01c881;
+            background-color: #4d148c;
             padding: 6px 10px;
             border: none;
             border-radius: 5px;
             transition: background-color 0.3s;
           "
-          onmouseover="this.style.backgroundColor='#00b370'"
-          onmouseout="this.style.backgroundColor='#01c881'"
+         
+
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
