@@ -1,7 +1,5 @@
 <template>
   <div>
-    
-
     <!-- Navbar -->
     <nav
       class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-3 py-3"
@@ -14,13 +12,20 @@
       <div class="container-fluid">
         <!-- Brand -->
         <div class="navbar-logo">
-    <img src="/public/d.png" style="margin-top: -10px !important;" alt="Logo" class="logo-icon" />
-    <h3 class="logo-text" style ="font-size:20px;">Zacrac <span>Learning</span></h3>
-  </div>
+          <img
+            src="/public/d.png"
+            style="margin-top: -10px !important"
+            alt="Logo"
+            class="logo-icon"
+          />
+          <h3 class="logo-text" style="font-size: 20px">
+            Zacrac <span>Learning</span>
+          </h3>
+        </div>
 
         <!-- Toggler -->
         <button
-          class="navbar-toggler "
+          class="navbar-toggler"
           type="button"
           @click="toggleNavbar"
           aria-label="Toggle navigation"
@@ -31,8 +36,6 @@
             border-radius: 5px;
             transition: background-color 0.3s;
           "
-         
-
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +67,8 @@
           >
             <div class="input-group">
               <input
-                type="text" stytle=" font-size:10px;"
+                type="text"
+                stytle=" font-size:10px;"
                 class="form-control rounded-0"
                 placeholder="Search on Zacrac Learning"
                 aria-label="Search"
@@ -138,15 +142,26 @@
 
             <!-- Sign up / Sign in -->
             <li class="nav-item text-center">
-              <button  @click="$router.push('/sign-up')"
+              <button
+                @click="$router.push('/sign-up')"
                 class="btn text-white fw-semibold px-3 py-2 w-100"
-                style="border-radius: 0; font-size: 14px;background-color: #4d148c;"
+                style="
+                  border-radius: 0;
+                  font-size: 14px;
+                  background-color: #4d148c;
+                "
               >
                 Create account
               </button>
               <span class="d-block mt-1 text-muted" style="font-size: 13px">
                 Have an account?
-                <a @click="$router.push('/sign-in')" href="#" class=" fw-semibold"  style="color: #4d148c;">Sign in</a>
+                <a
+                  @click="$router.push('/sign-in')"
+                  href="#"
+                  class="fw-semibold"
+                  style="color: #4d148c"
+                  >Sign in</a
+                >
               </span>
             </li>
           </ul>
@@ -156,60 +171,64 @@
       <div class="container-fluid">
         <ul class="dropdowns-container" style="margin-top: 10px">
           <!-- eBOOKS -->
-          <li class="custom-dropdown" style="list-style: none !important">  
+          <li class="custom-dropdown" style="list-style: none !important">
             <a
-  href="#"
-  @click="closeNavbar"
-  style="
-    font-family: 'Georgia', serif;
-    font-size: 20px;
-    font-style: italic;
-    font-weight: bold;
-    color: black;
-    letter-spacing: 2px;
-    text-transform: capitalize;
-    text-decoration: none;
-  "
-  class="nav-toggle no-bullets"
->
-  eBooks <span class="arrow" style="font-size: 16px; color: black;">&#9662;</span>
-</a>
+              href="#"
+              @click="closeNavbar"
+              style="
+                font-family: 'Georgia', serif;
+                font-size: 20px;
+                font-style: italic;
+                font-weight: bold;
+                color: black;
+                letter-spacing: 2px;
+                text-transform: capitalize;
+                text-decoration: none;
+              "
+              class="nav-toggle no-bullets"
+            >
+              eBooks
+              <span class="arrow" style="font-size: 16px; color: black"
+                >&#9662;</span
+              >
+            </a>
 
             <ul class="big-dropdown">
-              <li v-for="(category, index ) in categories" :key="index"><a  href="#">{{category}}</a></li>
-            
-             
+              <li v-for="(category, index) in categories" :key="index">
+                <a href="#">{{ category }}</a>
+              </li>
             </ul>
           </li>
 
           <!-- AUDIOBOOKS -->
           <li class="custom-dropdown" style="list-style: none !important">
             <a
-  href="#"
-  @click="closeNavbar"
-  style="
-    font-family: 'Georgia', serif;
-    font-size: 20px;
-    font-style: italic;
-    font-weight: bold;
-    color: black;
-    letter-spacing: 2px;
-    text-transform: capitalize;
-    text-decoration: none;
-  "
-  class="nav-toggle no-bullets"
->
-AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</span>
-</a>
+              href="#"
+              @click="closeNavbar"
+              style="
+                font-family: 'Georgia', serif;
+                font-size: 20px;
+                font-style: italic;
+                font-weight: bold;
+                color: black;
+                letter-spacing: 2px;
+                text-transform: capitalize;
+                text-decoration: none;
+              "
+              class="nav-toggle no-bullets"
+            >
+              AUDIOBOOKS
+              <span class="arrow" style="font-size: 16px; color: black"
+                >&#9662;</span
+              >
+            </a>
 
-<ul class="big-dropdown">
-              <li v-for="(category, index ) in categories" :key="index"><a  href="#">{{category}}</a></li>
-            
-             
+            <ul class="big-dropdown">
+              <li v-for="(category, index) in categories" :key="index">
+                <a href="#">{{ category }}</a>
+              </li>
             </ul>
           </li>
-
-       
         </ul>
       </div>
     </nav>
@@ -233,11 +252,10 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
         <h4 class="hover-red-bold fw-semibold m-0">
           Best-selling and Popular eBooks
         </h4>
-       
       </div>
       <div class="container my-5">
         <!-- Carousel -->
-       <Carousel/>
+        <Carousel />
       </div>
 
       <div
@@ -247,13 +265,6 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
 
   <div class="container my-5">
     <button
@@ -282,7 +293,6 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
           text-decoration: underline;
           transition: color 0.2s;
         "
-       
         onmouseout="this.style.color='black'"
       >
         View all
@@ -290,7 +300,7 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
     </div>
     <div class="container my-5">
       <!-- Carousel -->
-      <Carousel/>
+      <Carousel />
     </div>
 
     <div
@@ -299,53 +309,6 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
       <!-- optional text here -->
     </div>
   </div>
-
-<div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: purple;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-    Audiobooks
-    </button>
-
-    <!-- Header -->
-    <div class="mt-2 mb-4">
-  <!-- Header Row -->
-  <div class="d-flex justify-content-between align-items-center">
-    <h4 class="hover-red-bold fw-semibold m-0">
-      New & Hot Audiobooks
-    </h4>
-
-  
-  </div>
-
-  <!-- Muted Subtext -->
-  <p class="text-muted mt-2 mb-0" style="font-size: 16px;">
-    Get your headphones ready. Here are the latest and greatest for your listening pleasure.
-  </p>
-</div>
-
-    <div class="container my-5">
-      <!-- Carousel -->
-      <Carousel/>
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-      <!-- optional text here -->
-    </div>
-  </div>
-
-
-
-
 
   <div class="container my-5">
     <button
@@ -358,29 +321,26 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
         border-radius: 4px;
       "
     >
-    Audiobooks
+      Audiobooks
     </button>
 
     <!-- Header -->
     <div class="mt-2 mb-4">
-  <!-- Header Row -->
-  <div class="d-flex justify-content-between align-items-center">
-    <h4 class="hover-red-bold fw-semibold m-0">
-      Start a new audiobook series
-    </h4>
+      <!-- Header Row -->
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 class="hover-red-bold fw-semibold m-0">New & Hot Audiobooks</h4>
+      </div>
 
-  
-  </div>
-
-  <!-- Muted Subtext -->
-  <p class="text-muted mt-2 mb-0" style="font-size: 16px;">
-    Get lost in a new series with these audiobooks full of cliff hangers, character arcs, and incredible twists and turns. 
-  </p>
-</div>
+      <!-- Muted Subtext -->
+      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
+        Get your headphones ready. Here are the latest and greatest for your
+        listening pleasure.
+      </p>
+    </div>
 
     <div class="container my-5">
       <!-- Carousel -->
-      <Carousel/>
+      <Carousel />
     </div>
 
     <div
@@ -390,608 +350,7 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
     </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <div class="container my-5">
-      <button
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-        eBooks
-      </button>
-
-      <!-- Header -->
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Guaranteed chills and thrills with these mysteries and thrillers
-        </h4>
-       
-      </div>
-      <div class="container my-5">
-        <!-- Carousel -->
-        <Carousel/>
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-        <!-- optional text here -->
-      </div>
-    </div>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="container my-5">
-      <button
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-        eBooks
-      </button>
-
-      <!-- Header -->
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Romantic reads to fall in love with
-        </h4>
-       
-      </div>
-      <div class="container my-5">
-        <!-- Carousel -->
-        <Carousel/>
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-        <!-- optional text here -->
-      </div>
-    </div>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="container my-5">
-      <button
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-        eBooks
-      </button>
-
-      <!-- Header -->
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Kobo Originals, books you won't read anywhere else
-        </h4>
-       
-      </div>
-      <div class="container my-5">
-        <!-- Carousel -->
-        <Carousel/>
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-        <!-- optional text here -->
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-<div class="container my-5">
-      <button
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-        eBooks
-      </button>
-
-      <!-- Header -->
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Page-turners you won't be able to put down
-        </h4>
-       
-      </div>
-      <div class="container my-5">
-        <!-- Carousel -->
-        <Carousel/>
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-        <!-- optional text here -->
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-
-
-<div class="container my-5">
-      <button
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-        eBooks
-      </button>
-
-      <!-- Header -->
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Nonfiction reads
-        </h4>
-       
-      </div>
-      <div class="container my-5">
-        <!-- Carousel -->
-        <Carousel/>
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-        <!-- optional text here -->
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="container my-5">
     <button
       class="btn fw-bold"
       style="
@@ -1002,29 +361,28 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
         border-radius: 4px;
       "
     >
-    Audiobooks
+      Audiobooks
     </button>
 
     <!-- Header -->
     <div class="mt-2 mb-4">
-  <!-- Header Row -->
-  <div class="d-flex justify-content-between align-items-center">
-    <h4 class="hover-red-bold fw-semibold m-0">
-      Better life, better you
-    </h4>
+      <!-- Header Row -->
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 class="hover-red-bold fw-semibold m-0">
+          Start a new audiobook series
+        </h4>
+      </div>
 
-  
-  </div>
-
-  <!-- Muted Subtext -->
-  <p class="text-muted mt-2 mb-0" style="font-size: 16px;">
-    Boost your self-esteem with these self-help audiobooks designed to show you how to redefine your life. Choose an audiobook to<br> start listening and reinventing.
-  </p>
-</div>
+      <!-- Muted Subtext -->
+      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
+        Get lost in a new series with these audiobooks full of cliff hangers,
+        character arcs, and incredible twists and turns.
+      </p>
+    </div>
 
     <div class="container my-5">
       <!-- Carousel -->
-      <Carousel/>
+      <Carousel />
     </div>
 
     <div
@@ -1034,95 +392,165 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
     </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <div class="container my-5">
-      <button
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-        eBooks
-      </button>
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: #007bff;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      eBooks
+    </button>
 
-      <!-- Header -->
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Pre-order these titles now
-        </h4>
-       
-      </div>
-      <div class="container my-5">
-        <!-- Carousel -->
-        <Carousel/>
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-        <!-- optional text here -->
-      </div>
+    <!-- Header -->
+    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
+      <h4 class="hover-red-bold fw-semibold m-0">
+        Guaranteed chills and thrills with these mysteries and thrillers
+      </h4>
+    </div>
+    <div class="container my-5">
+      <!-- Carousel -->
+      <Carousel />
     </div>
 
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
 
+  <div class="container my-5">
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: #007bff;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      eBooks
+    </button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <!-- Header -->
+    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
+      <h4 class="hover-red-bold fw-semibold m-0">
+        Romantic reads to fall in love with
+      </h4>
+    </div>
     <div class="container my-5">
+      <!-- Carousel -->
+      <Carousel />
+    </div>
+
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
+
+  <div class="container my-5">
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: #007bff;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      eBooks
+    </button>
+
+    <!-- Header -->
+    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
+      <h4 class="hover-red-bold fw-semibold m-0">
+        Kobo Originals, books you won't read anywhere else
+      </h4>
+    </div>
+    <div class="container my-5">
+      <!-- Carousel -->
+      <Carousel />
+    </div>
+
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
+
+  <div class="container my-5">
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: #007bff;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      eBooks
+    </button>
+
+    <!-- Header -->
+    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
+      <h4 class="hover-red-bold fw-semibold m-0">
+        Page-turners you won't be able to put down
+      </h4>
+    </div>
+    <div class="container my-5">
+      <!-- Carousel -->
+      <Carousel />
+    </div>
+
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
+
+  <div class="container my-5">
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: #007bff;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      eBooks
+    </button>
+
+    <!-- Header -->
+    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
+      <h4 class="hover-red-bold fw-semibold m-0">Nonfiction reads</h4>
+    </div>
+    <div class="container my-5">
+      <!-- Carousel -->
+      <Carousel />
+    </div>
+
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
+
+  <div class="container my-5">
     <button
       class="btn fw-bold"
       style="
@@ -1133,29 +561,27 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
         border-radius: 4px;
       "
     >
-    Audiobooks
+      Audiobooks
     </button>
 
     <!-- Header -->
     <div class="mt-2 mb-4">
-  <!-- Header Row -->
-  <div class="d-flex justify-content-between align-items-center">
-    <h4 class="hover-red-bold fw-semibold m-0">
-      Language learning audiobooks
-    </h4>
+      <!-- Header Row -->
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 class="hover-red-bold fw-semibold m-0">Better life, better you</h4>
+      </div>
 
-  
-  </div>
-
-  <!-- Muted Subtext -->
-  <p class="text-muted mt-2 mb-0" style="font-size: 16px;">
-    Been wanting to learn a new language for years but never had the time? These audiobooks can teach you wherever you are! 
-  </p>
-</div>
+      <!-- Muted Subtext -->
+      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
+        Boost your self-esteem with these self-help audiobooks designed to show
+        you how to redefine your life. Choose an audiobook to<br />
+        start listening and reinventing.
+      </p>
+    </div>
 
     <div class="container my-5">
       <!-- Carousel -->
-      <Carousel/>
+      <Carousel />
     </div>
 
     <div
@@ -1165,305 +591,279 @@ AUDIOBOOKS  <span class="arrow" style="font-size: 16px; color: black;">&#9662;</
     </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <div class="container my-5">
-      <button
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-        eBooks
-      </button>
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: #007bff;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      eBooks
+    </button>
 
-      <!-- Header -->
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Dictionaries and tools to help with language learning
-        </h4>
-       
-      </div>
-      <div class="container my-5">
-        <Carousel/>
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-        <!-- optional text here -->
-      </div>
+    <!-- Header -->
+    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
+      <h4 class="hover-red-bold fw-semibold m-0">Pre-order these titles now</h4>
+    </div>
+    <div class="container my-5">
+      <!-- Carousel -->
+      <Carousel />
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="bg-secondary text-white py-5 mt-5">
-  <div class="container">
-    <div class="row">
-      <!-- First Column -->
-      <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 ">All about Rakuten Kobo</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-underline">About Rakuten Kobo</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Management Team</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Kobo in Conversation Podcast</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">eRecycling Program</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Free Apps</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Buy eGift Cards</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Get Help</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Sitemap</a></li>
-        </ul>
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
+
+  <div class="container my-5">
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: purple;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      Audiobooks
+    </button>
+
+    <!-- Header -->
+    <div class="mt-2 mb-4">
+      <!-- Header Row -->
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 class="hover-red-bold fw-semibold m-0">
+          Language learning audiobooks
+        </h4>
       </div>
 
-      <!-- Second Column -->
-      <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 ">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-underline">Blog</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Pricing</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Instructors</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Careers</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Affiliate Program</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Support</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Terms & Condition</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Privacy Policies</a></li>
+      <!-- Muted Subtext -->
+      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
+        Been wanting to learn a new language for years but never had the time?
+        These audiobooks can teach you wherever you are!
+      </p>
+    </div>
 
+    <div class="container my-5">
+      <!-- Carousel -->
+      <Carousel />
+    </div>
 
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
 
-        </ul>
-      </div>
+  <div class="container my-5">
+    <button
+      class="btn fw-bold"
+      style="
+        background-color: #007bff;
+        color: white;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 4px;
+      "
+    >
+      eBooks
+    </button>
 
-      <!-- Third Column -->
-      <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 ">Ways to learn</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-underline">self-placed Courses</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Incubator Programs</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Cohort-based Courses</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Enterprise Learning</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Career-building Paths</a></li>
-          
-        </ul>
-      </div>
+    <!-- Header -->
+    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
+      <h4 class="hover-red-bold fw-semibold m-0">
+        Dictionaries and tools to help with language learning
+      </h4>
+    </div>
+    <div class="container my-5">
+      <Carousel />
+    </div>
 
-      <!-- Fourth Column -->
-      <div class="col-12 col-md-3 mb-4">
-        <h5 class="mb-3 ">Courses</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-white text-decoration-underline">MS Excel</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">R</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Power Bi</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">Python</a></li>
-          <li><a href="#" class="text-white text-decoration-underline">SQL</a></li>
+    <div
+      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+    >
+      <!-- optional text here -->
+    </div>
+  </div>
 
-        </ul>
+  <div class="bg-secondary text-white py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <!-- First Column -->
+        <div class="col-12 col-md-3 mb-4">
+          <h5 class="mb-3">All about Rakuten Kobo</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >About Rakuten Kobo</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Management Team</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Kobo in Conversation Podcast</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >eRecycling Program</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Free Apps</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Buy eGift Cards</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Get Help</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Sitemap</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Second Column -->
+        <div class="col-12 col-md-3 mb-4">
+          <h5 class="mb-3">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white text-decoration-underline">Blog</a>
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Pricing</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Instructors</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Careers</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Affiliate Program</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Support</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Terms & Condition</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Privacy Policies</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Third Column -->
+        <div class="col-12 col-md-3 mb-4">
+          <h5 class="mb-3">Ways to learn</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >self-placed Courses</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Incubator Programs</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Cohort-based Courses</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Enterprise Learning</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Career-building Paths</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Fourth Column -->
+        <div class="col-12 col-md-3 mb-4">
+          <h5 class="mb-3">Courses</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >MS Excel</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline">R</a>
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Power Bi</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline"
+                >Python</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-white text-decoration-underline">SQL</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 </template>
 <script>
 import axios from "axios";
 import Carousel from "../components/carousel.vue";
 export default {
   components: {
-    Carousel
+    Carousel,
   },
   data() {
     return {
-     
-        categories:"",
-        
-    
-     
+      categories: "",
     };
   },
-
 
   beforeUnmount() {
     document.removeEventListener("click", this.handleClickOutside);
@@ -1492,7 +892,9 @@ export default {
       }
     },
     setupMultiCardCarousel() {
-      const items = document.querySelectorAll("#multiCardCarousel .carousel-item");
+      const items = document.querySelectorAll(
+        "#multiCardCarousel .carousel-item"
+      );
 
       items.forEach((el) => {
         const minPerSlide = 3; // number of cards to show at once
@@ -1508,12 +910,11 @@ export default {
         }
       });
     },
-    async api(){
-      
+    async api() {
       try {
         const response = await axios.get(
           "https://zacracebookwebsite.onrender.com/ebook/products",
-          
+
           {
             headers: {
               "Content-Type": "application/json",
@@ -1521,17 +922,13 @@ export default {
           }
         );
         this.categories = response.data.categories;
-       console.log(response);
-       
+        console.log(response);
       } catch (error) {
-       
       } finally {
-       
       }
-    }
+    },
   },
   mounted() {
-    
     // Navbar logic (yours)
     const navbarEl = document.getElementById("mainNavbar");
     this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl);
@@ -1544,20 +941,17 @@ export default {
 };
 </script>
 <style scoped>
-
-
-
 .hover-card {
-    transition: box-shadow 0.3s ease;
-  }
+  transition: box-shadow 0.3s ease;
+}
 
-  .hover-card:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  }
+.hover-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
 
-  .hover-card:hover .col-md-8 {
-    border: none !important;
-  }
+.hover-card:hover .col-md-8 {
+  border: none !important;
+}
 
 .custom-cart-btn {
   background-color: #6c757d; /* Bootstrap secondary */
@@ -1622,7 +1016,7 @@ export default {
 /* Hover effect */
 .custom-dropdown:hover .nav-toggle,
 .custom-dropdown:hover .arrow {
-color: #4d148c !important;
+  color: #4d148c !important;
 }
 
 .custom-dropdown:hover .arrow {
@@ -1736,7 +1130,7 @@ color: #4d148c !important;
 }
 
 .custom-dropdown-item:hover {
-  color:  #4d148c !important; /* Change to green on hover */
+  color: #4d148c !important; /* Change to green on hover */
   background-color: #f8f9fa; /* Optional: lighter background on hover */
 }
 .custom-underline {
@@ -1750,17 +1144,6 @@ color: #4d148c !important;
   font-weight: small !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 720px) {
   .navbar-logo {
     margin-left: -40px !important;
@@ -1769,10 +1152,10 @@ color: #4d148c !important;
 
 @media (max-width: 438px) {
   .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -130px !important;
+    font-size: 14px !important;
+    margin-left: -130px !important;
   }
-  .navbar-toggler{
+  .navbar-toggler {
     margin-top: -55px !important;
     margin-left: 220px !important;
   }
@@ -1780,49 +1163,53 @@ color: #4d148c !important;
 
 @media (max-width: 398px) {
   .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -220px !important;
+    font-size: 14px !important;
+    margin-left: -220px !important;
   }
-  .navbar-toggler{
+  .navbar-toggler {
     margin-top: -55px !important;
     margin-left: 190px !important;
   }
 }
 @media (max-width: 375px) {
   .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -240px !important;
+    font-size: 14px !important;
+    margin-left: -240px !important;
   }
-  .navbar-toggler{
+  .navbar-toggler {
+    margin-top: -55px !important;
+    margin-left: 160px !important;
+  }
+}
+@media (max-width: 374px) {
+  .navbar-logo {
+    font-size: 14px !important;
+    margin-left: -210px !important;
+  }
+  .navbar-toggler {
     margin-top: -55px !important;
     margin-left: 160px !important;
   }
 }
 @media (max-width: 343px) {
   .logo-text {
-   font-size: 15px !important;
-  
+    font-size: 15px !important;
   }
-  .navbar-toggler{
+  .navbar-toggler {
     margin-top: -55px !important;
     margin-left: 160px !important;
   }
 }
 @media (max-width: 336px) {
-    .navbar-logo {
-   
-   margin-left: -270px !important;
+  .navbar-logo {
+    margin-left: -270px !important;
   }
   .logo-text {
-   font-size: 15px !important;
-  
+    font-size: 15px !important;
   }
-  .navbar-toggler{
+  .navbar-toggler {
     margin-top: -55px !important;
     margin-left: 140px !important;
   }
 }
-
-
-
 </style>
