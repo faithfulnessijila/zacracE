@@ -5,6 +5,7 @@ import Forgotpassword from '@/views/forgotpassword.vue';
 import Newpassword from '@/views/newpassword.vue';
 import Otp from '@/views/otp.vue';
 import Homepage from '@/views/homepage.vue';
+import Preview from '@/views/preview.vue';
 
 
 
@@ -21,6 +22,9 @@ const routes = [
   },
   {
     path: '/new-password', component: Newpassword
+},
+{
+  path: '/preview', component:Preview
 },
 {
   path: '/sign-in', component: SignIn
