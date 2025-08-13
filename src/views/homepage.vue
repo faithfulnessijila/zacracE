@@ -1749,4 +1749,80 @@ color: #4d148c !important;
   color: green !important;
   font-weight: small !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 720px) {
+  .navbar-logo {
+    margin-left: -40px !important;
+  }
+}
+
+@media (max-width: 438px) {
+  .navbar-logo {
+   font-size: 14px !important;
+   margin-left: -130px !important;
+  }
+  .navbar-toggler{
+    margin-top: -55px !important;
+    margin-left: 220px !important;
+  }
+}
+
+@media (max-width: 398px) {
+  .navbar-logo {
+   font-size: 14px !important;
+   margin-left: -220px !important;
+  }
+  .navbar-toggler{
+    margin-top: -55px !important;
+    margin-left: 190px !important;
+  }
+}
+@media (max-width: 375px) {
+  .navbar-logo {
+   font-size: 14px !important;
+   margin-left: -240px !important;
+  }
+  .navbar-toggler{
+    margin-top: -55px !important;
+    margin-left: 160px !important;
+  }
+}
+@media (max-width: 343px) {
+  .logo-text {
+   font-size: 15px !important;
+  
+  }
+  .navbar-toggler{
+    margin-top: -55px !important;
+    margin-left: 160px !important;
+  }
+}
+@media (max-width: 336px) {
+    .navbar-logo {
+   
+   margin-left: -270px !important;
+  }
+  .logo-text {
+   font-size: 15px !important;
+  
+  }
+  .navbar-toggler{
+    margin-top: -55px !important;
+    margin-left: 140px !important;
+  }
+}
+
+
+
 </style>

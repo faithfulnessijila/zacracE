@@ -45,7 +45,7 @@
                   <span style="color: #ccc">★</span>
                 </div>
               </div>
-              <button class="preview-btn" style="margin-top: 30px;">
+              <button  @click="$router.push('/preview')"  class="preview-btn" style="margin-top: 30px;">
   Preview
 </button>
             </div>
