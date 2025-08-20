@@ -1191,18 +1191,22 @@ export default {
     margin-left: 160px !important;
   }
 }
-@media (max-width: 343px) {
+@media (max-width: 342px) {
+  .navbar-logo {
+   
+    margin-left: -250px !important;
+  }
   .logo-text {
     font-size: 15px !important;
   }
   .navbar-toggler {
     margin-top: -55px !important;
-    margin-left: 160px !important;
+    margin-left: 140px !important;
   }
 }
 @media (max-width: 336px) {
   .navbar-logo {
-    margin-left: -270px !important;
+    margin-left: -255px !important;
   }
   .logo-text {
     font-size: 15px !important;
