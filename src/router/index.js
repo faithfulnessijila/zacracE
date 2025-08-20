@@ -6,7 +6,7 @@ import Newpassword from '@/views/newpassword.vue';
 import Otp from '@/views/otp.vue';
 import Homepage from '@/views/homepage.vue';
 import Preview from '@/views/preview.vue';
-import Practice from '@/views/practice.vue';
+
 
 
 
@@ -30,9 +30,7 @@ const routes = [
 {
   path: '/sign-in', component: SignIn
 },
-{
-  path: '/practice', component: Practice
-},
+
 {
   path: '/otp', component: Otp
 }
