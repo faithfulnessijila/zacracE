@@ -55,24 +55,20 @@
         </button>
 
     
-        <div
-          class="collapse navbar-collapse mt-3 mt-lg-0"
-          id="mainNavbar"
-          ref="navbarCollapse"
-        >
-         
+      
           <form
             class="d-flex w-100 w-lg-auto mx-lg-4 mb-3 mb-lg-0"
             style="max-width: 400px"
           >
             <div class="input-group">
               <input
-                type="text"
-                stytle=" font-size:10px;"
-                class="form-control rounded-0"
-                placeholder="Search on Zacrac Learning"
-                aria-label="Search"
-              />
+  type="text"
+  style="font-size: 10px;"
+  class="form-control rounded-0"
+  placeholder="Search on Zacrac Learning"
+  aria-label="Search"
+/>
+
               <button
                 class="btn rounded-0"
                 type="button"
@@ -165,11 +161,19 @@
               </span>
             </li>
           </ul>
-        </div>
+       
       </div>
 
+
+      <div
+          class="collapse navbar-collapse mt-3 mt-lg-0"
+          id="mainNavbar"
+          ref="navbarCollapse"
+        >
       <div class="container-fluid">
         <ul class="dropdowns-container" style="margin-top: 10px">
+
+          
          
           <li class="custom-dropdown" style="list-style: none !important">
             <a
@@ -231,6 +235,7 @@
           </li>
         </ul>
       </div>
+    </div>
     </nav>
 
     <div class="container my-5">
