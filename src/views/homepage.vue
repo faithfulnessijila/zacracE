@@ -927,14 +927,16 @@ export default {
     },
   },
   mounted() {
- 
-    const navbarEl = document.getElementById("mainNavbar");
-    this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl);
-    document.addEventListener("click", this.handleClickOutside);
+  const navbarEl = document.getElementById("mainNavbar");
+  this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
+    toggle: false, 
+  });
 
-    this.setupMultiCardCarousel();
-    this.api();
-  },
+  document.addEventListener("click", this.handleClickOutside);
+  this.setupMultiCardCarousel();
+  this.api();
+}
+,
 };
 </script>
 <style scoped>

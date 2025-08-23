@@ -489,14 +489,15 @@
      },
    },
    mounted() {
-  
-     const navbarEl = document.getElementById("mainNavbar");
-     this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl);
-     document.addEventListener("click", this.handleClickOutside);
- 
-     this.setupMultiCardCarousel();
-     this.api();
-   },
+  const navbarEl = document.getElementById("mainNavbar");
+  this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
+    toggle: false, // 🚀 Prevents it from opening automatically
+  });
+
+  document.addEventListener("click", this.handleClickOutside);
+  this.setupMultiCardCarousel();
+  this.api();
+},
  };
  </script>
  <style scoped>
