@@ -1,5 +1,5 @@
 <template>
-     <Carousel v-bind="carouselConfig">
+     <Carousel v-bind="carouselConfig" style="height: 500px;">
     <Slide v-for="slide in 10" :key="slide">
       <div class="carousel__item">
         <div class="col">
@@ -102,16 +102,17 @@ export default {
 };
 </script>
 <style>
+
 .preview-btn {
-  font-size: 11px; /* Slightly bigger for clarity */
-  font-weight: 500; /* Bold, professional */
-  letter-spacing: 0.3px; /* Clean spacing */
-  padding: 7px 8px; /* Better button size */
+  font-size: 11px; 
+  font-weight: 500; 
+  letter-spacing: 0.3px;
+  padding: 7px 8px; 
   border: 2px solid transparent;
   border-radius: 6px;
-  background-color: #4d148c; /* Main purple */
+  background-color: #4d148c; 
   color: #fff;
-  text-transform: uppercase; /* More professional feel */
+  text-transform: uppercase;
   transition: all 0.25s ease, transform 0.15s ease-in-out;
   cursor: pointer;
 }
@@ -120,7 +121,7 @@ export default {
   background-color: #fff;
   color: #4d148c;
   border-color: #4d148c;
-  transform: translateY(-2px); /* Lift on hover */
+  transform: translateY(-2px); 
   box-shadow: 0 4px 10px rgba(77, 20, 140, 0.25);
 }
 
@@ -135,12 +136,23 @@ export default {
 }
 
 .carousel__pagination {
-  margin-top: 40px !important; /* Move all dots further down */
+  margin-top: 40px !important; 
+        
+}
+
+.carousel__pagination-button {
+  background-color: #ccc;       
+  width: 10px;                  
+  height: 10px;
+  border-radius: 50%;          
 }
 
 .carousel__pagination-button--active {
-  background-color: #4d148c !important; /* Keep your purple active dot */
+  background-color: #4d148c !important; 
+  transform: scale(1.2);              
 }
+
+
 
 </style>
 

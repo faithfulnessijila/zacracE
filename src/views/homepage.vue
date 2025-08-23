@@ -10,7 +10,7 @@
       "
     >
       <div class="container-fluid">
-        <!-- Brand -->
+       
         <div class="navbar-logo">
           <img
             src="/public/d.png"
@@ -23,7 +23,7 @@
           </h3>
         </div>
 
-        <!-- Toggler -->
+        
         <button
           class="navbar-toggler"
           type="button"
@@ -54,13 +54,13 @@
           </svg>
         </button>
 
-        <!-- Navbar content -->
+    
         <div
           class="collapse navbar-collapse mt-3 mt-lg-0"
           id="mainNavbar"
           ref="navbarCollapse"
         >
-          <!-- Search input -->
+         
           <form
             class="d-flex w-100 w-lg-auto mx-lg-4 mb-3 mb-lg-0"
             style="max-width: 400px"
@@ -93,11 +93,11 @@
             </div>
           </form>
 
-          <!-- Nav icons and buttons -->
+         
           <ul
             class="navbar-nav ms-auto d-flex align-items-center gap-3 flex-wrap"
           >
-            <!-- Wishlist -->
+          
             <li class="nav-item text-center">
               <a
                 class="nav-link text-dark d-flex flex-column align-items-center"
@@ -119,7 +119,7 @@
               </a>
             </li>
 
-            <!-- Cart -->
+         
             <li class="nav-item text-center">
               <a
                 class="nav-link text-dark d-flex flex-column align-items-center"
@@ -140,7 +140,7 @@
               </a>
             </li>
 
-            <!-- Sign up / Sign in -->
+           
             <li class="nav-item text-center">
               <button
                 @click="$router.push('/sign-up')"
@@ -170,7 +170,7 @@
 
       <div class="container-fluid">
         <ul class="dropdowns-container" style="margin-top: 10px">
-          <!-- eBOOKS -->
+         
           <li class="custom-dropdown" style="list-style: none !important">
             <a
               href="#"
@@ -200,7 +200,7 @@
             </ul>
           </li>
 
-          <!-- AUDIOBOOKS -->
+         
           <li class="custom-dropdown" style="list-style: none !important">
             <a
               href="#"
@@ -247,21 +247,21 @@
         eBooks
       </button>
 
-      <!-- Header -->
+    
       <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
         <h4 class="hover-red-bold fw-semibold m-0">
           Best-selling and Popular eBooks
         </h4>
       </div>
       <div class="container my-5">
-        <!-- Carousel -->
+        
         <Carousel />
       </div>
 
       <div
         style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
       >
-        <!-- optional text here -->
+      
       </div>
     </div>
   </div>
@@ -280,7 +280,7 @@
       eBooks
     </button>
 
-    <!-- Header -->
+    
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">
         New releases you don't want to miss
@@ -299,14 +299,14 @@
       </a>
     </div>
     <div class="container my-5">
-      <!-- Carousel -->
+   
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+     
     </div>
   </div>
 
@@ -324,14 +324,14 @@
       Audiobooks
     </button>
 
-    <!-- Header -->
+    
     <div class="mt-2 mb-4">
-      <!-- Header Row -->
+      
       <div class="d-flex justify-content-between align-items-center">
         <h4 class="hover-red-bold fw-semibold m-0">New & Hot Audiobooks</h4>
       </div>
 
-      <!-- Muted Subtext -->
+     
       <p class="text-muted mt-2 mb-0" style="font-size: 16px">
         Get your headphones ready. Here are the latest and greatest for your
         listening pleasure.
@@ -339,14 +339,14 @@
     </div>
 
     <div class="container my-5">
-      <!-- Carousel -->
+      
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+     
     </div>
   </div>
 
@@ -364,16 +364,16 @@
       Audiobooks
     </button>
 
-    <!-- Header -->
+ 
     <div class="mt-2 mb-4">
-      <!-- Header Row -->
+    
       <div class="d-flex justify-content-between align-items-center">
         <h4 class="hover-red-bold fw-semibold m-0">
           Start a new audiobook series
         </h4>
       </div>
 
-      <!-- Muted Subtext -->
+   
       <p class="text-muted mt-2 mb-0" style="font-size: 16px">
         Get lost in a new series with these audiobooks full of cliff hangers,
         character arcs, and incredible twists and turns.
@@ -381,14 +381,14 @@
     </div>
 
     <div class="container my-5">
-      <!-- Carousel -->
+      
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+    
     </div>
   </div>
 
@@ -406,21 +406,21 @@
       eBooks
     </button>
 
-    <!-- Header -->
+   
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">
         Guaranteed chills and thrills with these mysteries and thrillers
       </h4>
     </div>
     <div class="container my-5">
-      <!-- Carousel -->
+     
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+      
     </div>
   </div>
 
@@ -438,21 +438,21 @@
       eBooks
     </button>
 
-    <!-- Header -->
+  
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">
         Romantic reads to fall in love with
       </h4>
     </div>
     <div class="container my-5">
-      <!-- Carousel -->
+    
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+      
     </div>
   </div>
 
@@ -470,21 +470,21 @@
       eBooks
     </button>
 
-    <!-- Header -->
+    
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">
         Kobo Originals, books you won't read anywhere else
       </h4>
     </div>
     <div class="container my-5">
-      <!-- Carousel -->
+    
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+     
     </div>
   </div>
 
@@ -502,21 +502,21 @@
       eBooks
     </button>
 
-    <!-- Header -->
+    
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">
         Page-turners you won't be able to put down
       </h4>
     </div>
     <div class="container my-5">
-      <!-- Carousel -->
+     
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+    
     </div>
   </div>
 
@@ -534,19 +534,19 @@
       eBooks
     </button>
 
-    <!-- Header -->
+   
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">Nonfiction reads</h4>
     </div>
     <div class="container my-5">
-      <!-- Carousel -->
+    
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+     
     </div>
   </div>
 
@@ -564,14 +564,14 @@
       Audiobooks
     </button>
 
-    <!-- Header -->
+  
     <div class="mt-2 mb-4">
-      <!-- Header Row -->
+     
       <div class="d-flex justify-content-between align-items-center">
         <h4 class="hover-red-bold fw-semibold m-0">Better life, better you</h4>
       </div>
 
-      <!-- Muted Subtext -->
+    
       <p class="text-muted mt-2 mb-0" style="font-size: 16px">
         Boost your self-esteem with these self-help audiobooks designed to show
         you how to redefine your life. Choose an audiobook to<br />
@@ -580,14 +580,13 @@
     </div>
 
     <div class="container my-5">
-      <!-- Carousel -->
+   
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
     </div>
   </div>
 
@@ -605,19 +604,19 @@
       eBooks
     </button>
 
-    <!-- Header -->
+ 
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">Pre-order these titles now</h4>
     </div>
     <div class="container my-5">
-      <!-- Carousel -->
+    
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+    
     </div>
   </div>
 
@@ -635,16 +634,16 @@
       Audiobooks
     </button>
 
-    <!-- Header -->
+
     <div class="mt-2 mb-4">
-      <!-- Header Row -->
+
       <div class="d-flex justify-content-between align-items-center">
         <h4 class="hover-red-bold fw-semibold m-0">
           Language learning audiobooks
         </h4>
       </div>
 
-      <!-- Muted Subtext -->
+   
       <p class="text-muted mt-2 mb-0" style="font-size: 16px">
         Been wanting to learn a new language for years but never had the time?
         These audiobooks can teach you wherever you are!
@@ -652,14 +651,14 @@
     </div>
 
     <div class="container my-5">
-      <!-- Carousel -->
+    
       <Carousel />
     </div>
 
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+   
     </div>
   </div>
 
@@ -677,7 +676,7 @@
       eBooks
     </button>
 
-    <!-- Header -->
+   
     <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
       <h4 class="hover-red-bold fw-semibold m-0">
         Dictionaries and tools to help with language learning
@@ -690,7 +689,7 @@
     <div
       style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
     >
-      <!-- optional text here -->
+ 
     </div>
   </div>
 
@@ -744,7 +743,7 @@
           </ul>
         </div>
 
-        <!-- Second Column -->
+   
         <div class="col-12 col-md-3 mb-4">
           <h5 class="mb-3">Quick Links</h5>
           <ul class="list-unstyled">
@@ -789,7 +788,7 @@
           </ul>
         </div>
 
-        <!-- Third Column -->
+     
         <div class="col-12 col-md-3 mb-4">
           <h5 class="mb-3">Ways to learn</h5>
           <ul class="list-unstyled">
@@ -821,7 +820,6 @@
           </ul>
         </div>
 
-        <!-- Fourth Column -->
         <div class="col-12 col-md-3 mb-4">
           <h5 class="mb-3">Courses</h5>
           <ul class="list-unstyled">
@@ -929,12 +927,11 @@ export default {
     },
   },
   mounted() {
-    // Navbar logic (yours)
+ 
     const navbarEl = document.getElementById("mainNavbar");
     this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl);
     document.addEventListener("click", this.handleClickOutside);
 
-    // Carousel hack: clone neighboring cards
     this.setupMultiCardCarousel();
     this.api();
   },
@@ -954,22 +951,22 @@ export default {
 }
 
 .custom-cart-btn {
-  background-color: #6c757d; /* Bootstrap secondary */
-  color: white; /* White text */
+  background-color: #6c757d; 
+  color: white; 
   border: none;
-  border-radius: 8px; /* Smooth rounded corners */
+  border-radius: 8px; 
   font-size: 13px;
   transition: all 0.3s ease;
 }
 
 .custom-cart-btn:hover {
-  background-color: #5a6268; /* Darker secondary on hover */
+  background-color: #5a6268; 
   color: white;
   border: 1px solid white;
 }
 
 .custom-cart-btn:active {
-  background-color: #545b62; /* Even darker on click */
+  background-color: #545b62; 
   border: 2px solid white;
 }
 
@@ -1013,7 +1010,7 @@ export default {
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* Hover effect */
+
 .custom-dropdown:hover .nav-toggle,
 .custom-dropdown:hover .arrow {
   color: #4d148c !important;
@@ -1027,7 +1024,7 @@ export default {
   top: 100%;
   left: 0;
   z-index: 999;
-  display: none; /* hidden by default */
+  display: none;
   grid-template-columns: repeat(2, minmax(180px, 1fr));
   gap: 10px;
   padding: 1rem;
@@ -1059,8 +1056,8 @@ export default {
   text-decoration: none;
   transition: all 0.2s ease;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  white-space: normal; /* force text to wrap */
-  word-break: break-word; /* break long words */
+  white-space: normal;
+  word-break: break-word; 
   text-align: left;
 }
 
@@ -1082,26 +1079,24 @@ export default {
   }
 }
 
-/* Show dropdown on hover */
+
 .custom-dropdown:hover .dropdown-menu {
   display: block;
   margin-top: 0.5rem;
 }
 
-/* Style dropdown menu */
 .big-dropdown {
   min-width: 100%;
   max-width: 500px;
   columns: 2;
   padding: 20px;
-  display: none; /* Hidden by default */
+  display: none;
   position: absolute;
   background-color: white;
   border: 1px solid #dee2e6;
   z-index: 1000;
 }
 
-/* Responsive: stack columns on mobile */
 @media (max-width: 576px) {
   .big-dropdown {
     columns: 1;
@@ -1109,7 +1104,6 @@ export default {
   }
 }
 
-/* Turn toggle red and rotate arrow */
 .custom-dropdown:hover .nav-toggle {
   color: #4d148c;
 }
@@ -1119,7 +1113,7 @@ export default {
   color: #4d148c;
 }
 
-/* Arrow styling */
+
 .arrow {
   margin-left: 6px;
   transition: transform 0.3s ease;
@@ -1130,8 +1124,8 @@ export default {
 }
 
 .custom-dropdown-item:hover {
-  color: #4d148c !important; /* Change to green on hover */
-  background-color: #f8f9fa; /* Optional: lighter background on hover */
+  color: #4d148c !important; 
+  background-color: #f8f9fa; 
 }
 .custom-underline {
   position: relative;
@@ -1215,5 +1209,32 @@ export default {
     margin-top: -55px !important;
     margin-left: 140px !important;
   }
+}
+
+@media (max-width: 1132px) {
+ .container-fluid{
+  padding: 10px 1px !important;
+  background-color: ow !important;
+ }
+
+}
+
+
+@media (max-width: 1110px) {
+ .navbar-nav{
+  width:100% !important;
+  background-color: nk !important;
+ }
+}
+
+
+@media (max-width: 998px) {
+ .navbar-nav{
+  display: none !important;
+  background-color: nk !important;
+ }
+ .container-fluid{
+  width:100% !important;
+ }
 }
 </style>

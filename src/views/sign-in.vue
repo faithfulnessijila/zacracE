@@ -1,6 +1,6 @@
 <template>
   <div class="page-wrapper">
-    <!-- Navbar -->
+    
     <nav class="navbar" style="padding: 20px 40px">
       <div class="navbar-logo">
         <img
@@ -13,7 +13,7 @@
       </div>
     </nav>
 
-    <!-- Main Content -->
+   
     <div class="main-section">
       <div class="image-container">
         <img src="/public/b.png" alt="" />
@@ -28,13 +28,13 @@
           >
         </p>
 
-        <!-- User Type Buttons -->
+     
         <div class="user-type">
           <button class="btn active">Customer</button>
           <button class="btn">Seller</button>
         </div>
 
-        <!-- Login Form -->
+        
         <form @submit.prevent="handleSubmit" class="login-form">
           <label for="email">Email Address</label>
           <input
@@ -78,7 +78,7 @@
 
           <p class="or-divider">OR</p>
 
-          <!-- Google Signup -->
+        
           <button class="google-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +210,7 @@ export default {
 </script>
 
 <style>
-/* Reset */
+
 * {
   margin: 0;
   padding: 0;
@@ -222,7 +222,7 @@ export default {
   background-color: #e8eee9;
 }
 
-/* Navbar */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -283,7 +283,6 @@ export default {
   background: #3b0f6e;
 }
 
-/* Main Section */
 .main-section {
   display: flex;
   justify-content: space-between;
@@ -325,7 +324,7 @@ export default {
   cursor: pointer;
 }
 
-/* User Type Buttons */
+
 .user-type {
   display: flex;
   gap: 20px;
@@ -343,7 +342,7 @@ export default {
   background: #f4faff;
 }
 
-/* Login Form */
+
 .login-form label {
   font-size: 12px;
   display: block;
@@ -407,7 +406,7 @@ export default {
   cursor: pointer;
 }
 
-/* Responsive */
+
 @media (max-width: 900px) {
   .main-section {
     flex-direction: column;
@@ -522,7 +521,7 @@ export default {
   }
 }
 
-/* Hide checkbox and menu icon on desktop */
+
 #check-bobo {
   display: none;
 }
@@ -541,7 +540,7 @@ label[for="check-bobo"] {
   z-index: 25;
 }
 
-/* Show hamburger icon and mobile menu on small screens */
+
 @media (max-width: 720px) {
   label[for="check-bobo"],
   #menu {
@@ -573,7 +572,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(470px) !important; /* Start off-screen to the right */
+    transform: translateX(470px) !important;
     transition: transform 0s !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -625,7 +624,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(420px) !important; /* Start off-screen to the right */
+    transform: translateX(420px) !important; 
     transition: transform 0s ease-in-out !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -656,7 +655,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(370px) !important; /* Start off-screen to the right */
+    transform: translateX(370px) !important; 
     transition: transform 0s ease-in-out !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -693,7 +692,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(308px) !important; /* Start off-screen to the right */
+    transform: translateX(308px) !important; 
     transition: transform 0s ease-in-out !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -738,7 +737,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(308px) !important; /* Start off-screen to the right */
+    transform: translateX(308px) !important; 
     transition: transform 0s ease-in-out !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -783,7 +782,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(308px) !important; /* Start off-screen to the right */
+    transform: translateX(308px) !important; 
     transition: transform 0s ease-in-out !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -828,7 +827,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(308px) !important; /* Start off-screen to the right */
+    transform: translateX(308px) !important; 
     transition: transform 0s ease-in-out !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -875,7 +874,7 @@ label[for="check-bobo"] {
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
-    transform: translateX(28px) !important; /* Start off-screen to the right */
+    transform: translateX(28px) !important;
     transition: transform 0s ease-in-out !important;
     z-index: 20 !important;
     border-radius: 8px !important;
@@ -938,7 +937,7 @@ label[for="check-bobo"] {
   .navbar-links ul {
     position: absolute;
     top: 60px;
-    right: -200px; /* Start off-screen */
+    right: -200px; 
     width: 160px;
     background-color: #4d148c;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -953,7 +952,7 @@ label[for="check-bobo"] {
   }
 
   #check-bobo:checked ~ .navbar-links ul {
-    right: 10px; /* Slide in from the right */
+    right: 10px; 
   }
 }
 
@@ -1001,7 +1000,7 @@ label[for="check-bobo"] {
   .navbar-links ul {
     position: absolute;
     top: 60px;
-    right: -200px; /* Start off-screen */
+    right: -200px;
     width: 160px;
     background-color: #4d148c;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -1016,7 +1015,7 @@ label[for="check-bobo"] {
   }
 
   #check-bobo:checked ~ .navbar-links ul {
-    right: 10px; /* Slide in from the right */
+    right: 10px;
   }
 }
 
@@ -1064,7 +1063,7 @@ label[for="check-bobo"] {
   .navbar-links ul {
     position: absolute;
     top: 60px;
-    right: -200px; /* Start off-screen */
+    right: -200px; 
     width: 160px;
     background-color: #4d148c;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -1079,7 +1078,7 @@ label[for="check-bobo"] {
   }
 
   #check-bobo:checked ~ .navbar-links ul {
-    right: 10px; /* Slide in from the right */
+    right: 10px; 
   }
 }
 
@@ -1127,7 +1126,7 @@ label[for="check-bobo"] {
   .navbar-links ul {
     position: absolute;
     top: 60px;
-    right: -200px; /* Start off-screen */
+    right: -200px; 
     width: 160px;
     background-color: #4d148c;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -1142,7 +1141,7 @@ label[for="check-bobo"] {
   }
 
   #check-bobo:checked ~ .navbar-links ul {
-    right: 10px; /* Slide in from the right */
+    right: 10px; 
   }
 }
 
@@ -1190,7 +1189,7 @@ label[for="check-bobo"] {
   .navbar-links ul {
     position: absolute;
     top: 60px;
-    right: -200px; /* Start off-screen */
+    right: -200px; 
     width: 160px;
     background-color: #4d148c;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -1205,7 +1204,7 @@ label[for="check-bobo"] {
   }
 
   #check-bobo:checked ~ .navbar-links ul {
-    right: 10px; /* Slide in from the right */
+    right: 10px; 
   }
 }
 
@@ -1253,7 +1252,7 @@ label[for="check-bobo"] {
   .navbar-links ul {
     position: absolute;
     top: 60px;
-    right: -200px; /* Start off-screen */
+    right: -200px;
     width: 160px;
     background-color: #4d148c;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -1268,7 +1267,7 @@ label[for="check-bobo"] {
   }
 
   #check-bobo:checked ~ .navbar-links ul {
-    right: 10px; /* Slide in from the right */
+    right: 10px; 
   }
 }
 
@@ -1316,7 +1315,7 @@ label[for="check-bobo"] {
   .navbar-links ul {
     position: absolute;
     top: 60px;
-    right: -200px; /* Start off-screen */
+    right: -200px; 
     width: 160px;
     background-color: #4d148c;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
@@ -1331,7 +1330,7 @@ label[for="check-bobo"] {
   }
 
   #check-bobo:checked ~ .navbar-links ul {
-    right: 10px; /* Slide in from the right */
+    right: 10px; 
   }
 }
 </style>

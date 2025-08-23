@@ -1,6 +1,6 @@
 <template>
     <div class="page-wrapper">
-        <!-- Navbar -->
+       
 <nav class="navbar" style="padding: 20px 40px;">
   <div class="navbar-logo">
     <img src="/public/d.png" style="margin-top: -10px !important;" alt="Logo" class="logo-icon" />
@@ -100,7 +100,7 @@
     margin-top: 5px;
   }
 
-/* Navbar */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -314,7 +314,7 @@ cursor: pointer;
 }
 }
 
-/* Hide checkbox and menu icon on desktop */
+
 #check-bobo {
   display: none;
 }
@@ -333,7 +333,7 @@ label[for="check-bobo"] {
   z-index: 25;
 }
 
-/* Show hamburger icon and mobile menu on small screens */
+
 @media (max-width: 720px) {
   label[for="check-bobo"],
   #menu {

@@ -1,6 +1,6 @@
 <template>
   <div class="page-wrapper">
-    <!-- Navbar -->
+
     <nav class="navbar" style="padding: 20px 40px">
       <div class="navbar-logo">
         <img
@@ -18,14 +18,14 @@
  
     </nav>
 
-    <!-- Main Section -->
+  
     <section class="main-section">
-      <!-- Left Image -->
+     
       <div class="image-container">
         <img src="/public/a.png" alt="Signup Illustration" />
       </div>
 
-      <!-- Right Form -->
+    
       <div class="form-container">
         <h4 class="welcome-text">Customer Registration</h4>
         <p class="sub-text">
@@ -34,7 +34,7 @@
         </p>
 
         
-        <!-- Signup Form -->
+      
         <form @submit.prevent="registerUser" class="login-form mt-3">
           <p class="success-message" v-if="succmsg">{{ succmsg }}</p>
 
@@ -137,10 +137,10 @@
           <p v-if="succmsg" class="success-message">{{ succmsg }}</p>
         </form>
 
-        <!-- OR Divider -->
+      
         <div class="or-divider">OR</div>
 
-        <!-- Google Signup -->
+       
         <div class="google-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +172,7 @@
           >
         </div>
 
-        <!-- Switch to Login -->
+       
         <p class="signup-text" style="font-weight: 450">
           Already have an account?
           <a @click="$router.push('/sign-in')" style="color: gray">Sign in</a>
@@ -272,8 +272,8 @@ export default {
 .custom-select-wrapper::after {
   content: "▼";
   position: absolute;
-  bottom: 10px; /* Push it to the bottom */
-  right: 15px;  /* Push it to the right */
+  bottom: 10px;
+  right: 15px;  
   pointer-events: none;
   color: #6c757d;
   font-size: 12px;
@@ -290,7 +290,7 @@ export default {
   min-height: 100vh;
   background-color: #e8eee9;
 }
-/* Navbar */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -351,7 +351,7 @@ export default {
   background: #3b0f6e;
 }
 
-/* Main Section */
+
 .main-section {
   display: flex;
   justify-content: space-between;
@@ -393,7 +393,7 @@ export default {
   cursor: pointer;
 }
 
-/* User Type Buttons */
+
 .user-type {
   display: flex;
   gap: 20px;
@@ -411,7 +411,7 @@ export default {
   background: #f4faff;
 }
 
-/* Main Section */
+
 .main-section {
   display: flex;
   justify-content: space-between;
@@ -453,7 +453,7 @@ export default {
   cursor: pointer;
 }
 
-/* User Type Buttons */
+
 .user-type {
   display: flex;
   gap: 20px;
@@ -471,7 +471,7 @@ export default {
   background: #f4faff;
 }
 
-/* Login Form */
+
 .login-form label {
   font-size: 12px;
   display: block;
@@ -535,7 +535,7 @@ export default {
   cursor: pointer;
 }
 
-/* Responsive */
+
 @media (max-width: 900px) {
   .main-section {
     flex-direction: column;
@@ -649,7 +649,7 @@ export default {
     }
   }
 
-  /* Hide checkbox and menu icon on desktop */
+ 
   #check-bobo {
     display: none;
   }
@@ -668,7 +668,7 @@ export default {
     z-index: 25;
   }
 
-  /* Show hamburger icon and mobile menu on small screens */
+
   @media (max-width: 720px) {
     label[for="check-bobo"],
     #menu {
