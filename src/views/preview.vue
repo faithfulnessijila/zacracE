@@ -11,7 +11,7 @@
         padding: 10px 100px !important;
       "
     >
-      <div class="container-fluid">
+      <div class="container-fluid container-fluid1">
        
         <div class="navbar-logo">
           <img
@@ -60,12 +60,12 @@
       
           <form
             class="d-flex w-100 w-lg-auto mx-lg-4 mb-3 mb-lg-0"
-            style="max-width: 400px"
+            style="max-width: 400px;"
           >
             <div class="input-group">
               <input
   type="text"
-  style="font-size: 10px;"
+  style="font-size: 10px; "
   class="form-control rounded-0"
   placeholder="Search on Zacrac Learning"
   aria-label="Search"
@@ -90,7 +90,11 @@
               </button>
             </div>
           </form>
-
+          <div
+          class="collapse navbar-collapse mt-3 mt-lg-0"
+          id="mainNavbar"
+          ref="navbarCollapse"
+        >
          
           <ul
             class="navbar-nav ms-auto d-flex align-items-center gap-3 flex-wrap"
@@ -163,15 +167,11 @@
               </span>
             </li>
           </ul>
-       
+        </div>
       </div>
 
 
-      <div
-          class="collapse navbar-collapse mt-3 mt-lg-0"
-          id="mainNavbar"
-          ref="navbarCollapse"
-        >
+    
       <div class="container-fluid">
         <ul class="dropdowns-container" style="margin-top: 10px">
 
@@ -236,7 +236,7 @@
             </ul>
           </li>
         </ul>
-      </div>
+     
     </div>
     </nav>
   
@@ -794,24 +794,53 @@
 
 }
 
+@media (max-width: 1043px) {
+.navbar{
+  padding: 10px 40px !important;
+}
 
+}
 @media (max-width: 1110px) {
- .navbar-nav{
-  width:100% !important;
+.navbar{
+
+  
+
+}
+.navbar-nav {
+ 
+   display: none !important;
  
  }
+ .input-group {
+ margin-left:20px !important;
+ 
 }
 
 
-@media (max-width: 998px) {
- .navbar-nav{
-  display: none !important;
-  background-color: nk !important;
- }
- .container-fluid{
-  width:100% !important;
- }
 }
+
+@media (max-width: 992px) {
+ 
+  .navbar-toggler {
+    display: none !important;
+   
+  }
+}
+@media (max-width: 816px) {
+ 
+ .navbar-toggler {
+   display: block !important;
+  
+ }
+ .navbar-nav {
+ 
+ display: block !important;
+
+}
+}
+
+
+
 
 
   </style>
