@@ -8,7 +8,7 @@
       style="
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         display: block;
-        padding: 10px 100px !important;
+        padding: 10px 90px !important;
       "
     >
       <div class="container-fluid container-fluid1">
@@ -801,11 +801,7 @@
 
 }
 @media (max-width: 1110px) {
-.navbar{
 
-  
-
-}
 .navbar-nav {
  
    display: none !important;
@@ -814,6 +810,16 @@
  .input-group {
  margin-left:20px !important;
  
+}
+
+
+}
+@media (max-width: 990px) {
+
+
+.input-group {
+margin-top : 15px !important;
+
 }
 
 
