@@ -462,12 +462,12 @@
        );
  
        items.forEach((el) => {
-         const minPerSlide = 3; // number of cards to show at once
+         const minPerSlide = 3; 
          let next = el.nextElementSibling;
  
          for (let i = 1; i < minPerSlide; i++) {
            if (!next) {
-             next = items[0]; // loop back to first
+             next = items[0]; 
            }
            const cloneChild = next.firstElementChild.cloneNode(true);
            el.appendChild(cloneChild);
@@ -494,15 +494,18 @@
      },
    },
    mounted() {
-  const navbarEl = document.getElementById("mainNavbar");
-  this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
-    toggle: false, // 🚀 Prevents it from opening automatically
-  });
+    const navbarEl = document.getElementById("mainNavbar");
+    this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
+      toggle: false,
+    });
 
-  document.addEventListener("click", this.handleClickOutside);
-  this.setupMultiCardCarousel();
-  this.api();
-},
+    document.addEventListener("click", this.handleClickOutside);
+    this.setupMultiCardCarousel();
+    this.api();
+
+  
+    window.scrollTo(0, 0);
+  },
  };
  </script>
  <style scoped>
@@ -722,67 +725,78 @@
 @media (max-width: 438px) {
   .navbar-logo {
     font-size: 14px !important;
-    margin-left: -130px !important;
+    margin-left: -100px !important;
+   
   }
   .navbar-toggler {
     margin-top: -55px !important;
-    margin-left: 220px !important;
+    margin-left: 260px !important;
   }
 }
-
+@media (max-width: 424px) {
+  .navbar-logo {
+    font-size: 14px !important;
+    margin-left: -105px !important;
+   
+  }
+  .navbar-toggler {
+    margin-top: -55px !important;
+    margin-left: 240px !important;
+  }
+}
 @media (max-width: 398px) {
   .navbar-logo {
     font-size: 14px !important;
-    margin-left: -220px !important;
+    margin-left: -190px !important;
   }
   .navbar-toggler {
     margin-top: -55px !important;
-    margin-left: 190px !important;
+    margin-left: 210px !important;
   }
 }
 @media (max-width: 375px) {
   .navbar-logo {
     font-size: 14px !important;
-    margin-left: -240px !important;
+    margin-left: -160px !important;
   }
   .navbar-toggler {
     margin-top: -55px !important;
-    margin-left: 160px !important;
+    margin-left: 200px !important;
   }
 }
 @media (max-width: 374px) {
   .navbar-logo {
     font-size: 14px !important;
-    margin-left: -210px !important;
+    margin-left: -190px !important;
   }
   .navbar-toggler {
     margin-top: -55px !important;
-    margin-left: 160px !important;
+    margin-left: 200px !important;
   }
 }
 @media (max-width: 342px) {
   .navbar-logo {
    
-    margin-left: -250px !important;
+    margin-left: -240px !important;
   }
   .logo-text {
     font-size: 15px !important;
   }
   .navbar-toggler {
     margin-top: -55px !important;
-    margin-left: 140px !important;
+    margin-left: 170px !important;
   }
 }
 @media (max-width: 336px) {
   .navbar-logo {
-    margin-left: -255px !important;
+    margin-left: -240px !important;
   }
   .logo-text {
     font-size: 15px !important;
   }
   .navbar-toggler {
     margin-top: -55px !important;
-    margin-left: 140px !important;
+    margin-left: 160px !important;
   }
 }
 
