@@ -272,10 +272,10 @@
       </p>
 
       <div style="font-size: 22px; margin-top: -4px">
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
-        <span class="text-danger">★</span>
+       <span style="color:#FFD700;">★</span>
+       <span style="color:#FFD700;">★</span>
+       <span style="color:#FFD700;">★</span>
+       <span style="color:#FFD700;">★</span>
         <span style="color: #ccc">★</span>
         &nbsp;
         <a class="text-muted" style="font-size: 14px; text-decoration: none;">(31)</a>
@@ -307,12 +307,303 @@
   
   
   
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-6 col-sm-12">
+      <div class="p-5 bg-secondary rounded-3 shadow-sm text-center text-white">
+        <h2 class="fw-bold mb-3">Review</h2>
+
+        <!-- Rating Stars -->
+        <div class="mb-4">
+          <span class="rating-star">★</span>
+          <span class="rating-star">★</span>
+          <span class="rating-star">★</span>
+          <span class="rating-star">★</span>
+          <span class="rating-star empty">★</span>
+        </div>
+
+        <!-- Review Input -->
+        <div class="input-group input-group-lg">
+          <input 
+            type="text" 
+            class="form-control fw-bold placeholder-bold" 
+            placeholder="Write review" 
+            aria-label="Write review"
+          >
+          <button class="btn btn-light fw-bold" type="button">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
   
   
   
   
+
+    <div class="container my-5">
+
+<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+<div class="d-flex justify-content-between align-items-center flex-wrap py-4 mt-3">
+  <p class=" fw-semibold text-black mb-0" style="font-size:18px;">All Book Reviews</p>
+  <div class="d-flex flex-wrap gap-3">
+    <div class=" rounded" style="background-color: gray;">
+  <select class="form-select border-0 shadow-none d-inline-block w-auto text-white fw-bold" style="background-color: transparent; font-size:12px; padding-top: 10px;">
+    <option class="text-black " style="font-size:11px;">Filter by: All</option>
+    <option class="text-black " style="font-size:11px;">5 Stars</option>
+    <option class="text-black " style ="font-size:11px;">4 Stars & Up</option>
+  </select>
+</div>
+
+<div class="rounded p-1" style="background-color: gray;">
+  <select 
+    class="form-select border-0 shadow-none d-inline-block w-auto text-white fw-bold" 
+    style="background-color: transparent; font-size:12px; cursor: pointer;">
+    <option class="text-black" style="font-size:11px;">Sort By: Most Helpful</option>
+    <option class="text-black" style="font-size:11px;">Newest</option>
+    <option class="text-black" style="font-size:11px;">Oldest</option>
+  </select>
+</div>
+
+  </div>
+</div>
+
+
+<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+
+<div class="row gy-4 mt-2">
   
+  <div class="col-md-12">
+  <div class="">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+  <h5 class="fw-bold mb-0"> Michael B.</h5>
+  <div>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+    <span style="color: #ccc;">★</span>
+  </div>
+</div>
+   
+    <p class="text-muted mb-2">
+      “Love comes in so many different forms, but it is always love. If it is love, then it is love.” 
+      I hope one day<br> to catch up on all Elizabeth Strout’s work. I have enjoyed the last few releases 
+      and love her down-to-earth <br>characters and the relationships they wrap themselves in. With 
+      <em>Tell Me Everything</em> she brings show more...
+    </p>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+    <div>
+      <div>
+    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm btn-dislike">👎 2</button>
+  </div>
+    </div>
+    <p class="small text-muted   text-end">September 10, 2024</p>
+  </div>
+
+    
+  </div>
+</div>
+
+  <div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+
+  <div class="col-md-12">
+  <div class="">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+  <h5 class="fw-bold mb-0"> VB M</h5>
+  <div>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+    <span style="color: #ccc;">★</span>
+  </div>
+</div>
+   
+    <p class="text-muted mb-2">
+      I’ve only read one of Strout’s previous novels, I selected this based on the Maine setting. I enjoy the
+      uniqueness of that region. It’s a thought provoking story of what life is and people’s relationships. The age
+      old adage ‘the heart wants what the heart wants’ comes to mind. Bob and Lucy both hav show more...
+    </p>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+    <div>
+      <div>
+    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm btn-dislike">👎 2</button>
+  </div>
+    </div>
+    <p class="small text-muted   text-end">September 12, 2024</p>
+  </div>
+
+    
+</div> </div>
+</div>
+<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+
+
+
+<div class="row gy-4 mt-2">
   
+  <div class="col-md-12">
+  <div class="">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+  <h5 class="fw-bold mb-0"> Michael B.</h5>
+  <div>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+    <span style="color: #ccc;">★</span>
+  </div>
+</div>
+   
+    <p class="text-muted mb-2">
+      “Love comes in so many different forms, but it is always love. If it is love, then it is love.” 
+      I hope one day<br> to catch up on all Elizabeth Strout’s work. I have enjoyed the last few releases 
+      and love her down-to-earth <br>characters and the relationships they wrap themselves in. With 
+      <em>Tell Me Everything</em> she brings show more...
+    </p>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+    <div>
+      <div>
+    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm btn-dislike">👎 2</button>
+  </div>
+    </div>
+    <p class="small text-muted   text-end">September 10, 2024</p>
+  </div>
+    
+  </div>
+</div>
+
+  <div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+
+  <div class="col-md-12">
+  <div class="">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+  <h5 class="fw-bold mb-0"> VB M</h5>
+  <div>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+    <span style="color: #ccc;">★</span>
+  </div>
+</div>
+   
+    <p class="text-muted mb-2">
+      I’ve only read one of Strout’s previous novels, I selected this based on the Maine setting. I enjoy the
+      uniqueness of that region. It’s a thought provoking story of what life is and people’s relationships. The age
+      old adage ‘the heart wants what the heart wants’ comes to mind. Bob and Lucy both hav show more...
+    </p>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+    <div>
+      <div>
+    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm btn-dislike">👎 2</button>
+  </div>
+    </div>
+    <p class="small text-muted   text-end">September 12, 2024</p>
+  </div>
+
+    
+</div> </div>
+</div>
+<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+
+
+
+
+
+<div class="row gy-4 mt-2">
+  
+  <div class="col-md-12">
+  <div class="">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+  <h5 class="fw-bold mb-0"> Michael B.</h5>
+  <div>
+    <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+    <span style="color: #ccc;">★</span>
+  </div>
+</div>
+   
+    <p class="text-muted mb-2">
+      “Love comes in so many different forms, but it is always love. If it is love, then it is love.” 
+      I hope one day<br> to catch up on all Elizabeth Strout’s work. I have enjoyed the last few releases 
+      and love her down-to-earth <br>characters and the relationships they wrap themselves in. With 
+      <em>Tell Me Everything</em> she brings show more...
+    </p>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+    <div>
+      <div>
+    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm btn-dislike">👎 2</button>
+  </div>
+    </div>
+    <p class="small text-muted   text-end">September 10, 2024</p>
+  </div>
+  
+
+    
+  </div>
+</div>
+
+  <div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+
+  <div class="col-md-12">
+  <div class="">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+  <h5 class="fw-bold mb-0"> VB M</h5>
+  <div>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+   <span style="color:#FFD700;">★</span>
+    <span style="color: #ccc;">★</span>
+  </div>
+</div>
+   
+    <p class="text-muted mb-2">
+      I’ve only read one of Strout’s previous novels, I selected this based on the Maine setting. I enjoy the
+      uniqueness of that region. It’s a thought provoking story of what life is and people’s relationships. The age
+      old adage ‘the heart wants what the heart wants’ comes to mind. Bob and Lucy both hav show more...
+    </p>
+    <div class="d-flex justify-content-between align-items-center mt-5">
+    <div>
+      <div>
+    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm btn-dislike">👎 2</button>
+  </div>
+    </div>
+    <p class="small text-muted   text-end">September 12, 2024</p>
+  </div>
+ 
+
+    
+</div> </div>
+</div>
+<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
+
+
+
+</div>
+
   
   
   
@@ -416,6 +707,12 @@
     </div>
   </div>
   
+
+
+
+
+
+  
   </template>
  <script>
  import axios from "axios";
@@ -508,8 +805,52 @@
   },
  };
  </script>
- 
+
  <style scoped>
+   .btn-like {
+    border: 1px solid #4d148c;
+    color: #4d148c;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  .btn-like:hover {
+    background: #4d148c;
+    color: #fff;
+  }
+
+
+  .btn-dislike {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  .btn-dislike:hover {
+    background: #dc3545;
+    color: #fff;
+  }
+
+  .placeholder-bold::placeholder {
+    font-weight: bold;
+    color: #666;
+  }
+
+ 
+  .rating-star {
+    color: #FFD700; 
+    font-size: 2rem;
+    margin: 0 3px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .rating-star.empty {
+    color: #ccc; 
+  }
+
+  .rating-star:hover {
+    transform: scale(1.2);
+  }
   
   
   
@@ -859,7 +1200,8 @@ margin-top : 15px !important;
 
 }
 }
-
+.placeholder-bold::placeholder {  font-weight: bold;
+}
 
 
 

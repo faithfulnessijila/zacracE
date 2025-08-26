@@ -38,10 +38,10 @@
                   <span class="text-danger fw-bold ms-1"> $11.49</span>
                 </p>
                 <div style="font-size: 22px; margin-top: -4px">
-                  <span class="text-danger">★</span>
-                  <span class="text-danger">★</span>
-                  <span class="text-danger">★</span>
-                  <span class="text-danger">★</span>
+                 <span style="color:#FFD700;">★</span>
+                 <span style="color:#FFD700;">★</span>
+                 <span style="color:#FFD700;">★</span>
+                 <span style="color:#FFD700;">★</span>
                   <span style="color: #ccc">★</span>
                 </div>
               </div>

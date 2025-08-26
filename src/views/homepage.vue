@@ -702,7 +702,7 @@
   <div class="bg-secondary text-white py-5 mt-5">
     <div class="container">
       <div class="row">
-        <!-- First Column -->
+
         <div class="col-12 col-md-3 mb-4">
           <h5 class="mb-3">All about Rakuten Kobo</h5>
           <ul class="list-unstyled">
