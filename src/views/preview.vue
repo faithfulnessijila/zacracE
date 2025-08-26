@@ -313,7 +313,7 @@
       <div class="p-5 bg-secondary rounded-3 shadow-sm text-center text-white">
         <h2 class="fw-bold mb-3">Review</h2>
 
-        <!-- Rating Stars -->
+     
         <div class="mb-4">
           <span class="rating-star">★</span>
           <span class="rating-star">★</span>
@@ -322,7 +322,7 @@
           <span class="rating-star empty">★</span>
         </div>
 
-        <!-- Review Input -->
+      
         <div class="input-group input-group-lg">
           <input 
             type="text" 
@@ -350,27 +350,27 @@
 
 <div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
 
-<div class="d-flex justify-content-between align-items-center flex-wrap py-4 mt-3">
-  <p class=" fw-semibold text-black mb-0" style="font-size:18px;">All Book Reviews</p>
+<div class="d-flex justify-content-between align-items-center flex-wrap py-4 mt-3 review-header">
+  <p class="fw-semibold text-black mb-0" style="font-size:18px;">All Book Reviews</p>
+
   <div class="d-flex flex-wrap gap-3">
-    <div class=" rounded" style="background-color: gray;">
-  <select class="form-select border-0 shadow-none d-inline-block w-auto text-white fw-bold" style="background-color: transparent; font-size:12px; padding-top: 10px;">
-    <option class="text-black " style="font-size:11px;">Filter by: All</option>
-    <option class="text-black " style="font-size:11px;">5 Stars</option>
-    <option class="text-black " style ="font-size:11px;">4 Stars & Up</option>
-  </select>
-</div>
+    
+    <div class="filter-dropdown">
+      <select>
+        <option>Filter by: All</option>
+        <option>5 Stars</option>
+        <option>4 Stars & Up</option>
+      </select>
+    </div>
 
-<div class="rounded p-1" style="background-color: gray;">
-  <select 
-    class="form-select border-0 shadow-none d-inline-block w-auto text-white fw-bold" 
-    style="background-color: transparent; font-size:12px; cursor: pointer;">
-    <option class="text-black" style="font-size:11px;">Sort By: Most Helpful</option>
-    <option class="text-black" style="font-size:11px;">Newest</option>
-    <option class="text-black" style="font-size:11px;">Oldest</option>
-  </select>
-</div>
-
+  
+    <div class="filter-dropdown">
+      <select>
+        <option>Sort By: Most Helpful</option>
+        <option>Newest</option>
+        <option>Oldest</option>
+      </select>
+    </div>
   </div>
 </div>
 
@@ -402,7 +402,7 @@
     <div class="d-flex justify-content-between align-items-center mt-5">
     <div>
       <div>
-    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm me-2 btn-like">👍 15</button>
     <button class="btn btn-sm btn-dislike">👎 2</button>
   </div>
     </div>
@@ -476,8 +476,8 @@
     <div class="d-flex justify-content-between align-items-center mt-5">
     <div>
       <div>
-    <button class="btn btn-sm me-2 btn-like">👍 12</button>
-    <button class="btn btn-sm btn-dislike">👎 2</button>
+    <button class="btn btn-sm me-2 btn-like">👍 16</button>
+    <button class="btn btn-sm btn-dislike">👎 7</button>
   </div>
     </div>
     <p class="small text-muted   text-end">September 10, 2024</p>
@@ -511,7 +511,7 @@
     <div>
       <div>
     <button class="btn btn-sm me-2 btn-like">👍 12</button>
-    <button class="btn btn-sm btn-dislike">👎 2</button>
+    <button class="btn btn-sm btn-dislike">👎 7</button>
   </div>
     </div>
     <p class="small text-muted   text-end">September 12, 2024</p>
@@ -551,7 +551,7 @@
     <div class="d-flex justify-content-between align-items-center mt-5">
     <div>
       <div>
-    <button class="btn btn-sm me-2 btn-like">👍 12</button>
+    <button class="btn btn-sm me-2 btn-like">👍 16</button>
     <button class="btn btn-sm btn-dislike">👎 2</button>
   </div>
     </div>
@@ -807,6 +807,46 @@
  </script>
 
  <style scoped>
+  
+   .filter-dropdown {
+    background-color: gray;
+    border-radius: 8px;
+    padding: 2px 6px;
+  }
+
+  .filter-dropdown select {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 4px 6px;
+    cursor: pointer;
+  }
+
+  .filter-dropdown select option {
+    color: black;
+    font-size: 11px;
+  }
+
+
+  @media (max-width: 576px) {
+    .review-header {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 10px;
+    }
+
+    .review-header p {
+      font-size: 16px !important;
+    }
+
+    .filter-dropdown select {
+      font-size: 11px;
+    }
+  }
+
    .btn-like {
     border: 1px solid #4d148c;
     color: #4d148c;
