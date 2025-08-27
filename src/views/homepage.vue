@@ -215,7 +215,7 @@
 
             <ul class="big-dropdown">
               <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category }}</a>
+                <a href="#">{{ category.name }}</a>
               </li>
             </ul>
           </li>
@@ -245,7 +245,7 @@
 
             <ul class="big-dropdown">
               <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category }}</a>
+                <a href="#">{{ category.name }}</a>
               </li>
             </ul>
           </li>
@@ -254,7 +254,7 @@
     </div>
     </nav>
   
-    <div class="container my-5">
+    <div v-for="(category, index) in categories" :key="index" class="container my-5">
       <button
         class="btn fw-bold"
         style="
@@ -265,18 +265,18 @@
           border-radius: 4px;
         "
       >
-        eBooks
+      {{ category.name }}
       </button>
 
     
       <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
         <h4 class="hover-red-bold fw-semibold m-0">
-          Best-selling and Popular eBooks
+          Best-selling and Popular {{ category.name }}
         </h4>
       </div>
       <div class="container my-5">
         
-        <Carousel />
+        <Carousel :lists=" category.products " />
       </div>
 
       <div
@@ -287,432 +287,6 @@
     </div>
   </div>
 
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
-    
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">
-        New releases you don't want to miss
-      </h4>
-      <a
-        href="#"
-        style="
-          color: black;
-          font-weight: bold;
-          text-decoration: underline;
-          transition: color 0.2s;
-        "
-        onmouseout="this.style.color='black'"
-      >
-        View all
-      </a>
-    </div>
-    <div class="container my-5">
-   
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-     
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: purple;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      Audiobooks
-    </button>
-
-    
-    <div class="mt-2 mb-4">
-      
-      <div class="d-flex justify-content-between align-items-center">
-        <h4 class="hover-red-bold fw-semibold m-0">New & Hot Audiobooks</h4>
-      </div>
-
-     
-      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
-        Get your headphones ready. Here are the latest and greatest for your
-        listening pleasure.
-      </p>
-    </div>
-
-    <div class="container my-5">
-      
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-     
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: purple;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      Audiobooks
-    </button>
-
- 
-    <div class="mt-2 mb-4">
-    
-      <div class="d-flex justify-content-between align-items-center">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Start a new audiobook series
-        </h4>
-      </div>
-
-   
-      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
-        Get lost in a new series with these audiobooks full of cliff hangers,
-        character arcs, and incredible twists and turns.
-      </p>
-    </div>
-
-    <div class="container my-5">
-      
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-    
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
-   
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">
-        Guaranteed chills and thrills with these mysteries and thrillers
-      </h4>
-    </div>
-    <div class="container my-5">
-     
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-      
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
-  
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">
-        Romantic reads to fall in love with
-      </h4>
-    </div>
-    <div class="container my-5">
-    
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-      
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
-    
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">
-        Kobo Originals, books you won't read anywhere else
-      </h4>
-    </div>
-    <div class="container my-5">
-    
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-     
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
-    
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">
-        Page-turners you won't be able to put down
-      </h4>
-    </div>
-    <div class="container my-5">
-     
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-    
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
-   
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">Nonfiction reads</h4>
-    </div>
-    <div class="container my-5">
-    
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-     
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: purple;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      Audiobooks
-    </button>
-
-  
-    <div class="mt-2 mb-4">
-     
-      <div class="d-flex justify-content-between align-items-center">
-        <h4 class="hover-red-bold fw-semibold m-0">Better life, better you</h4>
-      </div>
-
-    
-      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
-        Boost your self-esteem with these self-help audiobooks designed to show
-        you how to redefine your life. Choose an audiobook to<br />
-        start listening and reinventing.
-      </p>
-    </div>
-
-    <div class="container my-5">
-   
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
- 
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">Pre-order these titles now</h4>
-    </div>
-    <div class="container my-5">
-    
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-    
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: purple;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      Audiobooks
-    </button>
-
-
-    <div class="mt-2 mb-4">
-
-      <div class="d-flex justify-content-between align-items-center">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Language learning audiobooks
-        </h4>
-      </div>
-
-   
-      <p class="text-muted mt-2 mb-0" style="font-size: 16px">
-        Been wanting to learn a new language for years but never had the time?
-        These audiobooks can teach you wherever you are!
-      </p>
-    </div>
-
-    <div class="container my-5">
-    
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
-   
-    </div>
-  </div>
-
-  <div class="container my-5">
-    <button
-      class="btn fw-bold"
-      style="
-        background-color: #007bff;
-        color: white;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 4px;
-      "
-    >
-      eBooks
-    </button>
-
-   
-    <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-      <h4 class="hover-red-bold fw-semibold m-0">
-        Dictionaries and tools to help with language learning
-      </h4>
-    </div>
-    <div class="container my-5">
-      <Carousel />
-    </div>
-
-    <div
-      style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-    >
- 
-    </div>
-  </div>
 
   <div class="bg-secondary text-white py-5 mt-5">
     <div class="container">
@@ -870,7 +444,8 @@
       </div>
     </div>
   </div>
-</template><script>
+</template>
+<script>
 import axios from "axios";
 import Carousel from "../components/carousel.vue";
 
@@ -882,6 +457,7 @@ export default {
     return {
       categories: "",
       user: null, // <-- store user info
+      shopProducts: []
     };
   },
 
@@ -935,7 +511,7 @@ export default {
   async api() {
     try {
       const response = await axios.get(
-        "https://zacracebookwebsite.onrender.com/ebook/products",
+        "https://zacracebookwebsite.onrender.com/ebook/products/shop",
         { headers: { "Content-Type": "application/json" } }
       );
       this.categories = response.data.categories;
@@ -965,17 +541,7 @@ export default {
     }
   },
 
-  async fetchShop() {
-    try {
-      const { data } = await axios.get(
-        "https://zacracebookwebsite.onrender.com/ebook/products/shop"
-      );
-      console.log("SHOP DATA:", data);
-      this.shopProducts = data;
-    } catch (error) {
-      console.error(error);
-    }
-  },
+
 
   logout() {
     localStorage.removeItem("token");
@@ -985,17 +551,7 @@ export default {
   },
 },
   
-  async fetchShop() {
-  try {
-    const { data } = await axios.get(
-      "https://zacracebookwebsite.onrender.com/ebook/products/shop"
-    );
-    console.log("SHOP DATA:", data);
-    this.shopProducts = data;
-  } catch (error) {
-    console.error(error);
-  }
-},
+
 
   mounted() {
     const navbarEl = document.getElementById("mainNavbar");

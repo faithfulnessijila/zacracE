@@ -1,16 +1,16 @@
 <template>
      <Carousel v-bind="carouselConfig" style="height: 500px;">
-    <Slide v-for="slide in 10" :key="slide">
+    <Slide v-for="slide in lists" :key="slide._id">
       <div class="carousel__item">
         <div class="col">
           <div
             class="card h-100 border-0 shadow-sm mx-auto"
             style="max-width: 180px"
           >
-            <img
-              src="/public/wedding.jpg"
+            <img src="/public/mercy.jpg"
+              :alt="slide.title" 
               class="card-img-top"
-              alt="The Wedding People"
+              alt = "The Wedding People"
               style="
                 width: 100%;
                 height: 240px;
@@ -23,19 +23,19 @@
             >
               <div>
                 <h6 class="mb-1" style="font-size: 13px">
-                  The Wedding People
+                  {{ slide.title }}
                 </h6>
                 <h5 class="mb-2 text-muted" style="font-size: 14px">
-                  Alison Espach
+                  {{ slide.author }}
                 </h5>
                 <p class="mb-2" style="font-size: 13px">
                   <span
                     class="text-muted"
                     style="text-decoration: line-through"
                   >
-                    $20.49</span
+                  ${{ slide.oldPrice }}</span
                   >
-                  <span class="text-danger fw-bold ms-1"> $11.49</span>
+                  <span class="text-danger fw-bold ms-1">${{ slide.price }}</span>
                 </p>
                 <div style="font-size: 22px; margin-top: -4px">
                  <span style="color:#FFD700;">★</span>
@@ -60,47 +60,48 @@
     </template>
   </Carousel>
   </template>
-  <script >
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import "vue3-carousel/dist/carousel.css";
-
-export default {
-  components: { Carousel, Slide, Pagination, Navigation },
-  data() {
-    return {
-      carouselConfig: {
-        itemsToShow: 5,
-        wrapAround: true,
-        autoplay: 3000,
-        transition: 500,
-        pauseAutoplayOnHover: true,
-        breakpoints: {
-         
-          0: {
-            itemsToShow: 1.5,
-            snapAlign: "center",
-          },
-          
-          576: {
-            itemsToShow: 2.5,
-            snapAlign: "center",
-          },
-        
-          768: {
-            itemsToShow: 3.5,
-            snapAlign: "center",
-          },
-        
-          1024: {
-            itemsToShow: 5,
-            snapAlign: "start",
-          },
-        },
-      },
-    };
-  },
-};
-</script>
+ <script>
+ import axios from "axios";
+ import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+ import "vue3-carousel/dist/carousel.css";
+ 
+ export default {
+   components: { Carousel, Slide, Pagination, Navigation },
+   props: ["lists"],
+   data() {
+     return {
+       books: [],
+       carouselConfig: {
+         itemsToShow: 5,
+         wrapAround: true,
+         autoplay: 3000,
+         transition: 500,
+         pauseAutoplayOnHover: true,
+         breakpoints: {
+           0: { itemsToShow: 1.5, snapAlign: "center" },
+           576: { itemsToShow: 2.5, snapAlign: "center" },
+           768: { itemsToShow: 3.5, snapAlign: "center" },
+           1024: { itemsToShow: 5, snapAlign: "start" },
+         },
+       },
+     };
+   },
+   mounted() {
+   
+   },
+   methods: {
+     async fetchBooks() {
+       try {
+         const res = await axios.get("https://zacracebookwebsite.onrender.com/ebook/products/shop");
+         this.books = res.data.products; // adjust path if API returns differently
+         console.log(res);
+       } catch (err) {
+         console.error("Failed to fetch books:", err);
+       }
+     },
+   },
+ };
+ </script>
 <style>
 
 .preview-btn {

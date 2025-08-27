@@ -143,29 +143,43 @@
             </li>
 
            
-            <li class="nav-item text-center">
-              <button
-                @click="$router.push('/sign-up')"
-                class="btn text-white fw-semibold px-3 py-2 w-100"
-                style="
-                  border-radius: 0;
-                  font-size: 14px;
-                  background-color: #4d148c;
-                "
-              >
-                Create account
-              </button>
-              <span class="d-block mt-1 text-muted" style="font-size: 13px">
-                Have an account?
-                <a
-                  @click="$router.push('/sign-in')"
-                  href="#"
-                  class="fw-semibold"
-                  style="color: #4d148c"
-                  >Sign in</a
-                >
-              </span>
-            </li>
+            <li class="nav-item" v-if="user">
+              
+
+  <button
+  class="btn logout-btn btn-sm ms-2"
+  @click="logout"
+>
+  Logout
+</button>
+
+</li>
+
+
+<li v-else class="nav-item text-center">
+  <button
+    @click="$router.push('/sign-up')"
+    class="btn text-white fw-semibold px-3 py-2 w-100"
+    style="
+      border-radius: 0;
+      font-size: 14px;
+      background-color: #4d148c;
+    "
+  >
+    Create account
+  </button>
+  <span class="d-block mt-1 text-muted" style="font-size: 13px">
+    Have an account?
+    <a
+      @click="$router.push('/sign-in')"
+      href="#"
+      class="fw-semibold"
+      style="color: #4d148c"
+      >Sign in</a
+    >
+  </span>
+</li>
+
           </ul>
         </div>
       </div>
@@ -201,7 +215,7 @@
 
             <ul class="big-dropdown">
               <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category }}</a>
+                <a href="#">{{ category.name }}</a>
               </li>
             </ul>
           </li>
@@ -231,7 +245,7 @@
 
             <ul class="big-dropdown">
               <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category }}</a>
+                <a href="#">{{ category.name }}</a>
               </li>
             </ul>
           </li>
@@ -326,11 +340,13 @@
         <div class="input-group input-group-lg">
           <input 
             type="text" 
+            v-model="reviewText"
+            
             class="form-control fw-bold placeholder-bold" 
             placeholder="Write review" 
             aria-label="Write review"
           >
-          <button class="btn btn-light fw-bold" type="button">Submit</button>
+          <button class="btn btn-light fw-bold" type="button" @click="submitReview">Submit</button>
         </div>
       </div>
     </div>
@@ -353,25 +369,7 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap py-4 mt-3 review-header">
   <p class="fw-semibold text-black mb-0" style="font-size:18px;">All Book Reviews</p>
 
-  <div class="d-flex flex-wrap gap-3">
-    
-    <div class="filter-dropdown">
-      <select>
-        <option>Filter by: All</option>
-        <option>5 Stars</option>
-        <option>4 Stars & Up</option>
-      </select>
-    </div>
 
-  
-    <div class="filter-dropdown">
-      <select>
-        <option>Sort By: Most Helpful</option>
-        <option>Newest</option>
-        <option>Oldest</option>
-      </select>
-    </div>
-  </div>
 </div>
 
 
@@ -713,84 +711,115 @@
 
 
   
-  </template>
- <script>
- import axios from "axios";
- import Carousel from "../components/carousel.vue";
- export default {
-   components: {
-     Carousel,
-   },
-   data() {
-     return {
-       categories: "",
-     };
-   },
- 
-   beforeUnmount() {
-     document.removeEventListener("click", this.handleClickOutside);
-   },
-   methods: {
-     toggleNavbar() {
-       this.bsCollapse.toggle();
-     },
-     closeNavbar() {
-       if (
-         this.bsCollapse &&
-         this.$refs.navbarCollapse.classList.contains("show")
-       ) {
-         this.bsCollapse.hide();
-       }
-     },
-     handleClickOutside(event) {
-       const navbar = this.$refs.navbarCollapse;
-       if (
-         navbar &&
-         navbar.classList.contains("show") &&
-         !navbar.contains(event.target) &&
-         !event.target.closest(".navbar-toggler")
-       ) {
-         this.bsCollapse.hide();
-       }
-     },
-     setupMultiCardCarousel() {
-       const items = document.querySelectorAll(
-         "#multiCardCarousel .carousel-item"
-       );
- 
-       items.forEach((el) => {
-         const minPerSlide = 3; 
-         let next = el.nextElementSibling;
- 
-         for (let i = 1; i < minPerSlide; i++) {
-           if (!next) {
-             next = items[0]; 
-           }
-           const cloneChild = next.firstElementChild.cloneNode(true);
-           el.appendChild(cloneChild);
-           next = next.nextElementSibling;
-         }
-       });
-     },
-     async api() {
-       try {
-         const response = await axios.get(
-           "https://zacracebookwebsite.onrender.com/ebook/products",
- 
-           {
-             headers: {
-               "Content-Type": "application/json",
-             },
-           }
-         );
-         this.categories = response.data.categories;
-         console.log(response);
-       } catch (error) {
-       } finally {
-       }
-     },
-   },
-   mounted() {
+  </template><script>
+import axios from "axios";
+import Carousel from "../components/carousel.vue";
+
+export default {
+  components: {
+    Carousel,
+  },
+  data() {
+    return {
+      categories: "",
+      user: null, // <-- store user info
+      shopProducts: []
+    };
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("click", this.handleClickOutside);
+  },
+
+  methods: {
+  toggleNavbar() {
+    this.bsCollapse.toggle();
+  },
+  closeNavbar() {
+    if (
+      this.bsCollapse &&
+      this.$refs.navbarCollapse.classList.contains("show")
+    ) {
+      this.bsCollapse.hide();
+    }
+  },
+  handleClickOutside(event) {
+    const navbar = this.$refs.navbarCollapse;
+    if (
+      navbar &&
+      navbar.classList.contains("show") &&
+      !navbar.contains(event.target) &&
+      !event.target.closest(".navbar-toggler")
+    ) {
+      this.bsCollapse.hide();
+    }
+  },
+  setupMultiCardCarousel() {
+    const items = document.querySelectorAll(
+      "#multiCardCarousel .carousel-item"
+    );
+
+    items.forEach((el) => {
+      const minPerSlide = 3;
+      let next = el.nextElementSibling;
+
+      for (let i = 1; i < minPerSlide; i++) {
+        if (!next) {
+          next = items[0];
+        }
+        const cloneChild = next.firstElementChild.cloneNode(true);
+        el.appendChild(cloneChild);
+        next = next.nextElementSibling;
+      }
+    });
+  },
+
+  async api() {
+    try {
+      const response = await axios.get(
+        "https://zacracebookwebsite.onrender.com/ebook/products/shop",
+        { headers: { "Content-Type": "application/json" } }
+      );
+      this.categories = response.data.categories;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async fetchUser() {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const { data } = await axios.get(
+        "https://zacracebookwebsite.onrender.com/api/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      console.log("USER DATA:", data);
+
+      // Adjust to match exact structure
+      this.user = data.user ? data.user : data;
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+    }
+  },
+
+
+
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.user = null;
+    this.$router.push("/sign-in");
+  },
+},
+  
+
+
+  mounted() {
     const navbarEl = document.getElementById("mainNavbar");
     this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
       toggle: false,
@@ -799,14 +828,36 @@
     document.addEventListener("click", this.handleClickOutside);
     this.setupMultiCardCarousel();
     this.api();
-
-  
-    window.scrollTo(0, 0);
+    this.fetchUser(); // <-- call user info API
   },
- };
- </script>
+};
+</script>
 
  <style scoped>
+  .logout-btn {
+  background-color: #4d148c;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #5e19b3; /* lighter shade */
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .logout-btn {
+    padding: 8px 16px;
+    font-size: 16px; /* bigger text for mobile */
+    width: 100%; /* full width on small screens */
+    margin-top: 8px;
+  }
+}
+ 
   
    .filter-dropdown {
     background-color: gray;
