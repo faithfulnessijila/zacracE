@@ -6,6 +6,7 @@ import Newpassword from '@/views/newpassword.vue';
 import Otp from '@/views/otp.vue';
 import Homepage from '@/views/homepage.vue';
 import Preview from '@/views/preview.vue';
+import AuthCallback from '@/views/AuthCallback.vue';
 
 
 
@@ -27,6 +28,12 @@ const routes = [
 {
   path: '/preview', component:Preview
 },
+{
+  path: "/auth-callback", 
+  name: "AuthCallback",   
+  component: AuthCallback
+},
+
 {
   path: '/sign-in', component: SignIn
 },

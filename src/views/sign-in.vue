@@ -16,8 +16,14 @@
    
     <div class="main-section">
       <div class="image-container">
-        <img src="/public/b.png" alt="" />
-      </div>
+  <div class="slides">
+    <img src="/public/a.png" alt="Slide 1">
+    <img src="/public/c.png" alt="Slide 2">
+    <img src="/public/b.png" alt="Slide 3">
+    <img src="/public/a.jpeg" alt="Slide 4">
+  </div>
+</div>
+
 
       <div class="form-container">
         <h4 class="welcome-text">Welcome Back</h4>
@@ -79,47 +85,42 @@
           <p class="or-divider">OR</p>
 
         
-          <button class="google-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1.5em"
-              height="1.5em"
-              viewBox="0 0 48 48"
-            >
-              <path
-                fill="#ffc107"
-                d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"
-              />
-              <path
-                fill="#ff3d00"
-                d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691"
-              />
-              <path
-                fill="#4caf50"
-                d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44"
-              />
-              <path
-                fill="#1976d2"
-                d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917"
-              />
-            </svg>
-            <a
-              href="https://zacracebookwebsite.onrender.com/ebook/auth/google"
-              style="text-decoration: none; color: black"
-              >Sign in with Google</a
-            >
-          </button>
+          <button class="google-btn" @click="googleAuth" style="cursor: pointer;">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1.5em"
+    height="1.5em"
+    viewBox="0 0 48 48"
+  >
+    <path
+      fill="#ffc107"
+      d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"
+    />
+    <path
+      fill="#ff3d00"
+      d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691"
+    />
+    <path
+      fill="#4caf50"
+      d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44"
+    />
+    <path
+      fill="#1976d2"
+      d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917"
+    />
+  </svg>
+  <span style="margin-left: 8px;">Sign in with Google</span>
+</button>
 
           <p class="signup-text" style="font-weight: 450">
             Don't have an account?
-            <a style="color: gray" @click="$router.push('/sign-up')">Sign up</a>
+            <a style="color: gray; cursor: pointer; text-decoration: underline;" @click="$router.push('/sign-up')">Sign up</a>
           </p>
         </form>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 
@@ -137,79 +138,141 @@ export default {
   },
 
   methods: {
+    googleAuth() {
+      window.location.href =
+        "https://zacracebookwebsite.onrender.com/ebook/auth/google";
+    },
+
     validateForm() {
       const errors = {};
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (!this.form.email) {
-        errors.email = "Email is required";
-      } else if (!emailRegex.test(this.form.email)) {
+      if (!this.form.email) errors.email = "Email is required";
+      else if (!emailRegex.test(this.form.email))
         errors.email = "Invalid email format";
-      }
 
-      if (!this.form.password) {
-        errors.password = "Password is required";
-      } else if (this.form.password.length < 6) {
+      if (!this.form.password) errors.password = "Password is required";
+      else if (this.form.password.length < 6)
         errors.password = "Password must be at least 6 characters";
-      }
 
       this.errors = errors;
       return Object.keys(errors).length === 0;
     },
+
     async handleSubmit() {
       this.errorMessage = "";
       this.loading = true;
 
-      const payload = {
-        email: this.form.email,
-        password: this.form.password,
-      };
+      if (!this.validateForm()) {
+        this.loading = false;
+        return;
+      }
 
       try {
         const response = await axios.post(
           "https://zacracebookwebsite.onrender.com/ebook/auth/signin",
-          payload,
           {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+            email: this.form.email,
+            password: this.form.password,
+          },
+          { headers: { "Content-Type": "application/json" } }
         );
 
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        this.$router.push("/");
+        const { token, user, message } = response.data;
+        const userParam = encodeURIComponent(JSON.stringify(user));
+        this.$router.push(
+          `/auth-callback?token=${token}&user=${userParam}&message=${encodeURIComponent(message || "Login successful!")}`
+        );
       } catch (error) {
         const status = error.response?.status;
         const message = error.response?.data?.message;
 
-        if (status === 400) {
+        if (
+          message ===
+          "Email already registered with a different provider, sign in normally"
+        ) {
           this.errorMessage =
-            message || "Invalid form input. Please check your details.";
+            "⚠️ This email is linked to a Google account. Please sign in with Google.";
+        } else if (status === 400) {
+          this.errorMessage =
+            message || "Invalid input. Please check your email/password.";
         } else if (status === 409) {
-          this.errorMessage =
-            "This email is already registered. Please sign in.";
+          this.errorMessage = "⚠️ Email already registered. Please sign in.";
         } else if (status === 500) {
-          this.errorMessage = "Server error. Please try again later.";
+          this.errorMessage = "🚨 Server error. Please try again later.";
         } else {
-          this.errorMessage =
-            message || "Something went wrong. Please try again.";
+          this.errorMessage = message || "Something went wrong. Try again.";
         }
-
-        console.error("Registration failed:", {
-          status,
-          message,
-          fullError: error,
-        });
       } finally {
         this.loading = false;
       }
     },
+
+    // Add this method
+    setCarouselHeight() {
+      const form = this.$el.querySelector(".form-container");
+      const carousel = this.$el.querySelector(".image-container");
+      if (form && carousel) {
+        carousel.style.height = form.offsetHeight + "px";
+      }
+    },
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.setCarouselHeight();
+      window.addEventListener("resize", this.setCarouselHeight);
+    });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.setCarouselHeight);
   },
 };
 </script>
 
 <style>
+
+.image-container {
+  min-height: 200px; /* reduced */
+  height: 250px;     /* reduced from 350px */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+
+
+/* Make slides fill the container */
+.slides img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0; /* Base opacity for animation start */
+  animation: fade 9s infinite;
+  filter: brightness(80%); /* Slightly darken for better text visibility */
+}
+
+
+/* stagger animation delays */
+.slides img:nth-child(1) { animation-delay: 0s; }
+.slides img:nth-child(2) { animation-delay: 3s; }
+.slides img:nth-child(3) { animation-delay: 6s; }
+.slides img:nth-child(4) { animation-delay: 9s; }
+
+@keyframes fade {
+  0%, 33.33% { opacity: 1; }
+  33.34%, 100% { opacity: 0; }
+}
+
 
 * {
   margin: 0;

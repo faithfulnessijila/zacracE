@@ -19,11 +19,16 @@
     </nav>
 
   
-    <section class="main-section">
-     
-      <div class="image-container">
-        <img src="/public/a.png" alt="Signup Illustration" />
-      </div>
+    <div class="main-section">
+      <div class= "image-container">
+  <div class="slides">
+    <img src="/public/a.png" alt="Slide 1">
+    <img src="/public/c.png" alt="Slide 2">
+    <img src="/public/b.png" alt="Slide 3">
+    <img src="/public/a.jpeg" alt="Slide 4">
+  </div>
+</div>
+
 
     
       <div class="form-container">
@@ -175,10 +180,9 @@
           <a @click="$router.push('/sign-in')" style="color: gray; cursor: pointer; text-decoration: underline;">Sign in</a>
         </p>
       </div>
-    </section>
+    </div>
   </div>
-</template>
-<script>
+</template><script>
 import axios from "axios";
 
 export default {
@@ -190,7 +194,6 @@ export default {
         password: "",
         gender: "",
       },
-
       loading: false,
       errormsg: "",
       succmsg: "",
@@ -198,12 +201,10 @@ export default {
   },
 
   methods: {
-    // Google Login
     googleAuth() {
       window.location.href = "https://zacracebookwebsite.onrender.com/ebook/auth/google";
     },
 
-    // Validate Form
     validateForm() {
       const { name, email, password, gender } = this.form;
 
@@ -231,13 +232,12 @@ export default {
       return null;
     },
 
-    // Register User
     async registerUser() {
       this.errormsg = "";
       const validationError = this.validateForm();
       if (validationError) {
         this.errormsg = validationError;
-        alert(this.errormsg); // Alert validation error
+        alert(this.errormsg); 
         return;
       }
 
@@ -249,7 +249,6 @@ export default {
           this.form
         );
 
-        // Success
         this.succmsg = "Registration successful!";
         alert(this.succmsg);
         localStorage.setItem("emailForVerification", this.form.email);
@@ -257,20 +256,76 @@ export default {
       } catch (error) {
         const message = error.response?.data?.message || "Something went wrong. Please try again later.";
         this.errormsg = message;
-
-        // 🔥 Alert error from backend
         alert(this.errormsg);
-
         console.error("Registration failed:", error.response?.data || error);
       } finally {
         this.loading = false;
       }
     },
+
+    // Move setCarouselHeight inside methods
+    setCarouselHeight() {
+      const form = this.$el.querySelector(".form-container");
+      const carousel = this.$el.querySelector(".image-container");
+      if (form && carousel) {
+        carousel.style.height = form.offsetHeight * 0.9 + "px";
+      }
+    },
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.setCarouselHeight();
+      window.addEventListener("resize", this.setCarouselHeight);
+    });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.setCarouselHeight);
   },
 };
 </script>
 
 <style>
+
+.image-container {
+  min-height: 200px; /* reduced */
+  height: 250px;     /* reduced from 350px */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 10px;
+  opacity: 0.8;
+}
+
+
+/* Make slides fill the container */
+.slides img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0; /* Base opacity for animation start */
+  animation: fade 9s infinite;
+  filter: brightness(80%); /* Slightly darken for better text visibility */
+}
+
+/* stagger animation delays */
+.slides img:nth-child(1) { animation-delay: 0s; }
+.slides img:nth-child(2) { animation-delay: 3s; }
+.slides img:nth-child(3) { animation-delay: 6s; }
+.slides img:nth-child(4) { animation-delay: 9s; }
+
+@keyframes fade {
+  0%, 33.33% { opacity: 1; }
+  33.34%, 100% { opacity: 0; }
+}
 
 .custom-select-wrapper {
   position: relative;

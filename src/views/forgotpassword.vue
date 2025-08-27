@@ -9,34 +9,29 @@
 
 
 </nav>
-  
-      <div class="main-section">
-        <div class="image-container">
-          <img src="/public/a.png" alt="Reset Password Illustration" />
-        </div>
-  
-        <div class="form-container">
-          <h4 class="welcome-text">Forgot Password</h4>
-          <p class="sub-text">Enter your email to reset your password.</p>
-  
-          <form @submit.prevent="submitEmail" class="login-form">
-            <label for="email">Email Address</label>
-            <input v-model="email" type="email" id="email" required placeholder="Enter your email" />
-            <div class="error" v-if="error">{{ error }}</div>
-            <div class="success" v-if="success">{{ success }}</div>
-  
-            <button :disabled="loading" type="submit" class="submit-btn">
-              <span v-if="loading">Sending...</span>
-              <span v-else>Verify Email</span>
-            </button>
-  
-            <p class="signup-text" style="margin-top: 10px; font-weight: 450">
-              Remember your password?
-              <a style="color: gray;" @click="$router.push('/sign-in')">Go to Sign in</a>
-            </p>
-          </form>
-        </div>
+<div class="main-section">
+      <div class="form-container">
+        <h4 class="welcome-text">Forgot Password</h4>
+        <p class="sub-text">Enter your email to reset your password.</p>
+
+        <form @submit.prevent="submitEmail" class="login-form">
+          <label for="email">Email Address</label>
+          <input v-model="email" type="email" id="email" required placeholder="Enter your email" />
+          <div class="error" v-if="error">{{ error }}</div>
+          <div class="success" v-if="success">{{ success }}</div>
+
+          <button :disabled="loading" type="submit" class="submit-btn">
+            <span v-if="loading">Sending...</span>
+            <span v-else>Verify Email</span>
+          </button>
+
+          <p class="signup-text" style="margin-top: 10px; font-weight: 450">
+            Remember your password?
+            <a style="color: gray;" @click="$router.push('/sign-in')">Go to Sign in</a>
+          </p>
+        </form>
       </div>
+    </div>
     </div>
   </template>
   
@@ -89,6 +84,21 @@
   </script>
   
   <style scoped>
+  /* Center the form vertically & horizontally */
+.main-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* Full height minus navbar */
+  padding: 20px;
+}
+
+/* Keep your existing styles, just make sure form is responsive */
+.form-container {
+  width: 100%;
+  max-width: 400px; /* Prevents stretching */
+}
+
   .success {
     color: green;
     font-size: 12px;
