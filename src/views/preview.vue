@@ -186,72 +186,7 @@
 
 
     
-      <div class="container-fluid">
-        <ul class="dropdowns-container" style="margin-top: 10px">
-
-          
-         
-          <li class="custom-dropdown" style="list-style: none !important">
-            <a
-              href="#"
-              @click="closeNavbar"
-              style="
-                font-family: 'Georgia', serif;
-                font-size: 20px;
-                font-style: italic;
-                font-weight: bold;
-                color: black;
-                letter-spacing: 2px;
-                text-transform: capitalize;
-                text-decoration: none;
-              "
-              class="nav-toggle no-bullets"
-            >
-              eBooks
-              <span class="arrow" style="font-size: 16px; color: black"
-                >&#9662;</span
-              >
-            </a>
-
-            <ul class="big-dropdown">
-              <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category.name }}</a>
-              </li>
-            </ul>
-          </li>
-
-         
-          <li class="custom-dropdown" style="list-style: none !important">
-            <a
-              href="#"
-              @click="closeNavbar"
-              style="
-                font-family: 'Georgia', serif;
-                font-size: 20px;
-                font-style: italic;
-                font-weight: bold;
-                color: black;
-                letter-spacing: 2px;
-                text-transform: capitalize;
-                text-decoration: none;
-              "
-              class="nav-toggle no-bullets"
-            >
-              AUDIOBOOKS
-              <span class="arrow" style="font-size: 16px; color: black"
-                >&#9662;</span
-              >
-            </a>
-
-            <ul class="big-dropdown">
-              <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category.name }}</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-     
-    </div>
+    
     </nav>
   
       <div class="container my-5 p-3">
@@ -834,21 +769,31 @@ export default {
 </script>
 
  <style scoped>
-  .logout-btn {
+ .logout-btn {
   background-color: #4d148c;
-  color: white;
+  color: #fff;                     
   border: none;
-  padding: 6px 14px;
-  font-size: 14px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 8px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .logout-btn:hover {
-  background-color: #5e19b3; /* lighter shade */
+  background-color: #5e19b3;
+  color: #fff !important;          
   transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
+.logout-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  color: #fff !important;         
+}
 @media (max-width: 768px) {
   .logout-btn {
     padding: 8px 16px;

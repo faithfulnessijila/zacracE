@@ -215,7 +215,8 @@
 
             <ul class="big-dropdown">
               <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category.name }}</a>
+                <a :href="`#${category.name}`">{{ category.name }}</a>
+
               </li>
             </ul>
           </li>
@@ -245,7 +246,7 @@
 
             <ul class="big-dropdown">
               <li v-for="(category, index) in categories" :key="index">
-                <a href="#">{{ category.name }}</a>
+                <a :href="`#${category.name}`">{{ category.name }}</a>
               </li>
             </ul>
           </li>
@@ -256,6 +257,7 @@
   
     <div v-for="(category, index) in categories" :key="index" class="container my-5">
       <button
+      :id="`${category.name}`"
         class="btn fw-bold"
         style="
           background-color: #007bff;
@@ -456,7 +458,7 @@ export default {
   data() {
     return {
       categories: "",
-      user: null, // <-- store user info
+      user: null, 
       shopProducts: []
     };
   },
@@ -562,32 +564,44 @@ export default {
     document.addEventListener("click", this.handleClickOutside);
     this.setupMultiCardCarousel();
     this.api();
-    this.fetchUser(); // <-- call user info API
+    this.fetchUser();
   },
 };
 </script>
 
 <style scoped>
- .logout-btn {
+.logout-btn {
   background-color: #4d148c;
-  color: white;
+  color: #fff;                     
   border: none;
-  padding: 6px 14px;
-  font-size: 14px;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 8px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .logout-btn:hover {
-  background-color: #5e19b3; /* lighter shade */
+  background-color: #5e19b3;
+  color: #fff !important;          
   transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
+
+.logout-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  color: #fff !important;         
+}
+
 
 @media (max-width: 768px) {
   .logout-btn {
     padding: 8px 16px;
-    font-size: 16px; /* bigger text for mobile */
-    width: 100%; /* full width on small screens */
+    font-size: 16px; 
+    width: 100%; 
     margin-top: 8px;
   }
 }

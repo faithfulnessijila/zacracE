@@ -10,7 +10,6 @@
             <img src="/public/mercy.jpg"
               :alt="slide.title" 
               class="card-img-top"
-              alt = "The Wedding People"
               style="
                 width: 100%;
                 height: 240px;
