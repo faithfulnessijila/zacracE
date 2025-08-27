@@ -142,29 +142,44 @@
             </li>
 
            
-            <li class="nav-item text-center">
-              <button
-                @click="$router.push('/sign-up')"
-                class="btn text-white fw-semibold px-3 py-2 w-100"
-                style="
-                  border-radius: 0;
-                  font-size: 14px;
-                  background-color: #4d148c;
-                "
-              >
-                Create account
-              </button>
-              <span class="d-block mt-1 text-muted" style="font-size: 13px">
-                Have an account?
-                <a
-                  @click="$router.push('/sign-in')"
-                  href="#"
-                  class="fw-semibold"
-                  style="color: #4d148c"
-                  >Sign in</a
-                >
-              </span>
-            </li>
+            <li class="nav-item" v-if="user">
+  <span class="fw-semibold" style="color: #4d148c; font-size: 18px;">
+     Welcome, {{ user.name }}
+  </span>
+  <button
+  class="btn logout-btn btn-sm ms-2"
+  @click="logout"
+>
+  Logout
+</button>
+
+</li>
+
+
+<li v-else class="nav-item text-center">
+  <button
+    @click="$router.push('/sign-up')"
+    class="btn text-white fw-semibold px-3 py-2 w-100"
+    style="
+      border-radius: 0;
+      font-size: 14px;
+      background-color: #4d148c;
+    "
+  >
+    Create account
+  </button>
+  <span class="d-block mt-1 text-muted" style="font-size: 13px">
+    Have an account?
+    <a
+      @click="$router.push('/sign-in')"
+      href="#"
+      class="fw-semibold"
+      style="color: #4d148c"
+      >Sign in</a
+    >
+  </span>
+</li>
+
           </ul>
         </div>
       </div>
@@ -855,10 +870,10 @@
       </div>
     </div>
   </div>
-</template>
-<script>
+</template><script>
 import axios from "axios";
 import Carousel from "../components/carousel.vue";
+
 export default {
   components: {
     Carousel,
@@ -866,87 +881,160 @@ export default {
   data() {
     return {
       categories: "",
+      user: null, // <-- store user info
     };
   },
 
   beforeUnmount() {
     document.removeEventListener("click", this.handleClickOutside);
   },
+
   methods: {
-    toggleNavbar() {
-      this.bsCollapse.toggle();
-    },
-    closeNavbar() {
-      if (
-        this.bsCollapse &&
-        this.$refs.navbarCollapse.classList.contains("show")
-      ) {
-        this.bsCollapse.hide();
+  toggleNavbar() {
+    this.bsCollapse.toggle();
+  },
+  closeNavbar() {
+    if (
+      this.bsCollapse &&
+      this.$refs.navbarCollapse.classList.contains("show")
+    ) {
+      this.bsCollapse.hide();
+    }
+  },
+  handleClickOutside(event) {
+    const navbar = this.$refs.navbarCollapse;
+    if (
+      navbar &&
+      navbar.classList.contains("show") &&
+      !navbar.contains(event.target) &&
+      !event.target.closest(".navbar-toggler")
+    ) {
+      this.bsCollapse.hide();
+    }
+  },
+  setupMultiCardCarousel() {
+    const items = document.querySelectorAll(
+      "#multiCardCarousel .carousel-item"
+    );
+
+    items.forEach((el) => {
+      const minPerSlide = 3;
+      let next = el.nextElementSibling;
+
+      for (let i = 1; i < minPerSlide; i++) {
+        if (!next) {
+          next = items[0];
+        }
+        const cloneChild = next.firstElementChild.cloneNode(true);
+        el.appendChild(cloneChild);
+        next = next.nextElementSibling;
       }
-    },
-    handleClickOutside(event) {
-      const navbar = this.$refs.navbarCollapse;
-      if (
-        navbar &&
-        navbar.classList.contains("show") &&
-        !navbar.contains(event.target) &&
-        !event.target.closest(".navbar-toggler")
-      ) {
-        this.bsCollapse.hide();
-      }
-    },
-    setupMultiCardCarousel() {
-      const items = document.querySelectorAll(
-        "#multiCardCarousel .carousel-item"
+    });
+  },
+
+  async api() {
+    try {
+      const response = await axios.get(
+        "https://zacracebookwebsite.onrender.com/ebook/products",
+        { headers: { "Content-Type": "application/json" } }
+      );
+      this.categories = response.data.categories;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async fetchUser() {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const { data } = await axios.get(
+        "https://zacracebookwebsite.onrender.com/api/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
-      items.forEach((el) => {
-        const minPerSlide = 3; // number of cards to show at once
-        let next = el.nextElementSibling;
+      console.log("USER DATA:", data);
 
-        for (let i = 1; i < minPerSlide; i++) {
-          if (!next) {
-            next = items[0]; // loop back to first
-          }
-          const cloneChild = next.firstElementChild.cloneNode(true);
-          el.appendChild(cloneChild);
-          next = next.nextElementSibling;
-        }
-      });
-    },
-    async api() {
-      try {
-        const response = await axios.get(
-          "https://zacracebookwebsite.onrender.com/ebook/products",
-
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        this.categories = response.data.categories;
-        console.log(response);
-      } catch (error) {
-      } finally {
-      }
-    },
+      // Adjust to match exact structure
+      this.user = data.user ? data.user : data;
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+    }
   },
-  mounted() {
-  const navbarEl = document.getElementById("mainNavbar");
-  this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
-    toggle: false, 
-  });
 
-  document.addEventListener("click", this.handleClickOutside);
-  this.setupMultiCardCarousel();
-  this.api();
-}
-,
+  async fetchShop() {
+    try {
+      const { data } = await axios.get(
+        "https://zacracebookwebsite.onrender.com/ebook/products/shop"
+      );
+      console.log("SHOP DATA:", data);
+      this.shopProducts = data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.user = null;
+    this.$router.push("/sign-in");
+  },
+},
+  
+  async fetchShop() {
+  try {
+    const { data } = await axios.get(
+      "https://zacracebookwebsite.onrender.com/ebook/products/shop"
+    );
+    console.log("SHOP DATA:", data);
+    this.shopProducts = data;
+  } catch (error) {
+    console.error(error);
+  }
+},
+
+  mounted() {
+    const navbarEl = document.getElementById("mainNavbar");
+    this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
+      toggle: false,
+    });
+
+    document.addEventListener("click", this.handleClickOutside);
+    this.setupMultiCardCarousel();
+    this.api();
+    this.fetchUser(); // <-- call user info API
+  },
 };
 </script>
+
 <style scoped>
- 
+ .logout-btn {
+  background-color: #4d148c;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #5e19b3; /* lighter shade */
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .logout-btn {
+    padding: 8px 16px;
+    font-size: 16px; /* bigger text for mobile */
+    width: 100%; /* full width on small screens */
+    margin-top: 8px;
+  }
+}
  
  
  .hover-card {
