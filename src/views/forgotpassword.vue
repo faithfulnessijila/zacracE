@@ -27,7 +27,7 @@
 
           <p class="signup-text" style="margin-top: 10px; font-weight: 450">
             Remember your password?
-            <a style="color: gray;" @click="$router.push('/sign-in')">Go to Sign in</a>
+            <a style="color: gray; cursor: pointer; text-decoration: underline;" @click="$router.push('/sign-in')">Go to Sign in</a>
           </p>
         </form>
       </div>
