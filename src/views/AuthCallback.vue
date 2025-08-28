@@ -1,16 +1,9 @@
 <template>
   <div class="landing-page">
-    <nav class="navbar">
-      <div class="navbar-logo">
-        <img src="/public/d.png" alt="Logo" class="logo-icon" />
-        <h3 class="logo-text">Zacrac <span>Learning</span></h3>
-      </div>
-      <button class="logout-btn" @click="logout">Logout</button>
-    </nav>
-
-    <div class="welcome-section">
-      <h1>Welcome, {{ userName }}!</h1>
-      <p>Glad to have you back 🎉</p>
+    <div class="welcome-container">
+      <img src="/public/d.png" alt="Logo" class="logo-icon-big" />
+      <h1>Welcome, {{ userName }}! 🎉</h1>
+      <p class="welcome-text">We’re glad to have you back!</p>
     </div>
   </div>
 </template>
@@ -19,28 +12,26 @@
 export default {
   data() {
     return {
-      userName: '',
+      userName: "",
     };
   },
   mounted() {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem("user");
     if (user) {
       try {
-        this.userName = JSON.parse(user).name || JSON.parse(user).email;
+        const parsedUser = JSON.parse(user);
+        this.userName = parsedUser.name || parsedUser.email;
       } catch {
         this.userName = user;
       }
+
+      // Redirect after 2.5 seconds
+      setTimeout(() => {
+        this.$router.push("/");
+      }, 2500);
     } else {
-      // If user info doesn't exist, redirect to login
-      this.$router.push('/');
+      this.$router.push("/sign-in");
     }
-  },
-  methods: {
-    logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      this.$router.push('/');
-    },
   },
 };
 </script>
@@ -48,48 +39,37 @@ export default {
 <style scoped>
 .landing-page {
   min-height: 100vh;
-  background: #e8eee9;
+  background: linear-gradient(135deg, #4d148c, #ff6600);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-}
-
-.navbar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  background: #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.navbar-logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-icon {
-  height: 25px;
-  width: 25px;
-  margin-right: 8px;
-}
-
-.logout-btn {
-  background: #ff6600;
-  border: none;
-  color: #fff;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.welcome-section {
-  margin-top: 100px;
+  color: white;
   text-align: center;
 }
 
-.welcome-section h1 {
-  color: #4d148c;
+.welcome-container {
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.logo-icon-big {
+  height: 60px;
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.welcome-text {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

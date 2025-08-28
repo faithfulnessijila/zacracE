@@ -20,15 +20,16 @@
           <form @submit.prevent="submitOtp">
             <div class="otp-inputs">
               <input
-                v-for="(digit, index) in otpDigits"
-                :key="index"
-                type="text"
-                maxlength="1"
-                class="otp-box"
-                v-model="otpDigits[index]"
-                @input="focusNext(index)"
-                @keydown.backspace="focusPrev(index)"
-                ref="otpRefs"
+              v-for="(digit, index) in otpDigits"
+              :key="index"
+              type="text"
+              maxlength="1"
+              class="otp-box"
+              v-model="otpDigits[index]"
+              @input="onInput(index)"
+              @keydown.backspace="onBackspace(index)"
+              @paste="onPaste"
+              ref="otpRefs"
               />
             </div>
   
@@ -61,149 +62,130 @@
       </section>
     </div>
   </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        otpDigits: ['', '', '', '', '', ''],
-        loading: false,
-        error: null,
-        resendDisabled: false,
-        countdown: 60,
-        resendSuccess: false,
-        verificationSuccess: false,
-        resendLoading: false,
-        email: '', 
+<script>
+export default {
+  data() {
+    return {
+      otpDigits: ['', '', '', '', '', ''],
+      loading: false,
+      error: null,
+      resendDisabled: false,
+      countdown: 60,
+      verificationSuccess: false,
+      resendLoading: false,
+      email: '',
+    }
+  },
+  mounted() {
+    this.email = localStorage.getItem('email') || localStorage.getItem('emailForVerification') || '';
+    if (!this.email) this.error = 'Email not found. Please sign up again.';
+
+    // 🔥 Web OTP API (autofill from SMS on Android Chrome)
+    if ('OTPCredential' in window) {
+      navigator.credentials.get({ otp: { transport: ['sms'] } })
+        .then((otp) => {
+          if (otp && otp.code) {
+            this.otpDigits = otp.code.split('');
+            this.submitOtp();
+          }
+        })
+        .catch(() => console.log('Web OTP API not supported or blocked.'));
+    }
+  },
+  methods: {
+    onInput(index) {
+      if (this.otpDigits[index].length === 1 && index < this.otpDigits.length - 1) {
+        this.$refs.otpRefs[index + 1].focus();
+      }
+      this.autoSubmitIfComplete();
+    },
+    onBackspace(index) {
+      if (!this.otpDigits[index] && index > 0) {
+        this.$refs.otpRefs[index - 1].focus();
       }
     },
-    watch: {
-      otpDigits: {
-        handler() {
-          this.error = null;
-        },
-        deep: true
+    onPaste(event) {
+      const pasted = event.clipboardData.getData('text').trim();
+      if (/^\d{6}$/.test(pasted)) {
+        this.otpDigits = pasted.split('');
+        this.$nextTick(() => {
+          this.$refs.otpRefs[5].focus();
+          this.autoSubmitIfComplete();
+        });
+      }
+      event.preventDefault();
+    },
+    autoSubmitIfComplete() {
+      const otp = this.otpDigits.join('');
+      if (/^\d{6}$/.test(otp)) {
+        this.submitOtp();
       }
     },
-    created() {
-     
-      this.email = localStorage.getItem('email') || localStorage.getItem('emailForVerification') || '';
-      if (!this.email) {
-        this.error = "Email not found. Please sign up again.";
-      }
-    },
-  
-    methods: {
-    validatePaste(event) {
-      const pastedData = event.clipboardData.getData('text');
-      if (!/^\d+$/.test(pastedData)) {
-        event.preventDefault();
-      }
-    },
-  
-    validateNumber(event) {
-      const charCode = event.which ? event.which : event.keyCode;
-      if (charCode < 48 || charCode > 57) {
-        event.preventDefault();
-      }
-    },
-  
-    handleBackspace(event, index) {
-     
-      if (event.key === 'Backspace' && !this.otpDigits[index] && index > 0) {
-        this.$refs[`input${index - 1}`].focus();
-      }
-    },
-  
     async submitOtp() {
       this.loading = true;
       this.error = null;
       try {
         const otp = this.otpDigits.join('');
-        if (otp.length !== 6 || !/^\d{6}$/.test(otp)) {
+        if (!/^\d{6}$/.test(otp)) {
           this.error = 'Invalid OTP';
           return;
         }
         const response = await fetch('https://zacracebookwebsite.onrender.com/ebook/auth/verify-otp', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: this.email, otp })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: this.email, otp }),
         });
         if (response.ok) {
           this.verificationSuccess = true;
-          setTimeout(() => {
-            this.$router.push('/sign-in');
-          }, 2000);
+          setTimeout(() => this.$router.push('/sign-in'), 2000);
         } else {
           const errorData = await response.json();
           this.error = errorData.message || 'An error occurred';
         }
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
         this.error = 'An error occurred';
       } finally {
         this.loading = false;
       }
     },
-  
-    focusNextInput(index) {
-      if (index < this.otpDigits.length && this.otpDigits[index - 1].trim() !== '') {
-        this.$nextTick(() => {
-          this.$refs[`input${index}`].focus();
-        });
-      }
-    },
-  
     async resendOtp() {
       if (this.resendLoading || this.resendDisabled) return;
       this.resendLoading = true;
       try {
         const response = await fetch('https://zacracebookwebsite.onrender.com/ebook/auth/resend-otp', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: this.email })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: this.email }),
         });
         if (response.ok) {
-          console.log('OTP resent successfully');
-          this.resendSuccess = true;
-          setTimeout(() => {
-            this.resendSuccess = false;
-          }, 2000);
           this.resendDisabled = true;
           this.startCountdown();
         } else {
           const errorData = await response.json();
           this.error = errorData.message || 'An error occurred';
         }
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
         this.error = 'An error occurred';
       } finally {
         this.resendLoading = false;
       }
     },
-  
     startCountdown() {
-      const intervalId = setInterval(() => {
-        if (this.countdown > 0) {
-          this.countdown--;
-        } else {
-          clearInterval(intervalId);
+      const timer = setInterval(() => {
+        if (this.countdown > 0) this.countdown--;
+        else {
+          clearInterval(timer);
           this.resendDisabled = false;
           this.countdown = 60;
         }
       }, 1000);
-    }
-  }
-  
-  }
-  </script>
-  
-  
+    },
+  },
+}
+</script>
+
   
   
   <style scoped>

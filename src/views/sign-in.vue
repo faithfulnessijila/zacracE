@@ -139,6 +139,7 @@ export default {
 
   methods: {
     googleAuth() {
+  this.loading = true;
   const width = 500;
   const height = 600;
   const left = (screen.width - width) / 2;
@@ -150,16 +151,32 @@ export default {
     `width=${width},height=${height},top=${top},left=${left}`
   );
 
-  const timer = setInterval(() => {
-    if (!popup || popup.closed) {
-      clearInterval(timer);
-      const token = localStorage.getItem("token");
-      const user = localStorage.getItem("user");
-      if (token && user) {
-        this.$router.push("/preview");
-      }
+  if (!popup) {
+    this.errorMessage = "Popup blocked! Please allow popups for this site.";
+    this.loading = false;
+    return;
+  }
+
+  // ✅ Listen for messages from the popup
+  const receiveMessage = (event) => {
+    if (
+      event.origin !== "https://zacracebookwebsite.onrender.com" ||
+      !event.data.token
+    ) {
+      return;
     }
-  }, 500);
+
+    // 🔥 Save user and token
+    localStorage.setItem("token", event.data.token);
+    localStorage.setItem("user", JSON.stringify(event.data.user));
+
+    window.removeEventListener("message", receiveMessage);
+    popup.close();
+    this.loading = false;
+    this.$router.push("/auth-callback");
+  };
+
+  window.addEventListener("message", receiveMessage);
 },
 
     validateForm() {
@@ -197,11 +214,14 @@ export default {
           { headers: { "Content-Type": "application/json" } }
         );
 
-        const { token, user, message } = response.data;
-        const userParam = encodeURIComponent(JSON.stringify(user));
-        this.$router.push(
-          `/auth-callback?token=${token}&user=${userParam}&message=${encodeURIComponent(message || "Login successful!")}`
-        );
+        const { token, user } = response.data;
+
+        // 🔥 Save token and user in localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // ✅ Redirect to auth-callback after email login
+        this.$router.push("/auth-callback");
       } catch (error) {
         const status = error.response?.status;
         const message = error.response?.data?.message;
@@ -227,7 +247,6 @@ export default {
       }
     },
 
-    // Add this method
     setCarouselHeight() {
       const form = this.$el.querySelector(".form-container");
       const carousel = this.$el.querySelector(".image-container");
@@ -238,26 +257,15 @@ export default {
   },
 
   mounted() {
-  this.$nextTick(() => {
-    this.setCarouselHeight();
-    window.addEventListener("resize", this.setCarouselHeight);
-  });
+    this.$nextTick(() => {
+      this.setCarouselHeight();
+      window.addEventListener("resize", this.setCarouselHeight);
+    });
+  },
 
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get("token");
-  const user = params.get("user");
-
-  if (token && user) {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", user);
-    this.$router.push("/preview");
-  }
-},
-beforeDestroy() {
-  window.removeEventListener("resize", this.setCarouselHeight);
-},
-
-  
+  beforeDestroy() {
+    window.removeEventListener("resize", this.setCarouselHeight);
+  },
 };
 </script>
 

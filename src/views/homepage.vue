@@ -156,7 +156,7 @@
 </li>
 
 
-<li  v-if="!user && showCreateAccount"  class="nav-item text-center">
+<li v-else class="nav-item text-center">
   <button
     @click="$router.push('/sign-up')"
     class="btn text-white fw-semibold px-3 py-2 w-100"
@@ -457,10 +457,10 @@ export default {
   },
   data() {
     return {
-      categories: "",
-      user: null, 
-      showCreateAccount: false,
-      shopProducts: []
+      categories: [],
+      user: null,
+      shopProducts: [],
+      loadingUser: true,
     };
   },
 
@@ -469,101 +469,101 @@ export default {
   },
 
   methods: {
-  toggleNavbar() {
-    this.bsCollapse.toggle();
-  },
-  closeNavbar() {
-    if (
-      this.bsCollapse &&
-      this.$refs.navbarCollapse.classList.contains("show")
-    ) {
-      this.bsCollapse.hide();
-    }
-  },
-  handleClickOutside(event) {
-    const navbar = this.$refs.navbarCollapse;
-    if (
-      navbar &&
-      navbar.classList.contains("show") &&
-      !navbar.contains(event.target) &&
-      !event.target.closest(".navbar-toggler")
-    ) {
-      this.bsCollapse.hide();
-    }
-  },
-  setupMultiCardCarousel() {
-    const items = document.querySelectorAll(
-      "#multiCardCarousel .carousel-item"
-    );
-
-    items.forEach((el) => {
-      const minPerSlide = 3;
-      let next = el.nextElementSibling;
-
-      for (let i = 1; i < minPerSlide; i++) {
-        if (!next) {
-          next = items[0];
-        }
-        const cloneChild = next.firstElementChild.cloneNode(true);
-        el.appendChild(cloneChild);
-        next = next.nextElementSibling;
+    toggleNavbar() {
+      this.bsCollapse.toggle();
+    },
+    closeNavbar() {
+      if (
+        this.bsCollapse &&
+        this.$refs.navbarCollapse.classList.contains("show")
+      ) {
+        this.bsCollapse.hide();
       }
-    });
-  },
-
-  async api() {
-    try {
-      const response = await axios.get(
-        "https://zacracebookwebsite.onrender.com/ebook/products/shop",
-        { headers: { "Content-Type": "application/json" } }
+    },
+    handleClickOutside(event) {
+      const navbar = this.$refs.navbarCollapse;
+      if (
+        navbar &&
+        navbar.classList.contains("show") &&
+        !navbar.contains(event.target) &&
+        !event.target.closest(".navbar-toggler")
+      ) {
+        this.bsCollapse.hide();
+      }
+    },
+    setupMultiCardCarousel() {
+      const items = document.querySelectorAll(
+        "#multiCardCarousel .carousel-item"
       );
-      this.categories = response.data.categories;
-    } catch (error) {
-      console.error(error);
-    }
-  },
 
-  async fetchUser() {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+      items.forEach((el) => {
+        const minPerSlide = 3;
+        let next = el.nextElementSibling;
 
-      const { data } = await axios.get(
-        "https://zacracebookwebsite.onrender.com/api/me",
-        {
-          headers: { Authorization: `Bearer ${token}` },
+        for (let i = 1; i < minPerSlide; i++) {
+          if (!next) {
+            next = items[0];
+          }
+          const cloneChild = next.firstElementChild.cloneNode(true);
+          el.appendChild(cloneChild);
+          next = next.nextElementSibling;
         }
-      );
+      });
+    },
 
-      console.log("USER DATA:", data);
+    async api() {
+      try {
+        const response = await axios.get(
+          "https://zacracebookwebsite.onrender.com/ebook/products/shop",
+          { headers: { "Content-Type": "application/json" } }
+        );
+        this.categories = response.data.categories;
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
-      // Adjust to match exact structure
-      this.user = data.user ? data.user : data;
-    } catch (error) {
-      console.error("Failed to fetch user:", error);
-    }
-    finally {
-    this.loadingUser = false; // <-- hide loading after fetch
-  }
+    async fetchUser() {
+      try {
+        const token = localStorage.getItem("token");
+        const storedUser = localStorage.getItem("user");
+
+        if (storedUser) {
+          this.user = JSON.parse(storedUser);
+        }
+
+        if (!token) return;
+
+        const { data } = await axios.get(
+          "https://zacracebookwebsite.onrender.com/api/me",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        this.user = data.user || data;
+        localStorage.setItem("user", JSON.stringify(this.user));
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      } finally {
+        this.loadingUser = false;
+      }
+    },
+
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.user = null;
+      this.$router.push("/sign-in");
+    },
   },
-
-
-
-  logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    this.user = null;
-    this.$router.push("/sign-in");
-  },
-},
-  
-
 
   mounted() {
     const storedUser = localStorage.getItem("user");
-  if (storedUser) {
-    this.user = JSON.parse(storedUser);
-  }
+    if (storedUser) {
+      this.user = JSON.parse(storedUser);
+    }
+
     const navbarEl = document.getElementById("mainNavbar");
     this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
       toggle: false,
