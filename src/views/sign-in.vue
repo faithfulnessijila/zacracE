@@ -199,27 +199,45 @@ export default {
       window.location.href = "https://zacracebookwebsite.onrender.com/ebook/auth/google";
     },
 
+    // Decode JWT safely
+    parseJwt(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        console.error('Invalid token', e);
+        return null;
+      }
+    },
+
     // Handle token from URL (after Google OAuth redirect)
     handleTokenFromURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
       if (token) {
-        // Store token
-        localStorage.setItem("token", token);
+        const payload = this.parseJwt(token);
 
-        // Decode JWT to get user info
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const user = JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
-          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        ).join('')));
-        localStorage.setItem("user", JSON.stringify(user));
+        if (payload && payload.exp * 1000 > Date.now()) {
+          // Token is valid
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(payload));
 
-        // Clean URL
-        window.history.replaceState({}, document.title, "/");
+          // Clean URL
+          window.history.replaceState({}, document.title, "/");
 
-        // Redirect to user landing
-        this.$router.push("/user-landing");
+          // Redirect to user landing
+          this.$router.push("/user-landing");
+        } else {
+          console.warn("Token expired or invalid");
+          this.$router.push("/login");
+        }
       }
     },
 
