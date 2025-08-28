@@ -139,7 +139,6 @@ export default {
 
   methods: {
     googleAuth() {
-  this.loading = true;
   const width = 500;
   const height = 600;
   const left = (screen.width - width) / 2;
@@ -151,33 +150,34 @@ export default {
     `width=${width},height=${height},top=${top},left=${left}`
   );
 
-  if (!popup) {
-    this.errorMessage = "Popup blocked! Please allow popups for this site.";
-    this.loading = false;
-    return;
-  }
+  let attempts = 0;
+  const timer = setInterval(() => {
+    attempts++;
 
-  // ✅ Listen for messages from the popup
-  const receiveMessage = (event) => {
-    if (
-      event.origin !== "https://zacracebookwebsite.onrender.com" ||
-      !event.data.token
-    ) {
-      return;
+    // If popup closed
+    if (!popup || popup.closed) {
+      clearInterval(timer);
+
+      setTimeout(() => {
+        const token = localStorage.getItem("token");
+        const user = localStorage.getItem("user");
+
+        if (token && user) {
+          this.$router.push("/auth-callback");
+        } else {
+          this.errorMessage = "Google Sign-In failed. Please try again.";
+        }
+      }, 500); // Small delay to allow backend to write token
     }
 
-    // 🔥 Save user and token
-    localStorage.setItem("token", event.data.token);
-    localStorage.setItem("user", JSON.stringify(event.data.user));
-
-    window.removeEventListener("message", receiveMessage);
-    popup.close();
-    this.loading = false;
-    this.$router.push("/auth-callback");
-  };
-
-  window.addEventListener("message", receiveMessage);
+    // Stop after 10 seconds of checking
+    if (attempts > 20) {
+      clearInterval(timer);
+      this.errorMessage = "Google Sign-In timeout. Please try again.";
+    }
+  }, 500);
 },
+
 
     validateForm() {
       const errors = {};
