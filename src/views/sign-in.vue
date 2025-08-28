@@ -138,122 +138,114 @@ export default {
   },
 
   methods: {
-  handleSubmit() {
-    this.errorMessage = "";
-    this.loading = true;
+    // Normal login
+    async handleSubmit() {
+      this.errorMessage = "";
+      this.loading = true;
 
-    if (!this.validateForm()) {
-      this.loading = false;
-      return;
-    }
-
-    axios.post("https://zacracebookwebsite.onrender.com/ebook/auth/signin", this.form, {
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(res => {
-      const { token, user } = res.data;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      this.$router.push("/auth-callback");
-    })
-    .catch(error => {
-      const status = error.response?.status;
-      const message = error.response?.data?.message;
-      if (message === "Email already registered with a different provider, sign in normally") {
-        this.errorMessage = "⚠️ This email is linked to a Google account. Please sign in with Google.";
-      } else if (status === 400) {
-        this.errorMessage = message || "Invalid input. Please check your email/password.";
-      } else if (status === 409) {
-        this.errorMessage = "⚠️ Email already registered. Please sign in.";
-      } else if (status === 500) {
-        this.errorMessage = "🚨 Server error. Please try again later.";
-      } else {
-        this.errorMessage = message || "Something went wrong. Try again.";
+      if (!this.validateForm()) {
+        this.loading = false;
+        return;
       }
-    })
-    .finally(() => this.loading = false);
+
+      try {
+        const res = await axios.post(
+          "https://zacracebookwebsite.onrender.com/ebook/auth/signin",
+          this.form,
+          { headers: { "Content-Type": "application/json" } }
+        );
+
+        const { token, user } = res.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        this.$router.push("/user-landing");
+      } catch (error) {
+        const status = error.response?.status;
+        const message = error.response?.data?.message;
+        if (message === "Email already registered with a different provider, sign in normally") {
+          this.errorMessage = "⚠️ This email is linked to a Google account. Please sign in with Google.";
+        } else if (status === 400) {
+          this.errorMessage = message || "Invalid input. Please check your email/password.";
+        } else if (status === 409) {
+          this.errorMessage = "⚠️ Email already registered. Please sign in.";
+        } else if (status === 500) {
+          this.errorMessage = "🚨 Server error. Please try again later.";
+        } else {
+          this.errorMessage = message || "Something went wrong. Try again.";
+        }
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    // Simple validation
+    validateForm() {
+      const errors = {};
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!this.form.email) errors.email = "Email is required";
+      else if (!emailRegex.test(this.form.email)) errors.email = "Invalid email format";
+
+      if (!this.form.password) errors.password = "Password is required";
+      else if (this.form.password.length < 6) errors.password = "Password must be at least 6 characters";
+
+      this.errors = errors;
+      return Object.keys(errors).length === 0;
+    },
+
+    // Google login: redirect user to backend OAuth
+    googleAuth() {
+      window.location.href = "https://zacracebookwebsite.onrender.com/ebook/auth/google";
+    },
+
+    // Handle token from URL (after Google OAuth redirect)
+    handleTokenFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      if (token) {
+        // Store token
+        localStorage.setItem("token", token);
+
+        // Decode JWT to get user info
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const user = JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        ).join('')));
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // Clean URL
+        window.history.replaceState({}, document.title, "/");
+
+        // Redirect to user landing
+        this.$router.push("/user-landing");
+      }
+    },
+
+    // Resize carousel to match form height
+    setCarouselHeight() {
+      const form = this.$el.querySelector(".form-container");
+      const carousel = this.$el.querySelector(".image-container");
+      if (form && carousel) {
+        carousel.style.height = form.offsetHeight + "px";
+      }
+    },
   },
 
-  validateForm() {
-    const errors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  mounted() {
+    this.$nextTick(() => {
+      this.setCarouselHeight();
+      window.addEventListener("resize", this.setCarouselHeight);
 
-    if (!this.form.email) errors.email = "Email is required";
-    else if (!emailRegex.test(this.form.email)) errors.email = "Invalid email format";
-
-    if (!this.form.password) errors.password = "Password is required";
-    else if (this.form.password.length < 6) errors.password = "Password must be at least 6 characters";
-
-    this.errors = errors;
-    return Object.keys(errors).length === 0;
+      // Check for token in URL (Google login redirect)
+      this.handleTokenFromURL();
+    });
   },
 
-  googleAuth() {
-  const width = 500;
-  const height = 600;
-  const left = (screen.width - width) / 2;
-  const top = (screen.height - height) / 2;
-
-  const popup = window.open(
-    "https://zacracebookwebsite.onrender.com/ebook/auth/google",
-    "Google Sign-In",
-    `width=${width},height=${height},top=${top},left=${left}`
-  );
-
-  if (!popup) {
-    this.errorMessage = "Popup blocked. Please allow popups.";
-    return;
-  }
-
-  const checkPopup = setInterval(() => {
-    if (!popup || popup.closed) {
-      clearInterval(checkPopup);
-      const token = localStorage.getItem("token");
-      const user = localStorage.getItem("user");
-      if (token && user) {
-        // Redirect directly to token page (dashboard/home)
-        this.$router.push("/auth-callback"); 
-      } else {
-        this.errorMessage = "Google login cancelled or failed.";
-      }
-    }
-  }, 500);
-},
-
-
-handleTokenStorage(event) {
-  if (event.key === "token" && event.newValue) {
-    const user = localStorage.getItem("user");
-    if (user) {
-      // Redirect user immediately to token page
-      this.$router.push("/auth-callback");
-    }
-  }
-},
-
-
-  setCarouselHeight() {
-  const form = this.$el.querySelector(".form-container");
-  const carousel = this.$el.querySelector(".image-container");
-  if (form && carousel) {
-    carousel.style.height = form.offsetHeight + "px";
-  }
-}
-},
-
-mounted() {
-  this.$nextTick(() => {
-    this.setCarouselHeight();
-    window.addEventListener("resize", this.setCarouselHeight);
-    window.addEventListener("storage", this.handleTokenStorage);
-  });
-},
-
-beforeUnmount() {
-  window.removeEventListener("resize", this.setCarouselHeight);
-  window.removeEventListener("storage", this.handleTokenStorage);
-},
-  
+  beforeUnmount() {
+    window.removeEventListener("resize", this.setCarouselHeight);
+  },
 };
 </script>
 
