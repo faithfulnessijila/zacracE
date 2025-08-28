@@ -302,8 +302,6 @@ export default {
   opacity: 0.8;
 }
 
-
-/* Make slides fill the container */
 .slides img {
   position: absolute;
   top: 0;
@@ -311,21 +309,22 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0; /* Base opacity for animation start */
-  animation: fade 9s infinite;
-  filter: brightness(80%); /* Slightly darken for better text visibility */
+  opacity: 0;
+  animation: fade 12s infinite;
+  filter: brightness(80%);
 }
 
-/* stagger animation delays */
+/* Stagger the slides evenly */
 .slides img:nth-child(1) { animation-delay: 0s; }
 .slides img:nth-child(2) { animation-delay: 3s; }
 .slides img:nth-child(3) { animation-delay: 6s; }
 .slides img:nth-child(4) { animation-delay: 9s; }
 
 @keyframes fade {
-  0%, 33.33% { opacity: 1; }
-  33.34%, 100% { opacity: 0; }
+  0%, 25% { opacity: 1; }
+  26%, 100% { opacity: 0; }
 }
+
 
 .custom-select-wrapper {
   position: relative;

@@ -469,6 +469,7 @@ export default {
   },
 
   methods: {
+    
     toggleNavbar() {
       this.bsCollapse.toggle();
     },
@@ -573,6 +574,12 @@ export default {
     this.setupMultiCardCarousel();
     this.api();
     this.fetchUser();
+
+    const fromGoogle = localStorage.getItem("fromGoogleLogin");
+  if (fromGoogle === "true") {
+    localStorage.removeItem("fromGoogleLogin"); // Clear flag
+    this.$router.replace("/auth-callback"); // Redirect to welcome page
+  }
   },
 };
 </script>

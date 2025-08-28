@@ -85,7 +85,7 @@
           <p class="or-divider">OR</p>
 
         
-          <button class="google-btn" @click="googleAuth" aria-label="Sign in with Google" style="cursor: pointer;">
+          <button class="google-btn" type="button" @click="googleAuth" aria-label="Sign in with Google" style="cursor: pointer;">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1.5em"
@@ -138,7 +138,57 @@ export default {
   },
 
   methods: {
-    googleAuth() {
+  handleSubmit() {
+    this.errorMessage = "";
+    this.loading = true;
+
+    if (!this.validateForm()) {
+      this.loading = false;
+      return;
+    }
+
+    axios.post("https://zacracebookwebsite.onrender.com/ebook/auth/signin", this.form, {
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => {
+      const { token, user } = res.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      this.$router.push("/auth-callback");
+    })
+    .catch(error => {
+      const status = error.response?.status;
+      const message = error.response?.data?.message;
+      if (message === "Email already registered with a different provider, sign in normally") {
+        this.errorMessage = "⚠️ This email is linked to a Google account. Please sign in with Google.";
+      } else if (status === 400) {
+        this.errorMessage = message || "Invalid input. Please check your email/password.";
+      } else if (status === 409) {
+        this.errorMessage = "⚠️ Email already registered. Please sign in.";
+      } else if (status === 500) {
+        this.errorMessage = "🚨 Server error. Please try again later.";
+      } else {
+        this.errorMessage = message || "Something went wrong. Try again.";
+      }
+    })
+    .finally(() => this.loading = false);
+  },
+
+  validateForm() {
+    const errors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!this.form.email) errors.email = "Email is required";
+    else if (!emailRegex.test(this.form.email)) errors.email = "Invalid email format";
+
+    if (!this.form.password) errors.password = "Password is required";
+    else if (this.form.password.length < 6) errors.password = "Password must be at least 6 characters";
+
+    this.errors = errors;
+    return Object.keys(errors).length === 0;
+  },
+
+  googleAuth() {
   const width = 500;
   const height = 600;
   const left = (screen.width - width) / 2;
@@ -150,122 +200,60 @@ export default {
     `width=${width},height=${height},top=${top},left=${left}`
   );
 
-  let attempts = 0;
-  const timer = setInterval(() => {
-    attempts++;
+  if (!popup) {
+    this.errorMessage = "Popup blocked. Please allow popups.";
+    return;
+  }
 
-    // If popup closed
+  const checkPopup = setInterval(() => {
     if (!popup || popup.closed) {
-      clearInterval(timer);
-
-      setTimeout(() => {
-        const token = localStorage.getItem("token");
-        const user = localStorage.getItem("user");
-
-        if (token && user) {
-          this.$router.push("/auth-callback");
-        } else {
-          this.errorMessage = "Google Sign-In failed. Please try again.";
-        }
-      }, 500); // Small delay to allow backend to write token
-    }
-
-    // Stop after 10 seconds of checking
-    if (attempts > 20) {
-      clearInterval(timer);
-      this.errorMessage = "Google Sign-In timeout. Please try again.";
+      clearInterval(checkPopup);
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+      if (token && user) {
+        // Redirect directly to token page (dashboard/home)
+        this.$router.push("/auth-callback"); 
+      } else {
+        this.errorMessage = "Google login cancelled or failed.";
+      }
     }
   }, 500);
 },
 
 
-    validateForm() {
-      const errors = {};
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+handleTokenStorage(event) {
+  if (event.key === "token" && event.newValue) {
+    const user = localStorage.getItem("user");
+    if (user) {
+      // Redirect user immediately to token page
+      this.$router.push("/auth-callback");
+    }
+  }
+},
 
-      if (!this.form.email) errors.email = "Email is required";
-      else if (!emailRegex.test(this.form.email))
-        errors.email = "Invalid email format";
 
-      if (!this.form.password) errors.password = "Password is required";
-      else if (this.form.password.length < 6)
-        errors.password = "Password must be at least 6 characters";
+  setCarouselHeight() {
+  const form = this.$el.querySelector(".form-container");
+  const carousel = this.$el.querySelector(".image-container");
+  if (form && carousel) {
+    carousel.style.height = form.offsetHeight + "px";
+  }
+}
+},
 
-      this.errors = errors;
-      return Object.keys(errors).length === 0;
-    },
+mounted() {
+  this.$nextTick(() => {
+    this.setCarouselHeight();
+    window.addEventListener("resize", this.setCarouselHeight);
+    window.addEventListener("storage", this.handleTokenStorage);
+  });
+},
 
-    async handleSubmit() {
-      this.errorMessage = "";
-      this.loading = true;
-
-      if (!this.validateForm()) {
-        this.loading = false;
-        return;
-      }
-
-      try {
-        const response = await axios.post(
-          "https://zacracebookwebsite.onrender.com/ebook/auth/signin",
-          {
-            email: this.form.email,
-            password: this.form.password,
-          },
-          { headers: { "Content-Type": "application/json" } }
-        );
-
-        const { token, user } = response.data;
-
-        // 🔥 Save token and user in localStorage
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-
-        // ✅ Redirect to auth-callback after email login
-        this.$router.push("/auth-callback");
-      } catch (error) {
-        const status = error.response?.status;
-        const message = error.response?.data?.message;
-
-        if (
-          message ===
-          "Email already registered with a different provider, sign in normally"
-        ) {
-          this.errorMessage =
-            "⚠️ This email is linked to a Google account. Please sign in with Google.";
-        } else if (status === 400) {
-          this.errorMessage =
-            message || "Invalid input. Please check your email/password.";
-        } else if (status === 409) {
-          this.errorMessage = "⚠️ Email already registered. Please sign in.";
-        } else if (status === 500) {
-          this.errorMessage = "🚨 Server error. Please try again later.";
-        } else {
-          this.errorMessage = message || "Something went wrong. Try again.";
-        }
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    setCarouselHeight() {
-      const form = this.$el.querySelector(".form-container");
-      const carousel = this.$el.querySelector(".image-container");
-      if (form && carousel) {
-        carousel.style.height = form.offsetHeight + "px";
-      }
-    },
-  },
-
-  mounted() {
-    this.$nextTick(() => {
-      this.setCarouselHeight();
-      window.addEventListener("resize", this.setCarouselHeight);
-    });
-  },
-
-  beforeDestroy() {
-    window.removeEventListener("resize", this.setCarouselHeight);
-  },
+beforeUnmount() {
+  window.removeEventListener("resize", this.setCarouselHeight);
+  window.removeEventListener("storage", this.handleTokenStorage);
+},
+  
 };
 </script>
 
@@ -285,7 +273,6 @@ export default {
   opacity: 0.8;
 }
 
-
 /* Make slides fill the container */
 .slides img {
   position: absolute;
@@ -294,22 +281,22 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0; /* Base opacity for animation start */
-  animation: fade 9s infinite;
-  filter: brightness(80%); /* Slightly darken for better text visibility */
+  opacity: 0;
+  animation: fade 12s infinite;
+  filter: brightness(80%);
 }
 
-
-/* stagger animation delays */
+/* Stagger the slides evenly */
 .slides img:nth-child(1) { animation-delay: 0s; }
 .slides img:nth-child(2) { animation-delay: 3s; }
 .slides img:nth-child(3) { animation-delay: 6s; }
 .slides img:nth-child(4) { animation-delay: 9s; }
 
 @keyframes fade {
-  0%, 33.33% { opacity: 1; }
-  33.34%, 100% { opacity: 0; }
+  0%, 25% { opacity: 1; }
+  26%, 100% { opacity: 0; }
 }
+
 
 
 * {

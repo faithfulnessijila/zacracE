@@ -37,6 +37,16 @@ export default {
 </script>
 
 <style scoped>
+
+.welcome-text {
+  font-size: 20px;         /* slightly larger for readability */
+  font-weight: 700;         /* bold text */
+  margin-top: 10px;
+  color: #ffffff;           /* ensures it’s white against dark backgrounds */
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); /* subtle shadow for better visibility */
+  letter-spacing: 0.5px;    /* small spacing for elegance */
+}
+
 .landing-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #4d148c, #ff6600);
