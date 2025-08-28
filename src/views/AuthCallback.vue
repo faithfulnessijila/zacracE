@@ -1,8 +1,17 @@
 <template>
-  <div class="auth-callback">
-    <div class="spinner" v-if="!welcomeMessage"></div>
-    <p v-if="welcomeMessage" class="welcome-text">{{ welcomeMessage }}</p>
-    <p v-else>Signing you in...</p>
+  <div class="landing-page">
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <img src="/public/d.png" alt="Logo" class="logo-icon" />
+        <h3 class="logo-text">Zacrac <span>Learning</span></h3>
+      </div>
+      <button class="logout-btn" @click="logout">Logout</button>
+    </nav>
+
+    <div class="welcome-section">
+      <h1>Welcome, {{ userName }}!</h1>
+      <p>Glad to have you back 🎉</p>
+    </div>
   </div>
 </template>
 
@@ -10,74 +19,77 @@
 export default {
   data() {
     return {
-      welcomeMessage: "",
+      userName: '',
     };
   },
-
-  created() {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-    const userStr = params.get("user");
-    const message = params.get("message");
-
-    if (token) {
-      localStorage.setItem("token", token);
-
-      let user = null;
-      if (userStr) {
-        try {
-          user = JSON.parse(decodeURIComponent(userStr));
-          localStorage.setItem("user", JSON.stringify(user));
-        } catch (err) {
-          console.warn("Failed to parse user info:", err);
-        }
+  mounted() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        this.userName = JSON.parse(user).name || JSON.parse(user).email;
+      } catch {
+        this.userName = user;
       }
-
-      // Show actual user's name
-      this.welcomeMessage = user?.name
-        ? `Welcome, ${user.name}!`
-        : message || "Welcome!";
-
-      setTimeout(() => this.$router.push("/"), 2000);
     } else {
-      setTimeout(() => this.$router.push("/sign-in"), 1000);
+      // If user info doesn't exist, redirect to login
+      this.$router.push('/');
     }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      this.$router.push('/');
+    },
   },
 };
 </script>
 
 <style scoped>
-.auth-callback {
+.landing-page {
+  min-height: 100vh;
+  background: #e8eee9;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  min-height: 80vh;
-  font-family: sans-serif;
-  color: #4d148c;
+}
+
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  height: 25px;
+  width: 25px;
+  margin-right: 8px;
+}
+
+.logout-btn {
+  background: #ff6600;
+  border: none;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.welcome-section {
+  margin-top: 100px;
   text-align: center;
 }
 
-.welcome-text {
-  font-size: 2.5rem; /* Bigger and clearer */
-  font-weight: bold;
-  margin-top: 15px;
+.welcome-section h1 {
   color: #4d148c;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #ccc;
-  border-top-color: #4d148c;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 15px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 </style>

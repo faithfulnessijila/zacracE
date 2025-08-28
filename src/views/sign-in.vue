@@ -85,7 +85,7 @@
           <p class="or-divider">OR</p>
 
         
-          <button class="google-btn" @click="googleAuth" style="cursor: pointer;">
+          <button class="google-btn" @click="googleAuth" aria-label="Sign in with Google" style="cursor: pointer;">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1.5em"
@@ -139,9 +139,28 @@ export default {
 
   methods: {
     googleAuth() {
-      window.location.href =
-        "https://zacracebookwebsite.onrender.com/ebook/auth/google";
-    },
+  const width = 500;
+  const height = 600;
+  const left = (screen.width - width) / 2;
+  const top = (screen.height - height) / 2;
+
+  const popup = window.open(
+    "https://zacracebookwebsite.onrender.com/ebook/auth/google",
+    "Google Sign-In",
+    `width=${width},height=${height},top=${top},left=${left}`
+  );
+
+  const timer = setInterval(() => {
+    if (!popup || popup.closed) {
+      clearInterval(timer);
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+      if (token && user) {
+        this.$router.push("/preview");
+      }
+    }
+  }, 500);
+},
 
     validateForm() {
       const errors = {};
@@ -219,15 +238,26 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(() => {
-      this.setCarouselHeight();
-      window.addEventListener("resize", this.setCarouselHeight);
-    });
-  },
+  this.$nextTick(() => {
+    this.setCarouselHeight();
+    window.addEventListener("resize", this.setCarouselHeight);
+  });
 
-  beforeDestroy() {
-    window.removeEventListener("resize", this.setCarouselHeight);
-  },
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+  const user = params.get("user");
+
+  if (token && user) {
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", user);
+    this.$router.push("/preview");
+  }
+},
+beforeDestroy() {
+  window.removeEventListener("resize", this.setCarouselHeight);
+},
+
+  
 };
 </script>
 

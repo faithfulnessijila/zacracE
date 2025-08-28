@@ -143,8 +143,10 @@
             </li>
 
            
-            <li class="nav-item" v-if="user">
-              
+            <li class="nav-item" v-if="userLoaded && user">
+              <span class="me-2 fw-bold " style ="color: #4d148c; font-size: 18px;">
+                Welcome, {{ user.name || user.username || 'User' }}
+  </span> 
 
   <button
   class="btn logout-btn btn-sm ms-2"
@@ -156,7 +158,7 @@
 </li>
 
 
-<li v-else class="nav-item text-center">
+<li v-else-if="userLoaded" class="nav-item text-center">
   <button
     @click="$router.push('/sign-up')"
     class="btn text-white fw-semibold px-3 py-2 w-100"
@@ -186,7 +188,75 @@
 
 
     
-    
+      <div class="container-fluid">
+        <ul class="dropdowns-container" style="margin-top: 10px">
+
+          
+         
+          <li class="custom-dropdown" style="list-style: none !important">
+            <a
+              href="#"
+              @click="closeNavbar"
+              style="
+                font-family: 'Georgia', serif;
+                font-size: 20px;
+                font-style: italic;
+                font-weight: bold;
+                color: black;
+                letter-spacing: 2px;
+                text-transform: capitalize;
+                text-decoration: none;
+                display:none;
+              "
+              class="nav-toggle no-bullets"
+            >
+              eBooks
+              <span class="arrow" style="font-size: 16px; color: black"
+                >&#9662;</span
+              >
+            </a>
+
+            <ul class="big-dropdown">
+              <li v-for="(category, index) in categories" :key="index">
+                <a :href="`#${category.name}`">{{ category.name }}</a>
+
+              </li>
+            </ul>
+          </li>
+
+         
+          <li class="custom-dropdown" style="list-style: none !important">
+            <a
+              href="#"
+              @click="closeNavbar"
+              style="
+                font-family: 'Georgia', serif;
+                font-size: 20px;
+                font-style: italic;
+                font-weight: bold;
+                color: black;
+                letter-spacing: 2px;
+                text-transform: capitalize;
+                text-decoration: none;
+                display:none;
+              "
+              class="nav-toggle no-bullets"
+            >
+              AUDIOBOOKS
+              <span class="arrow" style="font-size: 16px; color: black"
+                >&#9662;</span
+              >
+            </a>
+
+            <ul class="big-dropdown">
+              <li v-for="(category, index) in categories" :key="index">
+                <a :href="`#${category.name}`">{{ category.name }}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+     
+    </div>
     </nav>
   
       <div class="container my-5 p-3">
@@ -658,6 +728,7 @@ export default {
     return {
       categories: "",
       user: null, // <-- store user info
+      userLoaded: false,
       shopProducts: []
     };
   },
@@ -724,7 +795,15 @@ export default {
   async fetchUser() {
     try {
       const token = localStorage.getItem("token");
-      if (!token) return;
+      if (!token) {
+      this.userLoaded = true; // still mark as loaded
+      return;
+    }
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      this.user = JSON.parse(storedUser);
+      this.userLoaded = true; // Mark as loaded instantly
+    }
 
       const { data } = await axios.get(
         "https://zacracebookwebsite.onrender.com/api/me",
@@ -737,9 +816,13 @@ export default {
 
       // Adjust to match exact structure
       this.user = data.user ? data.user : data;
+      localStorage.setItem("user", JSON.stringify(this.user));
     } catch (error) {
       console.error("Failed to fetch user:", error);
     }
+    finally {
+    this.userLoaded = true;
+  }
   },
 
 

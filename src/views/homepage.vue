@@ -143,7 +143,7 @@
 
            
             <li class="nav-item" v-if="user">
-  <span class="fw-semibold" style="color: #4d148c; font-size: 18px;">
+  <span class="me-2 fw-bold" style="color: #4d148c; font-size: 18px;">
      Welcome, {{ user.name }}
   </span>
   <button
@@ -156,7 +156,7 @@
 </li>
 
 
-<li v-else class="nav-item text-center">
+<li  v-if="!user && showCreateAccount"  class="nav-item text-center">
   <button
     @click="$router.push('/sign-up')"
     class="btn text-white fw-semibold px-3 py-2 w-100"
@@ -459,6 +459,7 @@ export default {
     return {
       categories: "",
       user: null, 
+      showCreateAccount: false,
       shopProducts: []
     };
   },
@@ -541,6 +542,9 @@ export default {
     } catch (error) {
       console.error("Failed to fetch user:", error);
     }
+    finally {
+    this.loadingUser = false; // <-- hide loading after fetch
+  }
   },
 
 
@@ -556,6 +560,10 @@ export default {
 
 
   mounted() {
+    const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    this.user = JSON.parse(storedUser);
+  }
     const navbarEl = document.getElementById("mainNavbar");
     this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
       toggle: false,
