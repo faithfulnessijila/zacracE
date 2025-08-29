@@ -21,24 +21,32 @@ export default {
   },
   methods: {
     handleGoogleCallback() {
-      // Get token from URL query parameter
       const token = this.$route.query.token;
 
       if (token) {
         try {
-          // Decode JWT payload
           const payload = JSON.parse(atob(token.split(".")[1]));
 
           // Save token and user info in localStorage
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(payload));
 
-          this.userName = payload.name || payload.email;
+          // Format name/email prefix
+          const formatName = (str) =>
+            str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-          // Clean URL to remove token
+          if (payload.name && payload.name.trim() !== "") {
+            this.userName = formatName(payload.name);
+          } else if (payload.email) {
+            this.userName = formatName(payload.email.split("@")[0]);
+          } else {
+            this.userName = "User";
+          }
+
+          // Clean URL
           this.$router.replace({ path: "/auth-callback", query: {} });
 
-          // Redirect to user landing page after short delay
+          // Redirect to user landing page
           setTimeout(() => {
             this.$router.push("/");
           }, 1500);
@@ -47,7 +55,6 @@ export default {
           this.$router.push("/sign-in");
         }
       } else {
-        // No token found, redirect to sign-in
         this.$router.push("/sign-in");
       }
     },
