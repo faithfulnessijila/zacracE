@@ -257,18 +257,19 @@
   
     <div v-for="(category, index) in categories" :key="index" class="container my-5">
       <button
-      :id="`${category.name}`"
-        class="btn fw-bold"
-        style="
-          background-color: #007bff;
-          color: white;
-          font-size: 12px;
-          padding: 3px 10px;
-          border-radius: 4px;
-        "
-      >
-      {{ category.name }}
-      </button>
+  :id="`${category.name}`"
+  class="btn fw-bold"
+  style="
+    background-color: #4d148c;
+    color: white;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 4px;
+  "
+>
+  {{ category.name }}
+</button>
+
 
     
       <div class="mt-2 d-flex justify-content-between align-items-center mb-4">

@@ -257,66 +257,67 @@
         </ul>
      
     </div>
+
     </nav>
-  
-      <div class="container my-5 p-3">
-  <h4 class="mb-4">
-    A tale of magic and intrigue
-  </h4>
-
-  <div class="row g-3">
-   
-    <div class="col-12 col-md-4 d-flex align-items-center justify-content-center" 
-         style="background-color: lightblue; height: 400px;">
-      <img 
-        src="/club3.jpg" 
-        alt="The Familiar Cover" 
-        style="width: 50%; height: auto; transition: filter 0.3s ease; display: block; cursor: pointer;" 
-        onmouseover="this.style.filter='brightness(85%)'" 
-        onmouseout="this.style.filter='brightness(100%)'"
-      >
-    </div>
-
- 
-    <div class="col-12 col-md-8" 
-         style="background-color: white; padding: 20px; height: 400px; overflow-y: auto; border: 1px solid #ccc;">
-      <h2 class="fw-bold">The Familiar</h2>
-
-      <p class="mb-1 text-muted tw-bold" style="font-size: 15px; color: black">
-        The richly imagined, spellbinding new Sunday Times bestselling novel from the author of <br> Ninth House
-      </p>
-
-      <p class="text-muted" style="font-size: 15px;">
-        by <strong style="text-decoration: underline; cursor: pointer;">Leigh Bardugo</strong>
-      </p>
-
-      <div style="font-size: 22px; margin-top: -4px">
-       <span style="color:#FFD700;">★</span>
-       <span style="color:#FFD700;">★</span>
-       <span style="color:#FFD700;">★</span>
-       <span style="color:#FFD700;">★</span>
-        <span style="color: #ccc">★</span>
-        &nbsp;
-        <a class="text-muted" style="font-size: 14px; text-decoration: none;">(31)</a>
-      </div>
-
-      <blockquote class="text-muted mt-2" style="font-size: 15px">
-        AN INSTANT SUNDAY TIMES BESTSELLER 
-        ‘A richly imagined, intricate tale of <br> magic and intrigue’ — Deborah Harkness, #1 bestselling author of A Discovery<br> of Witches
-        ‘Riveting… Leigh Bardugo's characters are so three dimensional you ...
-      </blockquote>
-
-      <p
-        style="font-weight: bold; color: black; text-decoration: underline; cursor: pointer; font-size: 15px;">
-        Read more
-      </p>
-
-      <p class="fw-bold mt-3" style="font-size: 30px; color: black">$6.79</p>
+    <div class="container py-5">
+  <!-- Skeleton Loader -->
+  <div v-if="loadingBook" class="book-card p-4 d-flex flex-column flex-md-row gap-4">
+    <div class="skeleton skeleton-img"></div>
+    <div class="flex-grow-1">
+      <div class="skeleton skeleton-title mb-3"></div>
+      <div class="skeleton skeleton-text mb-2"></div>
+      <div class="skeleton skeleton-text mb-2"></div>
+      <div class="skeleton skeleton-btn mt-4"></div>
     </div>
   </div>
-</div>
+
+  <!-- Book Details -->
+  <div v-else-if="book" class="book-card p-4 row align-items-start shadow-sm rounded" 
+       style="background-color: #fff; border: 1px solid #dee2e6;">
+    
+    <!-- Cover -->
+    <div class="col-md-4 text-center mb-4 mb-md-0">
+      <div class="book-cover-container rounded shadow-sm" 
+           style="max-width: 400px; margin: auto; overflow: hidden; background-color: #f8f9fa;">
+        <img 
+          :src="'/public/mercy.jpg'" 
+          alt="Book Cover" 
+          class="img-fluid" 
+          style="width: 100%; height: 100%; max-height: 400px; object-fit: cover; transition: transform 0.3s;" 
+          @mouseover="hover = true" 
+          @mouseleave="hover = false" 
+          :style="{ transform: hover ? 'scale(1.05)' : 'scale(1)' }"
+        />
+      </div>
     </div>
-  
+
+    <!-- Info -->
+    <div class="col-md-8">
+      <h2 class="fw-bold">{{ book.title }}</h2>
+      <p class="text-muted mb-2">by {{ book.author.join(', ') }}</p>
+      <p class="mb-3"><strong>Category:</strong> {{ book.category?.name || 'N/A' }}</p>
+
+      <p class="mb-4">{{ book.bookDescription }}</p>
+
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <h4 class="text-success mb-0">${{ book.formats[0]?.price.toFixed(2) }}</h4>
+        <button class="btn btn-lg custom-buy-btn">Buy Now</button>
+      </div>
+
+      <div class="d-flex flex-wrap gap-3 text-muted">
+        <p class="mb-0"><strong>Pages:</strong> {{ book.formats[0]?.numberOfPages || 'N/A' }}</p>
+        <p class="mb-0"><strong>File Size:</strong> {{ book.formats[0]?.fileSizeMB || 'N/A' }} MB</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Book Found -->
+  <div v-else class="text-center py-5">
+    <h4 class="text-danger">Book not found!</h4>
+  </div>
+</div>
+
+    </div>
   
   
   
@@ -716,20 +717,25 @@
 
 
   
-  </template><script>
+  </template>
+<script>
 import axios from "axios";
 import Carousel from "../components/carousel.vue";
 
 export default {
-  components: {
-    Carousel,
-  },
+  name: "ProductDetails",
+  components: { Carousel },
+
   data() {
     return {
-      categories: "",
-      user: null, // <-- store user info
+      categories: [],
+      user: null,
       userLoaded: false,
-      shopProducts: []
+      bsCollapse: null,
+      reviewText: "",
+      book: null,
+      loadingBook: true,
+      hover: false,
     };
   },
 
@@ -738,120 +744,208 @@ export default {
   },
 
   methods: {
-  toggleNavbar() {
-    this.bsCollapse.toggle();
-  },
-  closeNavbar() {
-    if (
-      this.bsCollapse &&
-      this.$refs.navbarCollapse.classList.contains("show")
-    ) {
-      this.bsCollapse.hide();
-    }
-  },
-  handleClickOutside(event) {
-    const navbar = this.$refs.navbarCollapse;
-    if (
-      navbar &&
-      navbar.classList.contains("show") &&
-      !navbar.contains(event.target) &&
-      !event.target.closest(".navbar-toggler")
-    ) {
-      this.bsCollapse.hide();
-    }
-  },
-  setupMultiCardCarousel() {
-    const items = document.querySelectorAll(
-      "#multiCardCarousel .carousel-item"
-    );
-
-    items.forEach((el) => {
-      const minPerSlide = 3;
-      let next = el.nextElementSibling;
-
-      for (let i = 1; i < minPerSlide; i++) {
-        if (!next) {
-          next = items[0];
-        }
-        const cloneChild = next.firstElementChild.cloneNode(true);
-        el.appendChild(cloneChild);
-        next = next.nextElementSibling;
+    /** ==========================
+     * Navbar Controls
+     =========================== */
+    toggleNavbar() {
+      this.bsCollapse?.toggle();
+    },
+    closeNavbar() {
+      if (
+        this.bsCollapse &&
+        this.$refs.navbarCollapse?.classList.contains("show")
+      ) {
+        this.bsCollapse.hide();
       }
-    });
-  },
+    },
+    handleClickOutside(event) {
+      const navbar = this.$refs.navbarCollapse;
+      if (
+        navbar?.classList.contains("show") &&
+        !navbar.contains(event.target) &&
+        !event.target.closest(".navbar-toggler")
+      ) {
+        this.bsCollapse.hide();
+      }
+    },
 
-  async api() {
-    try {
-      const response = await axios.get(
-        "https://zacracebookwebsite.onrender.com/ebook/products/shop",
-        { headers: { "Content-Type": "application/json" } }
-      );
-      this.categories = response.data.categories;
-    } catch (error) {
-      console.error(error);
-    }
-  },
+    /** ==========================
+     * Carousel Setup
+     =========================== */
+    setupMultiCardCarousel() {
+      const items = document.querySelectorAll("#multiCardCarousel .carousel-item");
+      const minPerSlide = 3;
 
-  async fetchUser() {
-    try {
+      items.forEach((el) => {
+        let next = el.nextElementSibling;
+        for (let i = 1; i < minPerSlide; i++) {
+          if (!next) next = items[0];
+          const cloneChild = next.firstElementChild.cloneNode(true);
+          el.appendChild(cloneChild);
+          next = next.nextElementSibling;
+        }
+      });
+    },
+
+    /** ==========================
+     * API Requests
+     =========================== */
+    async fetchCategories() {
+      try {
+        const { data } = await axios.get(
+          "https://zacracebookwebsite.onrender.com/ebook/products/shop",
+          { headers: { "Content-Type": "application/json" } }
+        );
+        this.categories = data.categories || [];
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    },
+
+    async fetchBook() {
+      this.loadingBook = true;
+      try {
+        const { productId } = this.$route.params;
+        const { data } = await axios.get(
+          `https://zacracebookwebsite.onrender.com/ebook/products/${productId}`
+        );
+        this.book = data || null;
+      } catch (error) {
+        console.error("Error fetching book:", error);
+        this.book = null;
+      } finally {
+        this.loadingBook = false;
+      }
+    },
+
+    async fetchUser() {
       const token = localStorage.getItem("token");
       if (!token) {
-      this.userLoaded = true; // still mark as loaded
-      return;
-    }
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-      this.userLoaded = true; // Mark as loaded instantly
-    }
+        this.userLoaded = true;
+        return;
+      }
 
-      const { data } = await axios.get(
-        "https://zacracebookwebsite.onrender.com/api/me",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) this.user = JSON.parse(storedUser);
 
-      console.log("USER DATA:", data);
+      try {
+        const { data } = await axios.get(
+          "https://zacracebookwebsite.onrender.com/api/me",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        this.user = data.user || data;
+        localStorage.setItem("user", JSON.stringify(this.user));
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      } finally {
+        this.userLoaded = true;
+      }
+    },
 
-      // Adjust to match exact structure
-      this.user = data.user ? data.user : data;
-      localStorage.setItem("user", JSON.stringify(this.user));
-    } catch (error) {
-      console.error("Failed to fetch user:", error);
-    }
-    finally {
-    this.userLoaded = true;
-  }
+    /** ==========================
+     * Auth & Reviews
+     =========================== */
+    logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.user = null;
+      this.$router.push("/sign-in");
+    },
+    submitReview() {
+      if (!this.reviewText.trim()) return;
+      console.log("Review submitted:", this.reviewText);
+      this.reviewText = "";
+    },
   },
-
-
-
-  logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    this.user = null;
-    this.$router.push("/sign-in");
-  },
-},
-  
-
 
   mounted() {
-    const navbarEl = document.getElementById("mainNavbar");
-    this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
-      toggle: false,
-    });
-
+    // Navbar collapse setup
+    const navbarEl = this.$refs.navbarCollapse;
+    if (navbarEl) {
+      this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
+        toggle: false,
+      });
+    }
     document.addEventListener("click", this.handleClickOutside);
+
+    // Init page content
     this.setupMultiCardCarousel();
-    this.api();
-    this.fetchUser(); // <-- call user info API
+    this.fetchCategories();
+    this.fetchUser();
+    this.fetchBook();
   },
 };
 </script>
 
  <style scoped>
+ .custom-buy-btn {
+  background-color: #fff;      /* white background */
+  color: #4d148c;              /* your purple color */
+  border: 2px solid #4d148c;   /* border in same purple */
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 10px 25px;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.custom-buy-btn:hover {
+  background-color: #4d148c;   /* purple fill on hover */
+  color: #fff;                 /* white text on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(77, 20, 140, 0.3);
+}
+
+.custom-buy-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(77, 20, 140, 0.2);
+}
+ .book-card {
+  background-color: #fdfdfd; /* light neutral background */
+  border: 1px solid #ddd;     /* subtle border */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* soft shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Skeleton Styles */
+.skeleton {
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-img {
+  width: 200px;
+  height: 300px;
+  margin: auto;
+}
+
+.skeleton-title {
+  width: 60%;
+  height: 25px;
+}
+
+.skeleton-text {
+  width: 100%;
+  height: 15px;
+}
+
+.skeleton-btn {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
  .logout-btn {
   background-color: #4d148c;
   color: #fff;                     

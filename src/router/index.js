@@ -26,7 +26,7 @@ const routes = [
     path: '/new-password', component: Newpassword
 },
 {
-  path: '/preview', component:Preview
+  path: '/preview/:productId', component:Preview
 },
 {
   path: "/auth-callback", 
