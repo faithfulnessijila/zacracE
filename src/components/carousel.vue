@@ -5,7 +5,7 @@
     <router-link :to="`/preview/${slide._id}`" custom v-slot="{ navigate }">
       <div @click="navigate" class="card h-100 border-0 shadow-sm" style="cursor: pointer; width: 100%;">
 
-        <img   :src="'/public/mercy.jpg'"  :alt="slide.title"
+        <img   :src="'/public/mercy.jpg'" 
           class="card-img-top"
           style="width: 100%; height: 240px; object-fit: cover; border-radius: 0.375rem 0.375rem 0 0;" />
         <div class="card-body d-flex flex-column justify-content-between p-2">
