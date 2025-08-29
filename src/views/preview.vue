@@ -281,7 +281,7 @@
            style="max-width: 400px; margin: auto; overflow: hidden; background-color: #f8f9fa;">
         <img 
           :src="'/public/mercy.jpg'" 
-          
+          alt="Book Cover" 
           class="img-fluid" 
           style="width: 100%; height: 100%; max-height: 400px; object-fit: cover; transition: transform 0.3s;" 
           @mouseover="hover = true" 

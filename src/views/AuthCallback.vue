@@ -1,9 +1,10 @@
 <template>
-  <div class="landing-page">
+  <div class="auth-callback-page">
     <div class="welcome-container">
       <img src="/public/d.png" alt="Logo" class="logo-icon-big" />
-      <h1>Welcome, {{ userName }}! 🎉</h1>
-      <p class="welcome-text">We’re glad to have you back!</p>
+      <h1 v-if="userName">Welcome, {{ userName }}! 🎉</h1>
+      <p class="welcome-text" v-if="userName">Redirecting you to your dashboard...</p>
+      <p v-else class="welcome-text">Processing login...</p>
     </div>
   </div>
 </template>
@@ -16,38 +17,46 @@ export default {
     };
   },
   mounted() {
-    const user = localStorage.getItem("user");
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user);
-        this.userName = parsedUser.name || parsedUser.email;
-      } catch {
-        this.userName = user;
-      }
+    this.handleGoogleCallback();
+  },
+  methods: {
+    handleGoogleCallback() {
+      // Get token from URL query parameter
+      const token = this.$route.query.token;
 
-      // Redirect after 2.5 seconds
-      setTimeout(() => {
-        this.$router.push("/");
-      }, 2500);
-    } else {
-      this.$router.push("/sign-in");
-    }
+      if (token) {
+        try {
+          // Decode JWT payload
+          const payload = JSON.parse(atob(token.split(".")[1]));
+
+          // Save token and user info in localStorage
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(payload));
+
+          this.userName = payload.name || payload.email;
+
+          // Clean URL to remove token
+          this.$router.replace({ path: "/auth-callback", query: {} });
+
+          // Redirect to user landing page after short delay
+          setTimeout(() => {
+            this.$router.push("/");
+          }, 1500);
+        } catch (e) {
+          console.error("Failed to decode token:", e);
+          this.$router.push("/sign-in");
+        }
+      } else {
+        // No token found, redirect to sign-in
+        this.$router.push("/sign-in");
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-
-.welcome-text {
-  font-size: 20px;         /* slightly larger for readability */
-  font-weight: 700;         /* bold text */
-  margin-top: 10px;
-  color: #ffffff;           /* ensures it’s white against dark backgrounds */
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); /* subtle shadow for better visibility */
-  letter-spacing: 0.5px;    /* small spacing for elegance */
-}
-
-.landing-page {
+.auth-callback-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #4d148c, #ff6600);
   display: flex;
@@ -55,10 +64,6 @@ export default {
   align-items: center;
   color: white;
   text-align: center;
-}
-
-.welcome-container {
-  animation: fadeIn 1.2s ease-in-out;
 }
 
 .logo-icon-big {
@@ -70,6 +75,11 @@ export default {
 .welcome-text {
   font-size: 18px;
   margin-top: 10px;
+  font-weight: 600;
+}
+
+.welcome-container {
+  animation: fadeIn 1s ease-in-out;
 }
 
 @keyframes fadeIn {
