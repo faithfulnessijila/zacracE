@@ -1,166 +1,333 @@
 <template>
-  <Carousel v-bind="carouselConfig" style="height: 500px;">
-    <Slide v-for="(slide, index) in lists.length ? lists : placeholderSlides" :key="slide._id || index">
-  <div class="carousel__item">
-    <router-link :to="`/preview/${slide._id}`" custom v-slot="{ navigate }">
-      <div @click="navigate" class="card h-100 border-0 shadow-sm" style="cursor: pointer; width: 100%;">
+  <div class="carousel-wrapper">
+    <!-- ✅ Carousel -->
+    <Carousel
+      v-bind="carouselConfig"
+      ref="carouselRef"
+      class="homepage-carousel"
+    >
+      <!-- ✅ Show actual books OR fallback dummy cards -->
+      <Slide
+        v-for="(slide, index) in displaySlides"
+        :key="slide._id || index"
+        class="carousel-slide"
+      > 
+        <div class="carousel__item">
+          <div
+  class="card shadow-sm carousel-card"
+  @click="slide._id && $router.push({ name: 'Preview', params: { productId: slide._id } })"
+  :style="{ cursor: slide._id ? 'pointer' : 'default' }"
+>
+  <img
+    :src="slide.coverImageUrl || '/images/placeholder-book.png'"
+    alt="Book Cover"
+    class="card-img-top"
+  />
+  <div class="card-body p-2">
+    <h6 class="book-title">
+      {{ slide.title || 'Coming Soon' }}
+    </h6>
+    <p class="book-author">
+      {{ slide.author || 'Anonymous' }}
+    </p>
 
-        <img   :src="'/public/mercy.jpg'"  :alt="slide.title"
-          class="card-img-top"
-          style="width: 100%; height: 240px; object-fit: cover; border-radius: 0.375rem 0.375rem 0 0;" />
-        <div class="card-body d-flex flex-column justify-content-between p-2">
-          <div>
-            <h6 class="mb-1" style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              {{ slide.title }}
-            </h6>
-            <h5 class="mb-2 text-muted" style="font-size: 14px">{{ slide.author }}</h5>
-            <p class="mb-2" style="font-size: 13px">
-              <span class="text-muted" style="text-decoration: line-through">{{ slide.oldPrice }}</span>
-              <span class="text-danger fw-bold ms-1">{{ slide.price }}</span>
-            </p>
-            <div style="font-size: 22px; margin-top: -4px">
-              <span style="color:#FFD700;">★</span>
-              <span style="color:#FFD700;">★</span>
-              <span style="color:#FFD700;">★</span>
-              <span style="color:#FFD700;">★</span>
-              <span style="color: #ccc">★</span>
-            </div>
-          </div>
-          <button @click="navigate" class="preview-btn mt-3">Preview</button>
-        </div>
-      </div>
-    </router-link>
+    <p class="book-price">
+      <span class="text-danger price">
+        ₦{{ slide.price || '0.00' }}
+      </span>
+    </p>
+
+    <div class="rating-stars">
+      <template v-for="i in 5" :key="i">
+        <span
+          v-if="i <= Math.floor(slide.rating ?? 4)"
+          class="star full"
+        >★</span>
+        <span
+          v-else-if="i - (slide.rating ?? 4) < 1 && (slide.rating ?? 4) % 1 !== 0"
+          class="star half"
+        >★</span>
+        <span
+          v-else
+          class="star empty"
+        >★</span>
+      </template>
+    </div>
+
+    <!-- Keep the Preview button optional -->
+    <button
+      class="preview-btn mt-2"
+      :disabled="!slide._id"
+    >
+      Preview
+    </button>
   </div>
-</Slide>
+</div>
 
-  </Carousel>
+        </div>
+      </Slide>
+    </Carousel>
+
+    <!-- ✅ Responsive Navigation arrows -->
+    <button
+      v-if="showArrows"
+      class="carousel-arrow prev-arrow"
+      @click="prevSlide"
+    >
+      &#10094;
+    </button>
+    <button
+      v-if="showArrows"
+      class="carousel-arrow next-arrow"
+      @click="nextSlide"
+    >
+      &#10095;
+    </button>
+  </div>
 </template>
 
-<script>
-import { Carousel, Slide } from "vue3-carousel";
+
+<script>import { Carousel, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 
 export default {
+  name: "HomeCarousel",
   components: { Carousel, Slide },
   props: {
     lists: {
       type: Array,
       default: () => [],
-    }
+    },
   },
   data() {
     return {
-      placeholderSlides: Array(5).fill({ 
-        title: "Loading...",
-        author: "Loading...",
-        price: "0.00",
-        oldPrice: "0.00",
-      }),
-      carouselConfig: {
-  itemsToShow: 5,
-  wrapAround: true,
-  autoplay: 3000,
-  transition: 500,
-  pauseAutoplayOnHover: true,
-  snapAlign: "start",
-  // new:
-  itemPadding: [10, 10], // horizontal padding [left, right]
-  breakpoints: {
-    0: { itemsToShow: 1.5, snapAlign: "center", itemPadding: [5, 5] },
-    576: { itemsToShow: 2.5, snapAlign: "center", itemPadding: [5, 5] },
-    768: { itemsToShow: 3.5, snapAlign: "center", itemPadding: [5, 5] },
-    1024: { itemsToShow: 5, snapAlign: "start", itemPadding: [10, 10] },
-  },
-}
-,
+      screenWidth: window.innerWidth,
     };
+  },
+  computed: {
+    uniqueSlides() {
+      const seen = new Set();
+      return this.lists.filter((book) => {
+        if (!book._id || seen.has(book._id)) return false;
+        seen.add(book._id);
+        return true;
+      });
+    },
+    displaySlides() {
+  // 🔥 If no books, create 5 dummy placeholders
+  if (!this.uniqueSlides.length) {
+    return Array.from({ length: 5 }, (_, i) => ({
+  title: "Coming Soon",
+  author: null,   // <-- use null
+  coverImageUrl: "/images/placeholder-book.png",
+  price: "0.00",
+  rating: 4,
+}));
+ 
   }
+
+  return this.uniqueSlides;
+},
+
+    carouselConfig() {
+      const count = this.displaySlides.length;
+      return {
+        itemsToShow: count < 5 ? count : 5,
+        wrapAround: count > 5,
+        autoplay: count > 5 ? 3000 : 0,
+        transition: 500,
+        pauseAutoplayOnHover: true,
+        snapAlign: "start",
+        itemPadding: [8, 8],
+        breakpoints: {
+          0: { itemsToShow: Math.min(2, count) },
+          576: { itemsToShow: Math.min(3, count) },
+          768: { itemsToShow: Math.min(4, count) },
+          1024: { itemsToShow: Math.min(5, count) },
+        },
+      };
+    },
+    showArrows() {
+      const count = this.displaySlides.length;
+      if (this.screenWidth < 576) return count > 2;
+      if (this.screenWidth < 768) return count > 3;
+      return count > 5;
+    },
+  },
+  mounted() {
+    window.addEventListener("resize", this.updateScreenWidth);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.updateScreenWidth);
+  },
+  methods: {
+    prevSlide() {
+      this.$refs.carouselRef.prev();
+    },
+    nextSlide() {
+      this.$refs.carouselRef.next();
+    },
+    updateScreenWidth() {
+      this.screenWidth = window.innerWidth;
+    },
+  },
 };
+
 </script>
 
+<style scoped>
+.book-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d9534f; /* Bootstrap danger red */
+  text-align: center; /* ✅ Center it */
+  margin: 5px 0;
+}
 
+.rating-stars {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  font-size: 14px;
+  margin: 5px 0;
+}
 
-<style>
+.star.full {
+  color: #FFD700;
+}
+
+.star.half {
+  color: #FFD700;
+  position: relative;
+}
+.star.half::after {
+  content: "★";
+  color: #ccc;
+  position: absolute;
+  left: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.star.empty {
+  color: #ccc;
+}
+
+/* Keep your previous styles the same */
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+.loading-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4d148c;
+  padding: 20px;
+}
+.homepage-carousel {
+  padding: 0;
+}
+.carousel-slide {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0;
+}
 .carousel__item {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: stretch; /* equal height */
-  width: 100%; /* ensures the slide takes full width */
-}
-
-
-.carousel__item router-link {
-  text-decoration: none;
-  color: inherit;
-}
-.carousel__slide {
-  display: flex;
-  justify-content: center;
-  align-items: stretch; /* equal height */
-}
-.card {
+  align-items: stretch;
   padding: 5px;
 }
-
-
+.carousel-card {
+  cursor: pointer;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+.carousel-card:hover {
+  transform: translateY(-4px);
+}
 .card-img-top {
   width: 100%;
-  height: 240px;
-  object-fit: cover;
-  border-radius: 0.375rem 0.375rem 0 0;
+  height: 150px;
+  object-fit: contain;
+  background: #f8f8f8;
+  display: block;
 }
-
-
+.card-body {
+  padding: 8px !important;
+}
 .preview-btn {
-  font-size: 11px; 
-  font-weight: 500; 
-  letter-spacing: 0.3px;
-  padding: 7px 8px; 
-  border: 2px solid transparent;
-  border-radius: 6px;
-  background-color: #4d148c; 
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;     /* 🔥 Slightly bigger padding */
+  border-radius: 6px;    /* 🔥 Softer corners */
+  background-color: #4d148c;
   color: #fff;
-  text-transform: uppercase;
-  transition: all 0.25s ease, transform 0.15s ease-in-out;
+  border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+  margin: 8px auto 0;
+  min-width: 100px;      /* 🔥 Increase button width */
+  text-align: center;
 }
 
-.preview-btn:hover {
-  background-color: #fff;
-  color: #4d148c;
-  border-color: #4d148c;
-  transform: translateY(-2px); 
-  box-shadow: 0 4px 10px rgba(77, 20, 140, 0.25);
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(77, 20, 140, 0.7);
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.carousel-arrow:hover {
+  background: #4d148c;
+}
+.prev-arrow {
+  left: 5px;
+}
+.next-arrow {
+  right: 5px;
+}
+.book-title {
+  font-size: 14px;
+  font-weight: 700; /* 🔥 Strong bold like <h5>/<h6> */
+    color: #222;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 🔥 Show 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 36px; /* 🔥 Reserve space for 2 lines */
 }
 
-.preview-btn:active {
-  transform: scale(0.96);
-  box-shadow: 0 2px 6px rgba(77, 20, 140, 0.2);
+.book-author {
+  font-size: 14px; /* Bigger like a heading */
+  font-weight: 700; /* 🔥 Strong bold like <h5>/<h6> */
+  color: #222;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 20px; /* Reserve space */
 }
-
-.preview-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(77, 20, 140, 0.3);
-}
-
-.carousel__pagination {
-  margin-top: 40px !important; 
-        
-}
-
-.carousel__pagination-button {
-  background-color: #ccc;       
-  width: 10px;                  
-  height: 10px;
-  border-radius: 50%;          
-}
-
-.carousel__pagination-button--active {
-  background-color: #4d148c !important; 
-  transform: scale(1.2);              
-}
-
 
 
 </style>
-

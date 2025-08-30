@@ -23,10 +23,10 @@ const routes = [
     path: '/forgot-password', component: Forgotpassword
   },
   {
-    path: '/new-password', component: Newpassword
+    path: '/new-password',  component: Newpassword
 },
 {
-  path: '/preview/:productId', component:Preview
+  path: '/preview/:productId',name: 'Preview',  component:Preview
 },
 {
   path: "/auth-callback", 
