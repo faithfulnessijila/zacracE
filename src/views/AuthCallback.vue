@@ -14,48 +14,57 @@ export default {
   data() {
     return {
       userName: "",
+      redirectDelay: 1500, // configurable redirect delay
     };
   },
   mounted() {
-    this.handleGoogleCallback();
+    this.processAuthCallback();
   },
   methods: {
-    handleGoogleCallback() {
-      const token = this.$route.query.token;
+    processAuthCallback() {
+      const token = this.$route.query.token || localStorage.getItem("token");
 
-      if (token) {
-        try {
-          const payload = JSON.parse(atob(token.split(".")[1]));
+      if (!token) {
+        // No token found, redirect to sign-in immediately
+        this.$router.replace("/sign-in");
+        return;
+      }
 
-          // Save token and user info in localStorage
-          localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(payload));
+      try {
+        // Decode token payload
+        const payload = JSON.parse(atob(token.split(".")[1]));
 
-          // Format name/email prefix
-          const formatName = (str) =>
-            str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        // Save token & user info if not already saved
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(payload));
 
-          if (payload.name && payload.name.trim() !== "") {
-            this.userName = formatName(payload.name);
-          } else if (payload.email) {
-            this.userName = formatName(payload.email.split("@")[0]);
-          } else {
-            this.userName = "User";
-          }
+        // Format name or fallback to email prefix or generic
+        const formatName = (str) =>
+          str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-          // Clean URL
-          this.$router.replace({ path: "/auth-callback", query: {} });
-
-          // Redirect to user landing page
-          setTimeout(() => {
-            this.$router.push("/");
-          }, 1500);
-        } catch (e) {
-          console.error("Failed to decode token:", e);
-          this.$router.push("/sign-in");
+        if (payload.name && payload.name.trim() !== "") {
+          this.userName = formatName(payload.name);
+        } else if (payload.email) {
+          this.userName = formatName(payload.email.split("@")[0]);
+        } else {
+          this.userName = "User";
         }
-      } else {
-        this.$router.push("/sign-in");
+
+        // Clean query parameters from URL
+        this.$router.replace({ path: "/auth-callback", query: {} });
+
+        // Redirect to dashboard/home after a short delay
+        setTimeout(() => {
+          this.$router.push("/");
+        }, this.redirectDelay);
+
+      } catch (error) {
+        console.error("Token decoding failed:", error);
+        // Clear potentially invalid token
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        // Redirect to login
+        this.$router.replace("/sign-in");
       }
     },
   },

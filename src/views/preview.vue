@@ -259,62 +259,108 @@
     </div>
 
     </nav>
-    <div class="container py-5">
-  <!-- Skeleton Loader -->
-  <div v-if="loadingBook" class="book-card p-4 d-flex flex-column flex-md-row gap-4">
-    <div class="skeleton skeleton-img"></div>
-    <div class="flex-grow-1">
-      <div class="skeleton skeleton-title mb-3"></div>
-      <div class="skeleton skeleton-text mb-2"></div>
-      <div class="skeleton skeleton-text mb-2"></div>
-      <div class="skeleton skeleton-btn mt-4"></div>
+    <div class="container py-4">
+
+<!-- Skeleton Loader -->
+<div v-if="loadingBook" class="d-flex flex-column flex-md-row gap-3">
+  <div class="skeleton skeleton-img" style="width: 140px; height: 200px;"></div>
+  <div class="flex-grow-1">
+    <div class="skeleton skeleton-title mb-2" style="width: 60%; height: 22px;"></div>
+    <div class="skeleton skeleton-text mb-1" style="width: 80%; height: 16px;"></div>
+    <div class="skeleton skeleton-text mb-1" style="width: 70%; height: 16px;"></div>
+  </div>
+</div>
+
+<!-- Book Details -->
+<div v-else-if="book" class="row justify-content-center gap-3">
+
+  <!-- Format Indicator Buttons -->
+  <div class="d-flex gap-2 mb-3 pb-2 border-bottom flex-wrap">
+    <button
+      v-if="book.formats.some(f => f.type === 'ebook')"
+      class="btn btn-sm btn-primary"
+    >
+      eBook
+    </button>
+    <button
+      v-if="book.formats.some(f => f.type === 'audiobook')"
+      class="btn btn-sm btn-primary"
+    >
+      Audiobook
+    </button>
+  </div>
+
+  <!-- Show all formats -->
+  <div
+    v-for="format in book.formats"
+    :key="format.type"
+    :class="[
+      'book-card',
+      'p-4',
+      'shadow-sm',
+      'rounded',
+      'col-12',
+      'col-md-6',  // Half width on medium+ screens
+      'mb-3',
+      format.type === 'ebook' ? 'ebook-card' : 'audiobook-card'
+    ]"
+    style="position: relative;"
+  >
+    <!-- Top-right format label -->
+    <span class="format-label" :class="format.type">{{ format.type }}</span>
+
+    <div class="d-flex flex-column flex-md-row gap-3 align-items-start">
+      <!-- Cover -->
+      <div class="text-center" :style="book.formats.length === 1 ? 'max-width: 250px; flex-shrink: 0;' : 'max-width: 180px; flex-shrink: 0;'">
+        <div class="book-cover-container rounded shadow-sm" style="overflow: hidden; background-color: #f8f9fa;">
+          <img
+            :src="book.coverImageUrl || '/mercy.jpg'"
+            class="img-fluid"
+            style="width: 100%; height: auto; object-fit: cover; transition: transform 0.3s;"
+            @mouseover="hover = true"
+            @mouseleave="hover = false"
+            :style="{ transform: hover ? 'scale(1.05)' : 'scale(1)' }"
+          />
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="flex-grow-1">
+        <h5 class="fw-bold mb-1">{{ book.title }}</h5>
+        <p class="text-muted mb-1" style="font-size: 0.95rem;">by {{ Array.isArray(book.author) ? book.author.join(', ') : book.author }}</p>
+        <p class="mb-2" style="font-size: 0.9rem;"><strong>Category:</strong> {{ book.category?.name || 'N/A' }}</p>
+
+        <p class="mb-3" style="font-size: 0.9rem;">
+          {{ book.bookDescription }}
+        </p>
+
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <h6 class="text-danger mb-0">
+  ₦{{ format.price.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+</h6>
+
+
+          <button class="btn btn-sm custom-buy-btn">Buy Now</button>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 text-muted" style="font-size: 0.85rem;">
+          <p class="mb-0"><strong>Pages:</strong> {{ format.numberOfPages || 'N/A' }}</p>
+          <p class="mb-0"><strong>File Size:</strong> {{ format.fileSizeMB || 'N/A' }} MB</p>
+          <p class="mb-0" v-if="format.type === 'audiobook'"><strong>Duration:</strong> {{ format.duration || 'N/A' }}</p>
+        </div>
+
+        <span class="badge bg-primary mt-2 text-uppercase" style="font-size: 0.75rem;">{{ format.type }}</span>
+      </div>
     </div>
   </div>
 
-  <!-- Book Details -->
-  <div v-else-if="book" class="book-card p-4 row align-items-start shadow-sm rounded" 
-       style="background-color: #fff; border: 1px solid #dee2e6;">
-    
-    <!-- Cover -->
-    <div class="col-md-4 text-center mb-4 mb-md-0">
-      <div class="book-cover-container rounded shadow-sm" 
-           style="max-width: 400px; margin: auto; overflow: hidden; background-color: #f8f9fa;">
-        <img 
-          :src="'/public/mercy.jpg'" 
-          alt="Book Cover" 
-          class="img-fluid" 
-          style="width: 100%; height: 100%; max-height: 400px; object-fit: cover; transition: transform 0.3s;" 
-          @mouseover="hover = true" 
-          @mouseleave="hover = false" 
-          :style="{ transform: hover ? 'scale(1.05)' : 'scale(1)' }"
-        />
-      </div>
-    </div>
+</div>
 
-    <!-- Info -->
-    <div class="col-md-8">
-      <h2 class="fw-bold">{{ book.title }}</h2>
-      <p class="text-muted mb-2">by {{ book.author.join(', ') }}</p>
-      <p class="mb-3"><strong>Category:</strong> {{ book.category?.name || 'N/A' }}</p>
+<!-- No Book Found -->
+<div v-else class="text-center py-5">
+  <h5 class="text-danger">Book not found!</h5>
+</div>
 
-      <p class="mb-4">{{ book.bookDescription }}</p>
-
-      <div class="d-flex align-items-center gap-3 mb-4">
-        <h4 class="text-success mb-0">${{ book.formats[0]?.price.toFixed(2) }}</h4>
-        <button class="btn btn-lg custom-buy-btn">Buy Now</button>
-      </div>
-
-      <div class="d-flex flex-wrap gap-3 text-muted">
-        <p class="mb-0"><strong>Pages:</strong> {{ book.formats[0]?.numberOfPages || 'N/A' }}</p>
-        <p class="mb-0"><strong>File Size:</strong> {{ book.formats[0]?.fileSizeMB || 'N/A' }} MB</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- No Book Found -->
-  <div v-else class="text-center py-5">
-    <h4 class="text-danger">Book not found!</h4>
-  </div>
 </div>
 
     </div>
@@ -327,37 +373,70 @@
   
   
   
-<div class="container my-5">
+    <div class="container my-5">
   <div class="row justify-content-center">
-    <div class="col-lg-5 col-md-6 col-sm-12">
+    <div class="col-12 col-md-10 col-lg-8">
       <div class="p-5 bg-secondary rounded-3 shadow-sm text-center text-white">
+
         <h2 class="fw-bold mb-3">Review</h2>
 
-     
-        <div class="mb-4">
-          <span class="rating-star">★</span>
-          <span class="rating-star">★</span>
-          <span class="rating-star">★</span>
-          <span class="rating-star">★</span>
-          <span class="rating-star empty">★</span>
+        <!-- Success Message -->
+        <div v-if="successMessage" class="alert alert-success text-start">
+          {{ successMessage }}
         </div>
 
-      
-        <div class="input-group input-group-lg">
-          <input 
-            type="text" 
-            v-model="reviewText"
-            
-            class="form-control fw-bold placeholder-bold" 
-            placeholder="Write review" 
-            aria-label="Write review"
+        <!-- Star Rating -->
+        <div class="mb-3">
+          <span
+            class="rating-star"
+            v-for="star in 5"
+            :key="star"
+            :class="{ empty: star > selectedRating }"
+            @click="selectedRating = star"
+            style="cursor: pointer; font-size: 1.5rem;"
           >
-          <button class="btn btn-light fw-bold" type="button" @click="submitReview">Submit</button>
+            ★
+          </span>
         </div>
+
+        <!-- Review Input & Submit -->
+        <div class="d-flex flex-column flex-md-row gap-2">
+          <input 
+            type="text"
+            v-model="reviewText"
+            class="form-control review-input flex-grow-1"
+            placeholder="Write your review here..."
+            aria-label="Write review"
+            @keyup.enter="submitReview"  
+          />
+
+          <button 
+            class="btn btn-light fw-bold flex-shrink-0"
+            type="button" 
+            @click="submitReview"
+            :disabled="submittingReview"
+          >
+            Submit
+          </button>
+        </div>
+
+     <!-- Error Message -->
+<div 
+  v-if="errorMessage" 
+  class="mt-2 px-2 py-1 rounded text-start"
+  style="background-color: #f8d7da; color: #842029; display: inline-block; word-wrap: break-word; white-space: normal; padding: 4px 8px; "
+>
+  {{ errorMessage }}
+</div>
+
+
       </div>
     </div>
   </div>
 </div>
+
+
+
 
 
 
@@ -717,8 +796,7 @@
 
 
   
-  </template>
-<script>
+  </template><script>
 import axios from "axios";
 import Carousel from "../components/carousel.vue";
 
@@ -733,9 +811,16 @@ export default {
       userLoaded: false,
       bsCollapse: null,
       reviewText: "",
-      book: null,
+      selectedRating: 0,
+      submittingReview: false,
+      book: {
+        coverImageUrl: null,
+        formats: [],
+      },
       loadingBook: true,
       hover: false,
+      errorMessage: "",     // <-- display error messages
+      successMessage: "",   // <-- display success messages
     };
   },
 
@@ -744,9 +829,7 @@ export default {
   },
 
   methods: {
-    /** ==========================
-     * Navbar Controls
-     =========================== */
+    /** Navbar Controls */
     toggleNavbar() {
       this.bsCollapse?.toggle();
     },
@@ -769,13 +852,10 @@ export default {
       }
     },
 
-    /** ==========================
-     * Carousel Setup
-     =========================== */
+    /** Carousel */
     setupMultiCardCarousel() {
       const items = document.querySelectorAll("#multiCardCarousel .carousel-item");
       const minPerSlide = 3;
-
       items.forEach((el) => {
         let next = el.nextElementSibling;
         for (let i = 1; i < minPerSlide; i++) {
@@ -787,9 +867,7 @@ export default {
       });
     },
 
-    /** ==========================
-     * API Requests
-     =========================== */
+    /** API Requests */
     async fetchCategories() {
       try {
         const { data } = await axios.get(
@@ -809,10 +887,10 @@ export default {
         const { data } = await axios.get(
           `https://zacracebookwebsite.onrender.com/ebook/products/${productId}`
         );
-        this.book = data || null;
+        this.book = data || { coverImageUrl: null, formats: [] };
       } catch (error) {
         console.error("Error fetching book:", error);
-        this.book = null;
+        this.book = { coverImageUrl: null, formats: [] };
       } finally {
         this.loadingBook = false;
       }
@@ -842,24 +920,58 @@ export default {
       }
     },
 
-    /** ==========================
-     * Auth & Reviews
-     =========================== */
+    /** Auth & Reviews */
     logout() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       this.user = null;
       this.$router.push("/sign-in");
     },
-    submitReview() {
-      if (!this.reviewText.trim()) return;
-      console.log("Review submitted:", this.reviewText);
-      this.reviewText = "";
+
+    async submitReview() {
+      this.errorMessage = "";
+      this.successMessage = "";
+
+      if (!this.reviewText.trim()) {
+        this.errorMessage = "Please write a review before submitting!";
+        return;
+      }
+      if (!this.selectedRating) {
+        this.errorMessage = "Please select a rating!";
+        return;
+      }
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        this.errorMessage = "You need to be signed in to submit a review.";
+        return;
+      }
+
+      this.submittingReview = true;
+      try {
+        const { productId } = this.$route.params;
+        await axios.post(
+          `https://zacracebookwebsite.onrender.com/review/${productId}/add-review`,
+          {
+            review: this.reviewText,
+            rating: this.selectedRating,
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        this.successMessage = "Review submitted successfully!";
+        this.reviewText = "";
+        this.selectedRating = 0;
+      } catch (error) {
+        console.error("Failed to submit review:", error);
+        this.errorMessage = "Failed to submit review. Please try again.";
+      } finally {
+        this.submittingReview = false;
+      }
     },
   },
 
   mounted() {
-    // Navbar collapse setup
     const navbarEl = this.$refs.navbarCollapse;
     if (navbarEl) {
       this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
@@ -868,7 +980,6 @@ export default {
     }
     document.addEventListener("click", this.handleClickOutside);
 
-    // Init page content
     this.setupMultiCardCarousel();
     this.fetchCategories();
     this.fetchUser();
@@ -878,6 +989,84 @@ export default {
 </script>
 
  <style scoped>
+.error-message {
+  background-color: #f8d7da;
+  color: #842029;
+  border-left: 4px solid #dc3545;
+  display: inline-block;       /* Shrinks to content width */
+  padding: 4px 8px;            /* Adds spacing around text */
+  word-wrap: break-word;       /* Wrap long words if needed */
+  white-space: normal;         /* Ensure text wraps if it’s too long */
+  border-radius: 4px;          /* Optional: rounded corners */
+  max-width: 100%;             /* Prevent overflow on very small screens */
+}
+
+
+
+.review-input::placeholder {
+  color: #dcdcdc;
+  font-weight: 500;
+  opacity: 1;
+  font-style: italic;
+}
+.review-input:focus::placeholder {
+  color: #a0a0a0;
+}
+
+.review-input::placeholder {
+  color: #dcdcdc;      /* soft gray for better contrast */
+  font-weight: 500;     /* slightly bolder for readability */
+  opacity: 1;           /* ensures consistent visibility across browsers */
+  font-style: italic;   /* optional: makes it stand out subtly */
+  transition: color 0.3s; /* optional: smooth fade if you want hover effect */
+}
+
+.review-input:focus::placeholder {
+  color: #a0a0a0;       /* slightly dim when typing for clarity */
+}
+
+/* Distinct styling for eBook and Audiobook sections */
+.ebook-card {
+  border: 2px solid #4caf50; /* subtle green */
+  box-shadow: 0 2px 10px rgba(76, 175, 80, 0.2);
+}
+
+.audiobook-card {
+  border: 2px solid #2196f3; /* subtle blue */
+  box-shadow: 0 2px 10px rgba(33, 150, 243, 0.2);
+}
+
+/* Top-right format labels */
+.format-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #fff;
+}
+.format-label.ebook {
+  background-color: #4caf50;
+}
+.format-label.audiobook {
+  background-color: #2196f3;
+}
+
+/* Ensure spacing between stacked cards on mobile */
+@media (max-width: 767.98px) {
+  .book-card {
+    margin-bottom: 1rem;
+  }
+}
+ .book-card img {
+  transition: transform 0.3s;
+}
+.book-card img:hover {
+  transform: scale(1.05);
+}
  .custom-buy-btn {
   background-color: #fff;      /* white background */
   color: #4d148c;              /* your purple color */

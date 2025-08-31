@@ -33,8 +33,9 @@
 
     <p class="book-price">
       <span class="text-danger price">
-        ₦{{ slide.price || '0.00' }}
-      </span>
+  ₦{{ (slide.price || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+</span>
+
     </p>
 
     <div class="rating-stars">

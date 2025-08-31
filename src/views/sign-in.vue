@@ -140,45 +140,63 @@ export default {
   methods: {
     // Normal email/password login
     async handleSubmit() {
-      this.errorMessage = "";
-      this.loading = true;
+  // Reset errors and messages
+  this.errorMessage = "";
+  this.errors = {};
+  this.loading = true;
 
-      if (!this.validateForm()) {
-        this.loading = false;
-        return;
-      }
+  // Validate form before sending
+  if (!this.validateForm()) {
+    this.loading = false;
+    return;
+  }
 
-      try {
-        const res = await axios.post(
-          "https://zacracebookwebsite.onrender.com/ebook/auth/signin",
-          this.form,
-          { headers: { "Content-Type": "application/json" } }
-        );
+  try {
+    // Send POST request to backend
+    const res = await axios.post(
+      "https://zacracebookwebsite.onrender.com/ebook/auth/signin",
+      this.form,
+      { headers: { "Content-Type": "application/json" } }
+    );
 
-        const { token, user } = res.data;
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
+    // Destructure token and user from response
+    const { token, user } = res.data;
 
-        this.$router.push("/auth-callback");
-      } catch (error) {
-        const status = error.response?.status;
-        const message = error.response?.data?.message;
+    // Validate response
+    if (!token || !user) {
+      throw new Error("Invalid login response from server.");
+    }
 
-        if (message === "Email already registered with a different provider, sign in normally") {
-          this.errorMessage = "⚠️ This email is linked to a Google account. Please sign in with Google.";
-        } else if (status === 400) {
-          this.errorMessage = message || "Invalid input. Please check your email/password.";
-        } else if (status === 409) {
-          this.errorMessage = "⚠️ Email already registered. Please sign in.";
-        } else if (status === 500) {
-          this.errorMessage = "🚨 Server error. Please try again later.";
-        } else {
-          this.errorMessage = message || "Something went wrong. Try again.";
-        }
-      } finally {
-        this.loading = false;
-      }
-    },
+    // Store token and user in localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Redirect to auth-callback page
+    this.$router.push("/auth-callback").catch(() => {
+      // Fallback if router push fails
+      window.location.href = "/auth-callback";
+    });
+  } catch (error) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message || error.message;
+
+    // Handle specific backend messages
+    if (message.includes("different provider")) {
+      this.errorMessage = "⚠️ This email is linked to a Google account. Please sign in with Google.";
+    } else if (status === 400) {
+      this.errorMessage = message || "Invalid email or password.";
+    } else if (status === 409) {
+      this.errorMessage = "⚠️ Email already registered. Please sign in.";
+    } else if (status === 500) {
+      this.errorMessage = "🚨 Server error. Please try again later.";
+    } else {
+      this.errorMessage = message || "Something went wrong. Please try again.";
+    }
+  } finally {
+    this.loading = false;
+  }
+},
+
 
     // Form validation
     validateForm() {
