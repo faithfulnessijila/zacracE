@@ -277,17 +277,21 @@
   <!-- Format Indicator Buttons -->
   <div class="d-flex gap-2 mb-3 pb-2 border-bottom flex-wrap">
     <button
-      v-if="book.formats.some(f => f.type === 'ebook')"
-      class="btn btn-sm btn-primary"
-    >
-      eBook
-    </button>
-    <button
-      v-if="book.formats.some(f => f.type === 'audiobook')"
-      class="btn btn-sm btn-primary"
-    >
-      Audiobook
-    </button>
+  v-if="book.formats.some(f => f.type === 'ebook')"
+  class="btn btn-sm fw-bold me-2"
+  style="background-color: #4d148c; color: #fff; border: none;"
+>
+  eBook
+</button>
+
+<button
+  v-if="book.formats.some(f => f.type === 'audiobook')"
+  class="btn btn-sm fw-bold"
+  style="background-color: #4d148c; color: #fff; border: none;"
+>
+  Audiobook
+</button>
+
   </div>
 
   <!-- Show all formats -->
@@ -349,7 +353,17 @@
           <p class="mb-0" v-if="format.type === 'audiobook'"><strong>Duration:</strong> {{ format.duration || 'N/A' }}</p>
         </div>
 
-        <span class="badge bg-primary mt-2 text-uppercase" style="font-size: 0.75rem;">{{ format.type }}</span>
+        <span
+  class="badge mt-2 text-uppercase"
+  :style="{
+    backgroundColor: '#4d148c',
+    color: '#fff',
+    fontSize: '0.75rem'
+  }"
+>
+  {{ format.type }}
+</span>
+
       </div>
     </div>
   </div>
@@ -371,321 +385,155 @@
   
   
   
+
+
+
+
+
+
+
+
+
   
   
-    <div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-10 col-lg-8">
-      <div class="p-5 bg-secondary rounded-3 shadow-sm text-center text-white">
+  <!-- Review Form -->
+  <div v-if="user" class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="p-5 bg-secondary rounded-3 shadow-sm text-center text-white">
+          <h2 class="fw-bold mb-3">
+            {{ editingReviewId ? "Edit Your Review" : "Write a Review" }}
+          </h2>
 
-        <h2 class="fw-bold mb-3">Review</h2>
+          <!-- Success Message -->
+          <div v-if="successMessage" class="alert alert-success text-start">
+            {{ successMessage }}
+          </div>
 
-        <!-- Success Message -->
-        <div v-if="successMessage" class="alert alert-success text-start">
-          {{ successMessage }}
-        </div>
-
-        <!-- Star Rating -->
-        <div class="mb-3">
-          <span
-            class="rating-star"
-            v-for="star in 5"
-            :key="star"
-            :class="{ empty: star > selectedRating }"
-            @click="selectedRating = star"
-            style="cursor: pointer; font-size: 1.5rem;"
-          >
-            ★
-          </span>
-        </div>
-
-        <!-- Review Input & Submit -->
-        <div class="d-flex flex-column flex-md-row gap-2">
-          <input 
-            type="text"
-            v-model="reviewText"
-            class="form-control review-input flex-grow-1"
-            placeholder="Write your review here..."
-            aria-label="Write review"
-            @keyup.enter="submitReview"  
-          />
-
-          <button 
-            class="btn btn-light fw-bold flex-shrink-0"
-            type="button" 
-            @click="submitReview"
-            :disabled="submittingReview"
-          >
-            Submit
-          </button>
-        </div>
-
-     <!-- Error Message -->
-<div 
-  v-if="errorMessage" 
-  class="mt-2 px-2 py-1 rounded text-start"
-  style="background-color: #f8d7da; color: #842029; display: inline-block; word-wrap: break-word; white-space: normal; padding: 4px 8px; "
+          <!-- Star Rating -->
+          <div class="mb-3">
+            <span
+  v-for="star in 5"
+  :key="star"
+  class="rating-star"
+  :class="{ empty: star > (hoverRating || selectedRating) }"
+  @mouseover="hoverRating = star"
+  @mouseleave="hoverRating = 0"
+  @click="selectedRating = star"
 >
-  {{ errorMessage }}
-</div>
+              ★
+            </span>
+          </div>
 
+          <!-- Review Input & Submit -->
+          <div class="d-flex flex-column gap-2">
+            <textarea
+              v-model="reviewText"
+              class="form-control review-input"
+              placeholder="Write your review here..."
+              rows="4"
+              style="resize: vertical; font-size: 1rem; padding: 10px;"
+              @keyup.enter="submitReview"
+            ></textarea>
 
+            <button
+              class="btn fw-bold mx-auto"
+              :disabled="submittingReview"
+              @click="submitReview"
+              style="width: 150px; font-size: 1rem; padding: 0.6rem 1.2rem; background-color: #4d148c; color: #fff; border: none;"
+            >
+              <span v-if="submittingReview" class="spinner-border spinner-border-sm me-1"></span>
+              {{ editingReviewId ? "Update" : "Submit" }}
+            </button>
+          </div>
+
+          <!-- Error Message -->
+          <div
+            v-if="errorMessage"
+            class="mt-2 px-2 py-1 rounded text-start"
+            style="background-color: #f8d7da; color: #842029; display: inline-block; word-wrap: break-word; white-space: normal;"
+          >
+            {{ errorMessage }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <!-- Reviews List -->
+  <div class="container my-5">
+    <h4 class="fw-bold mb-3">Customer Reviews ({{ reviews.length }})</h4>
 
-
-
-
-
-
-
-  
-  
-  
-  
-
-    <div class="container my-5">
-
-<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
-
-<div class="d-flex justify-content-between align-items-center flex-wrap py-4 mt-3 review-header">
-  <p class="fw-semibold text-black mb-0" style="font-size:18px;">All Book Reviews</p>
-
-
-</div>
-
-
-<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
-
-
-<div class="row gy-4 mt-2">
-  
-  <div class="col-md-12">
-  <div class="">
-    <div class="d-flex align-items-center justify-content-between mb-2">
-  <h5 class="fw-bold mb-0"> Michael B.</h5>
-  <div>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-    <span style="color: #ccc;">★</span>
-  </div>
-</div>
-   
-    <p class="text-muted mb-2">
-      “Love comes in so many different forms, but it is always love. If it is love, then it is love.” 
-      I hope one day<br> to catch up on all Elizabeth Strout’s work. I have enjoyed the last few releases 
-      and love her down-to-earth <br>characters and the relationships they wrap themselves in. With 
-      <em>Tell Me Everything</em> she brings show more...
-    </p>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-    <div>
-      <div>
-    <button class="btn btn-sm me-2 btn-like">👍 15</button>
-    <button class="btn btn-sm btn-dislike">👎 2</button>
-  </div>
+    <div v-if="reviews.length === 0" class="text-muted">
+      No reviews yet. Be the first to review this product!
     </div>
-    <p class="small text-muted   text-end">September 10, 2024</p>
-  </div>
 
-    
-  </div>
+    <div
+      v-for="review in reviews"
+      :key="review._id"
+      class="card mb-3 shadow-sm"
+      @mouseover="hover = review._id"
+      @mouseleave="hover = false"
+    >
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <strong>{{ review.user?.name || "Anonymous" }}</strong>
+            <small class="text-muted ms-2">
+              {{ new Date(review.createdAt).toLocaleDateString() }}
+            </small>
+            <div class="mt-1">
+              <i
+                v-for="n in 5"
+                :key="n"
+                class="bi"
+                :class="n <= review.rating ? 'bi-star-fill text-warning' : 'bi-star text-secondary'"
+              ></i>
+            </div>
+          </div>
+
+          <!-- Edit/Delete only for review owner -->
+          <div v-if="user?._id === review.user?._id && hover === review._id" class="btn-group">
+            <button class="btn btn-sm btn-outline-primary" @click="startEditReview(review)">
+              Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger" @click="deleteReview(review._id)">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <p class="mt-2">{{ review.review }}</p>
+
+        <!-- Like/Dislike Buttons -->
+        <div class="d-flex gap-2">
+          <div class="review-actions d-flex gap-2">
+            <button
+  class="btn btn-sm"
+  :class="review.userVote === 'like' ? 'btn-success' : 'btn-light'"
+  @click="likeReview(review)"
+  :disabled="voting"
+>
+  👍 {{ review.likes }}
+</button>
+
+<button
+  class="btn btn-sm"
+  :class="review.userVote === 'dislike' ? 'btn-danger' : 'btn-light'"
+  @click="dislikeReview(review)"
+  :disabled="voting"
+>
+  👎 {{ review.dislikes }}
+</button>
+
 </div>
 
-  <div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
 
-
-  <div class="col-md-12">
-  <div class="">
-    <div class="d-flex align-items-center justify-content-between mb-2">
-  <h5 class="fw-bold mb-0"> VB M</h5>
-  <div>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-    <span style="color: #ccc;">★</span>
-  </div>
-</div>
-   
-    <p class="text-muted mb-2">
-      I’ve only read one of Strout’s previous novels, I selected this based on the Maine setting. I enjoy the
-      uniqueness of that region. It’s a thought provoking story of what life is and people’s relationships. The age
-      old adage ‘the heart wants what the heart wants’ comes to mind. Bob and Lucy both hav show more...
-    </p>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-    <div>
-      <div>
-    <button class="btn btn-sm me-2 btn-like">👍 12</button>
-    <button class="btn btn-sm btn-dislike">👎 2</button>
-  </div>
+        </div>
+      </div>
     </div>
-    <p class="small text-muted   text-end">September 12, 2024</p>
   </div>
 
-    
-</div> </div>
-</div>
-<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
-
-
-
-
-<div class="row gy-4 mt-2">
-  
-  <div class="col-md-12">
-  <div class="">
-    <div class="d-flex align-items-center justify-content-between mb-2">
-  <h5 class="fw-bold mb-0"> Michael B.</h5>
-  <div>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-    <span style="color: #ccc;">★</span>
-  </div>
-</div>
-   
-    <p class="text-muted mb-2">
-      “Love comes in so many different forms, but it is always love. If it is love, then it is love.” 
-      I hope one day<br> to catch up on all Elizabeth Strout’s work. I have enjoyed the last few releases 
-      and love her down-to-earth <br>characters and the relationships they wrap themselves in. With 
-      <em>Tell Me Everything</em> she brings show more...
-    </p>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-    <div>
-      <div>
-    <button class="btn btn-sm me-2 btn-like">👍 16</button>
-    <button class="btn btn-sm btn-dislike">👎 7</button>
-  </div>
-    </div>
-    <p class="small text-muted   text-end">September 10, 2024</p>
-  </div>
-    
-  </div>
-</div>
-
-  <div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
-
-
-  <div class="col-md-12">
-  <div class="">
-    <div class="d-flex align-items-center justify-content-between mb-2">
-  <h5 class="fw-bold mb-0"> VB M</h5>
-  <div>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-    <span style="color: #ccc;">★</span>
-  </div>
-</div>
-   
-    <p class="text-muted mb-2">
-      I’ve only read one of Strout’s previous novels, I selected this based on the Maine setting. I enjoy the
-      uniqueness of that region. It’s a thought provoking story of what life is and people’s relationships. The age
-      old adage ‘the heart wants what the heart wants’ comes to mind. Bob and Lucy both hav show more...
-    </p>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-    <div>
-      <div>
-    <button class="btn btn-sm me-2 btn-like">👍 12</button>
-    <button class="btn btn-sm btn-dislike">👎 7</button>
-  </div>
-    </div>
-    <p class="small text-muted   text-end">September 12, 2024</p>
-  </div>
-
-    
-</div> </div>
-</div>
-<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
-
-
-
-
-
-
-<div class="row gy-4 mt-2">
-  
-  <div class="col-md-12">
-  <div class="">
-    <div class="d-flex align-items-center justify-content-between mb-2">
-  <h5 class="fw-bold mb-0"> Michael B.</h5>
-  <div>
-    <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-    <span style="color: #ccc;">★</span>
-  </div>
-</div>
-   
-    <p class="text-muted mb-2">
-      “Love comes in so many different forms, but it is always love. If it is love, then it is love.” 
-      I hope one day<br> to catch up on all Elizabeth Strout’s work. I have enjoyed the last few releases 
-      and love her down-to-earth <br>characters and the relationships they wrap themselves in. With 
-      <em>Tell Me Everything</em> she brings show more...
-    </p>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-    <div>
-      <div>
-    <button class="btn btn-sm me-2 btn-like">👍 16</button>
-    <button class="btn btn-sm btn-dislike">👎 2</button>
-  </div>
-    </div>
-    <p class="small text-muted   text-end">September 10, 2024</p>
-  </div>
-  
-
-    
-  </div>
-</div>
-
-  <div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
-
-
-  <div class="col-md-12">
-  <div class="">
-    <div class="d-flex align-items-center justify-content-between mb-2">
-  <h5 class="fw-bold mb-0"> VB M</h5>
-  <div>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-   <span style="color:#FFD700;">★</span>
-    <span style="color: #ccc;">★</span>
-  </div>
-</div>
-   
-    <p class="text-muted mb-2">
-      I’ve only read one of Strout’s previous novels, I selected this based on the Maine setting. I enjoy the
-      uniqueness of that region. It’s a thought provoking story of what life is and people’s relationships. The age
-      old adage ‘the heart wants what the heart wants’ comes to mind. Bob and Lucy both hav show more...
-    </p>
-    <div class="d-flex justify-content-between align-items-center mt-5">
-    <div>
-      <div>
-    <button class="btn btn-sm me-2 btn-like">👍 12</button>
-    <button class="btn btn-sm btn-dislike">👎 2</button>
-  </div>
-    </div>
-    <p class="small text-muted   text-end">September 12, 2024</p>
-  </div>
- 
-
-    
-</div> </div>
-</div>
-<div style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"></div>
-
-
-
-</div>
 
   
   
@@ -796,9 +644,13 @@
 
 
   
-  </template><script>
+  </template>
+ 
+ <script>
 import axios from "axios";
 import Carousel from "../components/carousel.vue";
+
+const API_BASE = "https://zacracebookwebsite.onrender.com";
 
 export default {
   name: "ProductDetails",
@@ -806,21 +658,30 @@ export default {
 
   data() {
     return {
+      // Navbar
       categories: [],
       user: null,
       userLoaded: false,
       bsCollapse: null,
+      hoverRating: 0,
+
+      // Book
+      book: { coverImageUrl: null, formats: [] },
+      loadingBook: true,
+
+      // Reviews
+      reviews: [],
       reviewText: "",
       selectedRating: 0,
+      editingReviewId: null,
       submittingReview: false,
-      book: {
-        coverImageUrl: null,
-        formats: [],
-      },
-      loadingBook: true,
-      hover: false,
-      errorMessage: "",     // <-- display error messages
-      successMessage: "",   // <-- display success messages
+      voting: false,
+
+      // UI
+      errorMessage: "",
+      successMessage: "",
+      hover: null,
+      token: localStorage.getItem("token"),
     };
   },
 
@@ -829,17 +690,12 @@ export default {
   },
 
   methods: {
-    /** Navbar Controls */
+    // ---------------- Navbar ----------------
     toggleNavbar() {
       this.bsCollapse?.toggle();
     },
     closeNavbar() {
-      if (
-        this.bsCollapse &&
-        this.$refs.navbarCollapse?.classList.contains("show")
-      ) {
-        this.bsCollapse.hide();
-      }
+      if (this.bsCollapse?.isShown) this.bsCollapse.hide();
     },
     handleClickOutside(event) {
       const navbar = this.$refs.navbarCollapse;
@@ -852,31 +708,13 @@ export default {
       }
     },
 
-    /** Carousel */
-    setupMultiCardCarousel() {
-      const items = document.querySelectorAll("#multiCardCarousel .carousel-item");
-      const minPerSlide = 3;
-      items.forEach((el) => {
-        let next = el.nextElementSibling;
-        for (let i = 1; i < minPerSlide; i++) {
-          if (!next) next = items[0];
-          const cloneChild = next.firstElementChild.cloneNode(true);
-          el.appendChild(cloneChild);
-          next = next.nextElementSibling;
-        }
-      });
-    },
-
-    /** API Requests */
+    // ---------------- API Calls ----------------
     async fetchCategories() {
       try {
-        const { data } = await axios.get(
-          "https://zacracebookwebsite.onrender.com/ebook/products/shop",
-          { headers: { "Content-Type": "application/json" } }
-        );
+        const { data } = await axios.get(`${API_BASE}/ebook/products/shop`);
         this.categories = data.categories || [];
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
+      } catch (err) {
+        console.error("[Categories] Failed:", err.response?.data || err.message);
       }
     },
 
@@ -884,43 +722,64 @@ export default {
       this.loadingBook = true;
       try {
         const { productId } = this.$route.params;
-        const { data } = await axios.get(
-          `https://zacracebookwebsite.onrender.com/ebook/products/${productId}`
-        );
+        const { data } = await axios.get(`${API_BASE}/ebook/products/${productId}`);
         this.book = data || { coverImageUrl: null, formats: [] };
-      } catch (error) {
-        console.error("Error fetching book:", error);
-        this.book = { coverImageUrl: null, formats: [] };
+      } catch (err) {
+        console.error("[Book] Failed:", err.response?.data || err.message);
       } finally {
         this.loadingBook = false;
       }
     },
 
+    async fetchReviews() {
+      try {
+        const { productId } = this.$route.params;
+        const { data } = await axios.get(`${API_BASE}/review/${productId}`);
+
+        if (!Array.isArray(data.reviews)) {
+          console.warn("[Reviews] Unexpected response:", data);
+          this.reviews = [];
+          return;
+        }
+
+        this.reviews = data.reviews.map((r) => {
+          const userObj = r.user || r.userInfo || null;
+          const userId = userObj?._id || userObj?.userId || null;
+          const userName =
+            userObj?.name || userObj?.fullName || userObj?.username || (userId ? `User-${userId.slice(-4)}` : "Anonymous");
+
+          return {
+            ...r,
+            user: { _id: userId, name: userName },
+            likes: r.likes?.length || 0,
+            dislikes: r.dislikes?.length || 0,
+            userVote: r.userVote || null,
+          };
+        });
+      } catch (err) {
+        console.error("[Reviews] Failed:", err.response?.data || err.message);
+      }
+    },
+
     async fetchUser() {
-      const token = localStorage.getItem("token");
-      if (!token) {
+      if (!this.token) {
         this.userLoaded = true;
         return;
       }
-
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) this.user = JSON.parse(storedUser);
-
       try {
-        const { data } = await axios.get(
-          "https://zacracebookwebsite.onrender.com/api/me",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        this.user = data.user || data;
+        const { data } = await axios.get(`${API_BASE}/api/me`, {
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+        this.user = { _id: data.user._id, name: data.user.name || data.user.username };
         localStorage.setItem("user", JSON.stringify(this.user));
       } catch (err) {
-        console.error("Failed to fetch user:", err);
+        console.error("[User] Failed:", err.response?.data || err.message);
+        this.logout();
       } finally {
         this.userLoaded = true;
       }
     },
 
-    /** Auth & Reviews */
     logout() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
@@ -928,67 +787,210 @@ export default {
       this.$router.push("/sign-in");
     },
 
+    // ---------------- Review Actions ----------------
     async submitReview() {
-      this.errorMessage = "";
-      this.successMessage = "";
+      this.clearMessages();
 
-      if (!this.reviewText.trim()) {
-        this.errorMessage = "Please write a review before submitting!";
-        return;
-      }
-      if (!this.selectedRating) {
-        this.errorMessage = "Please select a rating!";
-        return;
-      }
-
-      const token = localStorage.getItem("token");
-      if (!token) {
-        this.errorMessage = "You need to be signed in to submit a review.";
-        return;
+      if (!this.reviewText.trim()) return this.showError("Please write a review!");
+      if (!this.selectedRating) return this.showError("Please select a rating!");
+      if (!this.user?._id) {
+        this.showError("You need to be signed in!");
+        return this.$router.push("/sign-in");
       }
 
       this.submittingReview = true;
+      const { productId } = this.$route.params;
+
       try {
-        const { productId } = this.$route.params;
-        await axios.post(
-          `https://zacracebookwebsite.onrender.com/review/${productId}/add-review`,
-          {
+        let reviewData;
+
+        if (this.editingReviewId) {
+          await axios.put(
+            `${API_BASE}/review/${productId}/edit-review`,
+            { review: this.reviewText, rating: this.selectedRating },
+            { params: { userId: this.user._id, reviewId: this.editingReviewId }, headers: { Authorization: `Bearer ${this.token}` } }
+          );
+
+          const index = this.reviews.findIndex((r) => r._id === this.editingReviewId);
+          if (index !== -1) {
+            this.reviews[index] = {
+              ...this.reviews[index],
+              review: this.reviewText,
+              rating: this.selectedRating,
+              user: { _id: this.user._id, name: this.user.name },
+            };
+          }
+
+          this.showSuccess("Review updated!");
+        } else {
+          const { data } = await axios.post(
+            `${API_BASE}/review/${productId}/add-review`,
+            { review: this.reviewText, rating: this.selectedRating },
+            { params: { userId: this.user._id }, headers: { Authorization: `Bearer ${this.token}` } }
+          );
+
+          reviewData = data.review || {};
+
+          this.reviews.unshift({
+            _id: reviewData._id || `temp-${Date.now()}`,
             review: this.reviewText,
             rating: this.selectedRating,
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+            createdAt: reviewData.createdAt || new Date().toISOString(),
+            likes: reviewData.likes?.length || 0,
+            dislikes: reviewData.dislikes?.length || 0,
+            userVote: null,
+            user: { _id: this.user._id, name: this.user.name },
+          });
 
-        this.successMessage = "Review submitted successfully!";
-        this.reviewText = "";
-        this.selectedRating = 0;
-      } catch (error) {
-        console.error("Failed to submit review:", error);
-        this.errorMessage = "Failed to submit review. Please try again.";
+          this.showSuccess("Review submitted!");
+        }
+
+        this.resetReviewForm();
+      } catch (err) {
+        console.error("[Submit Review] Failed:", err.response?.data || err.message);
+        this.showError(err.response?.data?.message || "Failed to submit review.");
       } finally {
         this.submittingReview = false;
       }
+    },
+
+    startEditReview(review) {
+      this.reviewText = review.review;
+      this.selectedRating = review.rating;
+      this.editingReviewId = review._id;
+    },
+
+    async deleteReview(reviewId) {
+      if (!this.user?._id) return this.showError("Sign in to delete review!");
+      const { productId } = this.$route.params;
+
+      try {
+        await axios.delete(`${API_BASE}/review/${productId}/delete-review`, {
+          params: { userId: this.user._id, reviewId },
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+        this.showSuccess("Review deleted!");
+        this.reviews = this.reviews.filter((r) => r._id !== reviewId);
+      } catch (err) {
+        console.error("[Delete Review] Failed:", err.response?.data || err.message);
+        this.showError("Could not delete review.");
+      }
+    },
+
+    // ---------------- Voting ----------------
+    async voteReview(review, type) {
+  if (!this.user?._id) return this.showError("Sign in to vote!");
+  if (this.voting) return;
+
+  const previousVote = review.userVote;
+  this.voting = true;
+
+  // 🔥 Optimistic UI update
+  if (type === "like") {
+    if (review.userVote === "like") {
+      review.likes--;
+      review.userVote = null;
+    } else {
+      if (review.userVote === "dislike") review.dislikes--;
+      review.likes++;
+      review.userVote = "like";
+    }
+  } else if (type === "dislike") {
+    if (review.userVote === "dislike") {
+      review.dislikes--;
+      review.userVote = null;
+    } else {
+      if (review.userVote === "like") review.likes--;
+      review.dislikes++;
+      review.userVote = "dislike";
+    }
+  }
+
+  const { productId } = this.$route.params;
+  const url =
+    type === "like"
+      ? `${API_BASE}/review/${productId}/like-review`
+      : `${API_BASE}/review/${productId}/dislike-review`;
+
+  try {
+    // 🔥 Send GET with query params instead of PUT with body
+    await axios.get(url, {
+      params: {
+        userId: this.user._id,
+        reviewId: review._id
+      },
+      headers: { Authorization: `Bearer ${this.token}` }
+    });
+  } catch (err) {
+    // 🔥 Revert UI on error
+    review.userVote = previousVote;
+    if (previousVote === "like") {
+      review.likes++;
+      review.dislikes--;
+    } else if (previousVote === "dislike") {
+      review.dislikes++;
+      review.likes--;
+    }
+    console.error(err.response?.data || err.message);
+    this.showError("Failed to vote review.");
+  } finally {
+    this.voting = false;
+  }
+},
+
+
+    likeReview(review) {
+      this.voteReview(review, "like");
+    },
+    dislikeReview(review) {
+      this.voteReview(review, "dislike");
+    },
+
+    // ---------------- Helpers ----------------
+    resetReviewForm() {
+      this.reviewText = "";
+      this.selectedRating = 0;
+      this.editingReviewId = null;
+    },
+    clearMessages() {
+      this.errorMessage = "";
+      this.successMessage = "";
+    },
+    showError(msg) {
+      this.errorMessage = msg;
+      setTimeout(() => (this.errorMessage = ""), 4000);
+    },
+    showSuccess(msg) {
+      this.successMessage = msg;
+      setTimeout(() => (this.successMessage = ""), 4000);
     },
   },
 
   mounted() {
     const navbarEl = this.$refs.navbarCollapse;
     if (navbarEl) {
-      this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
-        toggle: false,
-      });
+      this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, { toggle: false });
     }
     document.addEventListener("click", this.handleClickOutside);
 
-    this.setupMultiCardCarousel();
     this.fetchCategories();
-    this.fetchUser();
-    this.fetchBook();
+    this.fetchUser().then(() => {
+      this.fetchBook();
+      this.fetchReviews();
+    });
   },
 };
 </script>
 
+ 
+  
+
  <style scoped>
+ button.active {
+  color: white;
+  background-color: #007bff; /* blue for active */
+}
+
 .error-message {
   background-color: #f8d7da;
   color: #842029;

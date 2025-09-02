@@ -8,6 +8,11 @@ import Homepage from '@/views/homepage.vue';
 import Preview from '@/views/preview.vue';
 import AuthCallback from '@/views/AuthCallback.vue';
 
+import ReviewList from '@/views/ReviewList.vue';
+import ReviewForm from '@/views/ReviewForm.vue';
+
+
+
 
 
 
@@ -25,6 +30,12 @@ const routes = [
   {
     path: '/new-password',  component: Newpassword
 },
+{
+  path: '/review-form',  component: ReviewForm
+  },
+{
+  path: '/review-list',  component: ReviewList
+  },
 {
   path: '/preview/:productId',name: 'Preview',  component:Preview
 },
