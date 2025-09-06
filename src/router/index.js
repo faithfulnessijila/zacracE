@@ -8,8 +8,14 @@ import Homepage from '@/views/homepage.vue';
 import Preview from '@/views/preview.vue';
 import AuthCallback from '@/views/AuthCallback.vue';
 
-import ReviewList from '@/views/ReviewList.vue';
-import ReviewForm from '@/views/ReviewForm.vue';
+
+
+import Product from '@/views/product .vue';
+import EditProduct from '@/views/edit product .vue';
+import Productlist from '@/views/productlist.vue';
+
+import Admin from '@/views/admin.vue';
+
 
 
 
@@ -31,13 +37,19 @@ const routes = [
     path: '/new-password',  component: Newpassword
 },
 {
-  path: '/review-form',  component: ReviewForm
+  path: '/product',  component: Product
   },
 {
-  path: '/review-list',  component: ReviewList
+  path: '/edit-product',  name: 'EditProduct',  component: EditProduct
   },
 {
   path: '/preview/:productId',name: 'Preview',  component:Preview
+},
+{
+  path: '/product-list',  component: Productlist
+},
+{
+  path: '/admin',  component: Admin
 },
 {
   path: "/auth-callback", 
