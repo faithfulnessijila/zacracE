@@ -436,6 +436,18 @@ export default {
 </script>
 
 <style scoped>
+/* Optional: for better contrast on active nested links */
+.nav .nav .nav-link.active {
+  background-color: #6a1aa0 !important; /* slightly lighter/darker to distinguish nested */
+  color: #fff !important;
+}
+
+/* Ensure text is not hidden or clipped */
+.nav-link span,
+.nav-link p {
+  color: inherit;
+  font-weight: inherit;
+}
 .ebook-link {
   background-color: #4d148c;
   color: #fff !important;
