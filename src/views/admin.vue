@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex flex-column flex-md-row">
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="text-center mb-4">
@@ -170,17 +170,20 @@ export default {
 /* Responsive adjustments for small screens */
 @media (max-width: 767px) {
   .sidebar {
-    width: 200px; /* narrower sidebar */
+    width: 100%  !important; 
+    min-height: auto  !important; 
+    border-right: none  !important; 
+    border-bottom: 1px solid #ddd !important; 
   }
 
   .nav-link,
   .ebook-link {
-    font-size: 0.75rem; /* smaller text only for mobile */
-    padding: 0.35rem 0.7rem; /* optional: reduce padding */
+    font-size: 1rem; /* keep normal size for readability */
+    padding: 0.5rem 1rem; /* slightly bigger tap targets */
   }
 
   .brand-title {
-    font-size: 1rem; /* smaller logo/title text */
+    font-size: 1.1rem;
   }
 }
 

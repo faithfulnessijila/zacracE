@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex flex-column flex-md-row">
     <!-- Sidebar -->
     <aside class="sidebar border-end p-3">
       <!-- Logo & Title -->
@@ -102,7 +102,7 @@
                 :class="{ active: activeLink === 'pending-orders' }"
                 @click.prevent="activeLink = 'pending-orders'"
               >
-                Pending Orders
+                Pending 
               </a>
             </li>
             <li>
@@ -112,7 +112,7 @@
                 :class="{ active: activeLink === 'completed-orders' }"
                 @click.prevent="activeLink = 'completed-orders'"
               >
-                Completed Orders
+                Completed  
               </a>
             </li>
             <li>
@@ -122,7 +122,7 @@
                 :class="{ active: activeLink === 'refund-requests' }"
                 @click.prevent="activeLink = 'refund-requests'"
               >
-                Refund Requests
+                  Requests
               </a>
             </li>
           </ul>
@@ -436,6 +436,38 @@ export default {
 </script>
 
 <style scoped>
+.ebook-link {
+  background-color: #4d148c;
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+.ebook-link:hover {
+  background-color: #5e18aa !important; /* slightly darker purple */
+  color: #fff !important;
+}
+@media (max-width: 767px) {
+  .sidebar {
+    width: 100%  !important; 
+    min-height: auto  !important; 
+    border-right: none  !important; 
+    border-bottom: 1px solid #ddd !important; 
+  }
+  
+
+  .nav-link,
+  .ebook-link {
+    font-size: 1rem; /* keep normal size for readability */
+    padding: 0.5rem 1rem; /* slightly bigger tap targets */
+  }
+
+  .brand-title {
+    font-size: 1.1rem;
+  }
+}
 .sidebar {
   width: 240px;
   background: #f8f9fa;
@@ -445,7 +477,13 @@ export default {
 .nav-link {
   color: #333;
   font-weight: 500;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
@@ -453,11 +491,14 @@ export default {
   color: #4d148c;         /* White text on hover */
  
 }
+.nav-link i {
+  margin-left: 0.5rem;
+}
 
 .nav-link.active {
-  color: #fff;
-  background: #4d148c;
-  border-radius: 6px;
+  background-color: #4d148c !important;  /* purple background */
+  color: #fff !important;     /* white text */
+  font-weight: 600;
 }
 
 .border-dotted-custom {

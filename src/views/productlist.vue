@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex flex-column flex-md-row">
     <!-- Sidebar -->
     <aside class="sidebar border-end p-3">
       <!-- Logo & Title -->
@@ -110,7 +110,7 @@
                       :class="{ active: activeLink === 'pending-orders' }"
                       @click.prevent="activeLink = 'pending-orders'"
                     >
-                      Pending Orders
+                      Pending 
                     </a>
                   </li>
                   <li>
@@ -120,7 +120,7 @@
                       :class="{ active: activeLink === 'completed-orders' }"
                       @click.prevent="activeLink = 'completed-orders'"
                     >
-                      Completed Orders
+                      Completed 
                     </a>
                   </li>
                   <li>
@@ -130,7 +130,7 @@
                       :class="{ active: activeLink === 'refund-requests' }"
                       @click.prevent="activeLink = 'refund-requests'"
                     >
-                      Refund Requests
+                       Requests
                     </a>
                   </li>
                 </ul>
@@ -159,46 +159,46 @@
 
         <!-- Product Table -->
         <div class="card shadow-sm">
-          <div class="card-body p-0">
-            <table class="table table-hover mb-0">
-              <thead class="table-light">
-                <tr>
-                  <th>Product</th>
-                  <th>Category</th>
-                  <th>Amount Sold</th>
-                  <th>Format 1 (Ebook)</th>
-                  <th>Ebook Price</th>
-                  <th>Format 2 (Audiobook)</th>
-                  <th>Audiobook Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, index) in filteredProducts" :key="index">
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <img :src="item.image" alt="" class="rounded-circle me-2" width="35" height="35" />
-                      <span>{{ item.name }}</span>
-                    </div>
-                  </td>
-                  <td>{{ item.category }}</td>
-                  <td>{{ item.amountSold }}</td>
-                  <td>
-                    <i
-                      :class="item.hasEbook ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"
-                    ></i>
-                  </td>
-                  <td>${{ item.ebookPrice }}</td>
-                  <td>
-                    <i
-                      :class="item.hasAudio ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"
-                    ></i>
-                  </td>
-                  <td>${{ item.audioPrice }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+  <th class="sticky-col">Product</th>
+  <th>Category</th>
+  <th>Sold</th>
+  <th>Ebook</th>
+  <th>Price (₦)</th>
+  <th>Audio</th>
+  <th>Audio (₦)</th>
+</tr>
+
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in filteredProducts" :key="index">
+            <td class="sticky-col">
+              <div class="d-flex align-items-center">
+                <img :src="item.image" alt="" class="rounded-circle me-2" width="35" height="35" />
+                <span>{{ item.name }}</span>
+              </div>
+            </td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.amountSold }}</td>
+            <td>
+              <i :class="item.hasEbook ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"></i>
+            </td>
+            <td>₦{{ item.ebookPrice }}</td>
+            <td>
+              <i :class="item.hasAudio ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"></i>
+            </td>
+            <td>₦{{ item.audioPrice }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
       </div>
     </main>
   </div>
@@ -266,15 +266,86 @@ export default {
     }
   },
   methods: {
-    openNewProduct() {
-      this.activeLink = "new-product";
-      // future: route to new product page
-    }
+  formatPrice(value) {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 0
+    }).format(value);
   }
+}
+
 };
 </script>
 
 <style scoped>
+.ebook-link {
+  background-color: #4d148c;
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: 70vh;   /* keeps table from stretching too tall */
+}
+
+.table th,
+.table td {
+  white-space: nowrap;   /* keeps columns compact */
+  font-size: 0.8rem;     
+  padding: 0.5rem 0.75rem;
+  vertical-align: middle;
+}
+
+.table td span {
+  display: inline-block;
+  max-width: 150px;   /* cut long product names */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.sticky-col {
+  position: sticky;
+  left: 0;
+  background: #fff; /* match table bg */
+  z-index: 2;       /* keep above other cells */
+}
+
+@media (max-width: 767px) {
+  main .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .sidebar {
+    width: 100%  !important; 
+    min-height: auto  !important; 
+    border-right: none  !important; 
+    border-bottom: 1px solid #ddd !important; 
+  }
+
+  .nav-link,
+  .ebook-link {
+    font-size: 1rem !important;; /* keep normal size for readability */
+    padding: 0.5rem 1rem !important;; /* slightly bigger tap targets */
+  }
+
+  .brand-title {
+    font-size: 1.1rem !important;;
+  }
+}
 .sidebar {
   width: 240px;
   background: #f8f9fa;
@@ -290,6 +361,12 @@ export default {
 .nav-link:hover {
   color: #4d148c;
 }
+
+
+.brand-title {
+  font-size: 1rem; /* reduce brand title slightly */
+}
+
 
 .nav-link.active {
   color: #fff;
