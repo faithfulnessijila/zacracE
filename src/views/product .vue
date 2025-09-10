@@ -396,7 +396,7 @@
 
 
 
-<!-- Step 3: Author -->
+
 <transition name="slide-fade" mode="out-in">
   <div v-if="activeStep === 3" key="step3" class="card shadow-sm p-4 mb-4 product-form-card">
   <h5 class="text-center mb-4">Audiobook Upload</h5>
@@ -410,7 +410,7 @@
           v-model="form.audioDuration"
           type="text"
           class="form-control w-100"
-          placeholder="e.g. 5h 32m"
+          placeholder="e.g 1min"
           style="padding: 8px 12px; font-size: 0.95rem;"
         />
         <small v-if="errors.audioDuration" class="text-danger">{{ errors.audioDuration }}</small>

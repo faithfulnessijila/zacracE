@@ -39,9 +39,13 @@ const routes = [
 {
   path: '/product',  component: Product
   },
-{
-  path: '/edit-product',  name: 'EditProduct',  component: EditProduct
+  {
+    path: '/edit-product',
+    name: 'EditProduct',
+    component: EditProduct,
+    props: true
   },
+  
 {
   path: '/preview/:productId',name: 'Preview',  component:Preview
 },
