@@ -616,7 +616,7 @@ export default {
   data() {
     return {
       dropdowns: { ebook: true, products: true, orders: false },
-      activeLink: "new-product",
+      activeLink: "edit-product",
       activeStep: 1,
       filePreviewUrl: null,
       form: {

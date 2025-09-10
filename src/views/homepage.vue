@@ -296,23 +296,15 @@
       <div class="row">
 
         <div class="col-12 col-md-3 mb-4">
-          <h5 class="mb-3">All about Rakuten Kobo</h5>
+         
           <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >About Rakuten Kobo</a
-              >
-            </li>
+          
             <li>
               <a href="#" class="text-white text-decoration-underline"
                 >Management Team</a
               >
             </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Kobo in Conversation Podcast</a
-              >
-            </li>
+            
             <li>
               <a href="#" class="text-white text-decoration-underline"
                 >eRecycling Program</a

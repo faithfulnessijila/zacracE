@@ -53,7 +53,7 @@
           <div class="card shadow-sm">
             <div class="card-body text-center">
               <h6>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</h6>
-              <p class="fs-5">{{ key === 'revenue' ? '$' + val : val }}</p>
+              <p class="fs-5">{{ key === 'revenue' ? '₦' + val : val }}</p>
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      activeLink: "overview",
+      
       dropdowns: {
         ebook: false,
         products: false,

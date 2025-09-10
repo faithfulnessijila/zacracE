@@ -85,7 +85,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-grow-1 p-4">
+    <main class="flex-grow-1 p-4 bg-light">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h3 style= "color: #4d148c;  font-weight: bold;" class="mb-0">Product List</h3>
