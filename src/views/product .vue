@@ -25,13 +25,7 @@
 
 
   <ul  v-show="dropdowns.ebook" class="nav flex-column ms-3 mt-2" style="transition: all 0.3s ease;">
-    <!-- Overview -->
-    <li class="nav-item">
-      <a href="#" class="nav-link" :class="{ active: activeLink === 'overview' }"
-         @click.prevent="setActiveLink('overview')">
-        Overview
-      </a>
-    </li>
+   
 
     <!-- Products Dropdown -->
     <li class="nav-item">
@@ -64,36 +58,7 @@
       </ul>
     </li>
 
-    <!-- Orders Dropdown -->
-    <li class="nav-item">
-      <a href="#" class="nav-link d-flex justify-content-between align-items-center"
-         :class="{ active: activeLink === 'orders' }"
-         @click.prevent="toggleDropdown('orders')">
-        Orders
-        <i :class="['bi', dropdowns.orders ? 'bi-chevron-up' : 'bi-chevron-down']" class="ms-2"></i>
-      </a>
-
-      <ul v-show="dropdowns.orders" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
-        <li>
-          <a href="#" class="nav-link" :class="{ active: activeLink === 'pending-orders' }"
-             @click.prevent="setActiveLink('pending-orders')">
-            Pending 
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link" :class="{ active: activeLink === 'completed-orders' }"
-             @click.prevent="setActiveLink('completed-orders')">
-            Completed 
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link" :class="{ active: activeLink === 'refund-requests' }"
-             @click.prevent="setActiveLink('refund-requests')">
-             Request
-          </a>
-        </li>
-      </ul>
-    </li>
+ 
   </ul>
 </li>
 
@@ -137,15 +102,15 @@
 </li>
 <li class="nav-item text-center step-item" @click="setStep(2)">
   <span class="step" :class="{ active: activeStep === 2 }">2</span><br>
-  <span style="color: #4d148c;">Media</span>
+  <span style="color: #4d148c;">Ebook</span>
 </li>
 <li class="nav-item text-center step-item" @click="setStep(3)">
   <span class="step" :class="{ active: activeStep === 3 }">3</span><br>
-  <span style="color: #4d148c;">Author</span>
+  <span style="color: #4d148c;">Audio</span>
 </li>
 <li class="nav-item text-center step-item" @click="setStep(4)">
   <span class="step" :class="{ active: activeStep === 4 }">4</span><br>
-  <span style="color: #4d148c;">Pricing</span>
+  <span style="color: #4d148c;">Author</span>
 </li>
 
   </ul>
@@ -170,73 +135,132 @@
 <div v-if="activeStep === 1" key="step1" class="card shadow-sm p-4 mb-4 product-form-card">
   <h5 class="text-center mb-4">Product Information</h5>
   <form @submit.prevent="nextStep">
-
-    <div class="row mb-3">
-      <div class="col-12 col-md-6 mb-3 mb-md-0">
-        <label class="form-label">Title</label>
-        <input v-model="form.title" type="text" class="form-control" />
-        <small v-if="errors.title" class="text-danger">{{ errors.title }}</small>
-      </div>
-
-      <div class="col-12 col-md-6">
-        <label class="form-label">Size (MB)</label>
-        <input v-model="form.size" type="number" class="form-control" />
-        <small v-if="errors.size" class="text-danger">{{ errors.size }}</small>
-      </div>
+  <!-- Title -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <label class="form-label">Title</label>
+      <input 
+        v-model="form.title" 
+        type="text" 
+        class="form-control w-100" 
+        placeholder="Enter product title"
+        style="padding: 8px 12px; font-size: 0.95rem;"
+      />
+      <small v-if="errors.title" class="text-danger">{{ errors.title }}</small>
     </div>
+  </div>
 
-    <div class="row mb-3">
-      <div class="col-12 col-md-6 mb-3 mb-md-0">
-        <label class="form-label">Duration/Pages</label>
-        <input v-model="form.pages" type="number" class="form-control" />
-        <small v-if="errors.pages" class="text-danger">{{ errors.pages }}</small>
-      </div>
+  <!-- Category -->
+  <div class="row mb-3">
+    <div class="col-12 col-md-6">
+      <label class="form-label">Category</label>
+      <select 
+  v-model="form.category" 
+  class="form-select w-100"
+  style="padding: 6px 10px; font-size: 0.8rem; line-height: 1.2;"
+>
+  <option value="">Select Category</option>
+  <option>Data Analytics</option>
+  <option>Programming</option>
+  <option>Design</option>
+</select>
 
-      <div class="col-12 col-md-6">
-        <label class="form-label">Category</label>
-        <select v-model="form.category" class="form-select">
-          <option value="">Select Category</option>
-          <option>Data Analytics</option>
-          <option>Programming</option>
-          <option>Design</option>
-        </select>
-        <small v-if="errors.category" class="text-danger">{{ errors.category }}</small>
-      </div>
+      <small v-if="errors.category" class="text-danger">{{ errors.category }}</small>
     </div>
+  </div>
 
-    <div class="row mb-3">
-      <div class="col-12 col-md-6 mb-3 mb-md-0">
-        <label class="form-label">Description</label>
-        <input v-model="form.description" type="text" class="form-control" />
-        <small v-if="errors.description" class="text-danger">{{ errors.description }}</small>
-      </div>
-
-      <div class="col-12 col-md-6">
-        <label class="form-label">Type</label>
-        <select v-model="form.type" class="form-select">
-          <option value="">Select Type</option>
-          <option>E-book</option>
-          <option>Course</option>
-          <option>Video</option>
-        </select>
-        <small v-if="errors.type" class="text-danger">{{ errors.type }}</small>
-      </div>
+  <!-- Description -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <label class="form-label">Description</label>
+      <textarea
+        v-model="form.description"
+        class="form-control w-100"
+        placeholder="Write a detailed description..."
+        style="min-height: 120px; padding: 10px; font-size: 0.95rem; resize: vertical;"
+      ></textarea>
+      <small v-if="errors.description" class="text-danger">{{ errors.description }}</small>
     </div>
+  </div>
 
-    <div class="d-flex justify-content-end">
-      <button 
-        type="submit" 
-        class="btn px-4 next-btn" 
-        :class="{
-          'btn-primary': form.title && form.size && form.pages && form.category && form.description && form.type, 
-          'btn-disabled': !form.title || !form.size || !form.pages || !form.category || !form.description || !form.type
-        }"
-        :disabled="!form.title || !form.size || !form.pages || !form.category || !form.description || !form.type"
+<!-- Product Image Upload -->
+<div class="row mb-3">
+  <div class="col-12">
+    <label class="form-label">Product Image</label>
+    <div class="text-center">
+      <div
+        class="border-dotted-custom p-3 rounded"
+        @dragover.prevent
+        @drop.prevent="onDrop($event, 'image')"
+        style="min-height: 140px;"
       >
-        Next
-      </button>
+        <!-- Hidden Input -->
+        <input
+          type="file"
+          accept="image/*"
+          class="d-none"
+          ref="imageInput"
+          @change="onFileChange($event, 'image')"
+        />
+
+        <!-- Empty State -->
+        <div v-if="!form.imagePreview" class="text-center">
+          <i 
+            href="#" 
+            @click.prevent="$refs.imageInput.click()"  
+            class="bi bi-cloud-arrow-up" 
+            style="font-size: 3.5rem; color: #4d148c;"
+          ></i>
+          <p class="mt-2 mb-1" style="font-size: 0.95rem;">
+            Drop your image here or
+            <a href="#" @click.prevent="$refs.imageInput.click()" style="color: #4d148c; font-weight: 600;">
+              Browse
+            </a>
+          </p>
+          <small class="text-muted" style="font-size: 0.8rem;">Supports: JPG, JPEG, PNG</small>
+          <div v-if="errors.image" class="text-danger mt-1">{{ errors.image }}</div>
+        </div>
+
+        <!-- Preview State -->
+        <div v-else class="text-center">
+          <img 
+            :src="form.imagePreview" 
+            class="img-fluid rounded mb-2" 
+            style="max-height: 150px;" 
+          />
+          <div>
+            <button 
+              type="button" 
+              class="btn btn-sm btn-danger" 
+              @click="removeImage('image')"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </form>
+  </div>
+</div>
+
+
+  <!-- Next Button -->
+  <div class="d-flex justify-content-end">
+    <button 
+      type="submit" 
+      class="btn px-4 next-btn" 
+      :class="{
+        'btn-primary': form.title && form.category && form.description && form.image, 
+        'btn-disabled': !form.title || !form.category || !form.description || !form.image
+      }"
+      :disabled="!form.title || !form.category || !form.description || !form.image"
+    >
+      Next
+    </button>
+  </div>
+</form>
+
+
 </div>
 
 
@@ -244,92 +268,127 @@
 <!-- Step 2: Media -->
 <transition name="slide-fade" mode="out-in">
   <div v-if="activeStep === 2" key="step2" class="mb-4">
-
-    <!-- Cover Image Upload Card -->
-    <div class="card shadow-sm p-4 mb-4 product-form-card">
-      <h5 class="text-center mb-4">Add Cover Image</h5>
-      <div class="text-center">
-        <div
-          class="border-dotted-custom p-4 rounded"
-          @dragover.prevent
-          @drop.prevent="onDrop($event, 'cover')"
-        >
-          <input
-            type="file"
-            accept="image/*"
-            class="d-none"
-            ref="coverInput"
-            @change="onFileChange($event, 'cover')"
-          />
-          <div v-if="!form.coverImage" class="text-center">
-            <i class="bi bi-cloud-arrow-up" style="font-size: 5rem; color: #4d148c;"></i>
-            <p class="mt-2">
-              Drop your image here or 
-              <a href="#" @click.prevent="$refs.coverInput.click()" style="color: #4d148c; font-weight: 600;">
-                Browse
-              </a>
-            </p>
-            <small class="text-muted" style="font-size: 0.9rem;">Supports: JPG, JPEG, PNG</small>
-            <div v-if="errors.coverImage" class="text-danger mt-1">{{ errors.coverImage }}</div>
-          </div>
-          <div v-else class="text-center">
-            <img :src="form.coverImage" class="img-fluid rounded" style="max-height: 180px;" />
-            <button class="btn btn-sm btn-danger mt-2" @click="removeImage('cover')">Remove</button>
-          </div>
-        </div>
-      </div>
+<!-- Ebook Details -->
+<div class="card shadow-sm p-4 mb-4 product-form-card">
+  <h5 class="text-center mb-3">E-book Details</h5>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">Number of Pages</label>
+      <input v-model="form.pages" type="number" class="form-control" placeholder="e.g. 120" />
+      <small v-if="errors.pages" class="text-danger">{{ errors.pages }}</small>
     </div>
+    <div class="col-md-6">
+      <label class="form-label">Price</label>
+      <input v-model="form.price" type="number" class="form-control" placeholder="e.g. 25" />
+      <small v-if="errors.price" class="text-danger">{{ errors.price }}</small>
+    </div>
+  </div>
 
-    <!-- Product Images Upload Card -->
-    <div class="card shadow-sm p-4 mb-4 product-form-card">
-      <h5 class="text-center mb-4">Add Product Images</h5>
-      <div class="text-center">
-        <div
-          class="border-dotted-custom p-4 rounded"
-          @dragover.prevent
-          @drop.prevent="onDrop($event, 'product')"
-        >
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            class="d-none"
-            ref="productInput"
-            @change="onFileChange($event, 'product')"
-          />
-          <div v-if="form.productImages.length === 0" class="text-center">
-            <i class="bi bi-cloud-arrow-up" style="font-size: 5rem; color: #4d148c;"></i>
-            <p class="mt-2">
-              Drop your images here or 
-              <a href="#" @click.prevent="$refs.productInput.click()" style="color: #4d148c; font-weight: 600;">
-                Browse
-              </a>
-            </p>
-            <small class="text-muted" style="font-size: 0.9rem;">Supports: JPG, JPEG, PNG</small>
-            <div v-if="errors.productImages" class="text-danger mt-1">{{ errors.productImages }}</div>
-          </div>
-          <div v-else class="d-flex flex-wrap justify-content-center gap-2">
-            <div v-for="(img, index) in form.productImages" :key="index" class="position-relative">
-              <img :src="img" class="img-thumbnail" style="max-height: 100px;" />
-              <button 
-                class="btn btn-sm btn-danger position-absolute top-0 end-0"
-                @click="removeImage('product', index)"
-              >
-                ×
-              </button>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">Currency</label>
+      <select v-model="form.currency" class="form-select">
+        <option value="">Select Currency</option>
+        <option>USD</option>
+        <option>NGN</option>
+        <option>EUR</option>
+      </select>
+      <small v-if="errors.currency" class="text-danger">{{ errors.currency }}</small>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">File Size (MB)</label>
+      <input v-model="form.size" type="number" class="form-control" placeholder="e.g. 10" />
+      <small v-if="errors.size" class="text-danger">{{ errors.size }}</small>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+  <div class="col-12">
+    <label class="form-label">Upload File</label>
+    <div class="text-center">
+      <div
+        class="border-dotted-custom p-3 rounded"
+        @dragover.prevent
+        @drop.prevent="onDrop($event, 'file')"
+        style="min-height: 160px !important;"
+      >
+        <!-- Hidden Input -->
+        <input
+          type="file"
+          accept=".pdf,.epub,.docx"
+          class="d-none"
+          ref="fileInput"
+          @change="onFileChange($event, 'file')"
+        />
+
+        <!-- Empty State -->
+        <div v-if="!form.file" class="text-center">
+          <i
+            class="bi bi-file-earmark-arrow-up"
+            style="font-size: 3.5rem !important; color: #4d148c !important; cursor: pointer !important;"
+            @click.prevent="$refs.fileInput.click()"
+          ></i>
+          <p class="mt-2 mb-1" style="font-size: 0.95rem !important;">
+            Drop your file here or
+            <a
+              href="#"
+              @click.prevent="$refs.fileInput.click()"
+              style="color: #4d148c !important; font-weight: 600 !important; cursor: pointer !important; text-decoration: underline !important;"
+            >
+              Browse
+            </a>
+          </p>
+          <small class="text-muted" style="font-size: 0.8rem !important;">Supports: PDF, EPUB, DOCX</small>
+          <div v-if="errors.file" class="text-danger mt-1">{{ errors.file }}</div>
+        </div>
+
+        <!-- Preview State -->
+        <div v-else class="text-center">
+          <div class="p-2 border rounded bg-light d-inline-block w-100">
+            <!-- File Name + Size -->
+            <p class="fw-bold mb-1">{{ form.file.name }}</p>
+            <small class="text-muted d-block mb-2">
+              {{ (form.file.size / 1024 / 1024).toFixed(2) }} MB
+            </small>
+
+            <!-- Preview Area -->
+            <div v-if="filePreviewUrl" class="mt-2">
+              <!-- PDF Preview -->
+              <iframe
+                v-if="form.file.type === 'application/pdf'"
+                :src="filePreviewUrl"
+                style="width: 100%; height: 250px; border: 1px solid #ddd; border-radius: 6px;"
+              ></iframe>
+
+              <!-- DOCX/EPUB Preview as Icon -->
+              <div v-else class="text-center">
+                <i :class="getFileIcon(form.file.name)" style="font-size: 3rem; color: #4d148c;"></i>
+                <p class="text-muted">Preview not available</p>
+              </div>
             </div>
           </div>
+
+          <!-- Remove -->
+          <div>
+            <button class="btn btn-sm btn-danger mt-2" @click="removeFile">Remove</button>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Navigation Buttons -->
-    <div class="d-flex justify-content-between">
-      <button type="button" class="btn btn-secondary px-4" @click="setStep(1)">Back</button>
-      <button type="button" class="btn btn-primary px-4" @click="nextStep">Next</button>
-    </div>
-
   </div>
+</div>
+
+
+
+</div>
+
+<!-- Navigation Buttons -->
+<div class="d-flex justify-content-between">
+  <button type="button" class="btn btn-secondary px-4" @click="setStep(1)">Back</button>
+  <button type="button" class="btn btn-primary px-4" @click="nextStep">Next</button>
+</div>
+</div>
+
 </transition>
 
 
@@ -340,58 +399,140 @@
 <!-- Step 3: Author -->
 <transition name="slide-fade" mode="out-in">
   <div v-if="activeStep === 3" key="step3" class="card shadow-sm p-4 mb-4 product-form-card">
-    <h5 class="text-center mb-4">Author Information</h5>
+  <h5 class="text-center mb-4">Audiobook Upload</h5>
 
-    <form @submit.prevent="nextStep">
-      <div class="row mb-3">
-        <div class="col-md-6 mb-3 mb-md-0">
-          <label class="form-label">Author Name (optional)</label>
-          <input
-            v-model="form.authorName"
-            type="text"
-            class="form-control"
-            placeholder="@warner"
-          />
-          <small v-if="errors.authorName" class="text-danger">{{ errors.authorName }}</small>
-        </div>
-
-        <div class="col-md-6">
-          <label class="form-label">Author Biography (optional)</label>
-          <input
-            v-model="form.authorBio"
-            type="text"
-            class="form-control"
-            placeholder="Short bio (min 10 chars)"
-          />
-          <small v-if="errors.authorBio" class="text-danger">{{ errors.authorBio }}</small>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">LinkedIn Account (optional)</label>
+  <form @submit.prevent="nextStep">
+    <!-- Duration & File Size -->
+    <div class="row mb-3">
+      <div class="col-12 col-md-6 mb-3 mb-md-0">
+        <label class="form-label">Duration</label>
         <input
-          v-model="form.authorLinkedIn"
+          v-model="form.audioDuration"
           type="text"
-          class="form-control"
-          placeholder="https://linkedin.com/in/username"
+          class="form-control w-100"
+          placeholder="e.g. 5h 32m"
+          style="padding: 8px 12px; font-size: 0.95rem;"
         />
-        <small v-if="errors.authorLinkedIn" class="text-danger">{{ errors.authorLinkedIn }}</small>
+        <small v-if="errors.audioDuration" class="text-danger">{{ errors.audioDuration }}</small>
       </div>
 
-      <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary px-4" @click="setStep(2)">Back</button>
-        <button 
-  type="submit" 
-  class="btn btn-primary px-4"
-  :disabled="!canProceedStep3"
->
-  Next
-</button>
-
-
+      <div class="col-12 col-md-6">
+        <label class="form-label">File Size</label>
+        <input
+          v-model="form.audioSize"
+          type="text"
+          class="form-control w-100"
+          placeholder="e.g. 120 MB"
+          style="padding: 8px 12px; font-size: 0.95rem;"
+        />
+        <small v-if="errors.audioSize" class="text-danger">{{ errors.audioSize }}</small>
       </div>
-    </form>
-  </div>
+    </div>
+
+    <!-- Price & Currency -->
+    <div class="row mb-3">
+      <div class="col-12 col-md-6 mb-3 mb-md-0">
+        <label class="form-label">Price</label>
+        <input
+          v-model="form.audioPrice"
+          type="number"
+          class="form-control w-100"
+          placeholder="Enter price"
+          style="padding: 8px 12px; font-size: 0.95rem;"
+        />
+        <small v-if="errors.audioPrice" class="text-danger">{{ errors.audioPrice }}</small>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Currency</label>
+        <select
+          v-model="form.audioCurrency"
+          class="form-select w-100"
+          style="padding: 6px 10px; font-size: 0.85rem; line-height: 1.2;"
+        >
+          <option value="">Select Currency</option>
+          <option value="USD">USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="GBP">GBP (£)</option>
+          <option value="NGN">NGN (₦)</option>
+        </select>
+        <small v-if="errors.audioCurrency" class="text-danger">{{ errors.audioCurrency }}</small>
+      </div>
+    </div>
+
+    <!-- Audiobook File Upload -->
+    <div class="row mb-3">
+      <div class="col-12">
+        <label class="form-label">Audiobook File</label>
+        <div
+          class="border-dotted-custom p-3 rounded text-center"
+          @dragover.prevent
+          @drop.prevent="onDrop($event, 'audiobook')"
+          style="min-height: 140px;"
+        >
+          <!-- Hidden Input -->
+          <input
+            type="file"
+            accept=".mp3,.m4a,.wav"
+            class="d-none"
+            ref="audioInput"
+            @change="onFileChange($event, 'audiobook')"
+          />
+
+          <!-- Empty State -->
+          <div v-if="!form.audioFile" class="text-center">
+            <i 
+              href="#" 
+              @click.prevent="$refs.audioInput.click()"  
+              class="bi bi-cloud-arrow-up" 
+              style="font-size: 3.5rem; color: #4d148c;"
+            ></i>
+            <p class="mt-2 mb-1" style="font-size: 0.95rem;">
+              Drop your audiobook file here or
+              <a href="#" @click.prevent="$refs.audioInput.click()" style="color: #4d148c; font-weight: 600;">
+                Browse
+              </a>
+            </p>
+            <small class="text-muted" style="font-size: 0.8rem;">Supports: MP3, M4A, WAV</small>
+            <div v-if="errors.audioFile" class="text-danger mt-1">{{ errors.audioFile }}</div>
+          </div>
+
+          <!-- Preview State -->
+          <div v-else class="text-center">
+            <i class="bi bi-file-earmark-music" style="font-size: 3rem; color: #4d148c;"></i>
+            <p class="mt-2">{{ form.audioFile.name }}</p>
+            <button 
+              type="button" 
+              class="btn btn-sm btn-danger mt-2" 
+              @click="removeFile('audiobook')"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-secondary px-4" @click="setStep(2)">
+        Back
+      </button>
+      <button 
+        type="submit" 
+        class="btn px-4 next-btn" 
+        :class="{
+          'btn-primary': form.audioDuration && form.audioSize && form.audioPrice && form.audioCurrency && form.audioFile, 
+          'btn-disabled': !form.audioDuration || !form.audioSize || !form.audioPrice || !form.audioCurrency || !form.audioFile
+        }"
+        :disabled="!form.audioDuration || !form.audioSize || !form.audioPrice || !form.audioCurrency || !form.audioFile"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>
+
 </transition>
 
 
@@ -406,80 +547,57 @@
 
 <!-- Step 4: Pricing -->
 <div v-if="activeStep === 4" key="step4" class="card shadow-sm p-4 mb-4 product-form-card">
-  <h5 class="text-center mb-4">Pricing</h5>
+  <h5 class="text-center mb-4">Author Information</h5>
+
   <form @submit.prevent="submitForm">
+    <div v-for="(author, index) in form.authors" :key="index" class="border rounded p-3 mb-3">
+      <h6 class="fw-bold text-primary">Author {{ index + 1 }}</h6>
 
-<!-- Ebook Pricing -->
-<div class="mb-4">
-  <h6 class="fw-bold text-primary">E-book Pricing</h6>
-  <div class="row mb-3">
-    <div class="col-md-6 mb-3">
-      <label class="form-label">Price</label>
-      <input v-model="form.ebookPrice" type="number" class="form-control" />
-      <small v-if="errors.ebookPrice" class="text-danger">{{ errors.ebookPrice }}</small>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="form-label">Currency</label>
-      <select v-model="form.ebookCurrency" class="form-select">
-        <option value="">Select</option>
-        <option>USD</option><option>EUR</option><option>NGN</option><option>GBP</option>
-      </select>
-      <small v-if="errors.ebookCurrency" class="text-danger">{{ errors.ebookCurrency }}</small>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-md-6 mb-3">
-      <label class="form-label">SKU</label>
-      <input v-model="form.ebookSku" type="text" class="form-control" />
-      <small v-if="errors.ebookSku" class="text-danger">{{ errors.ebookSku }}</small>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="form-label">Discount (%)</label>
-      <input v-model="form.ebookDiscount" type="number" min="0" max="100" class="form-control" />
-      <small v-if="errors.ebookDiscount" class="text-danger">{{ errors.ebookDiscount }}</small>
-    </div>
-  </div>
-</div>
+      <!-- Author Name -->
+      <div class="mb-3">
+        <label class="form-label">Author Name</label>
+        <input
+          v-model="author.name"
+          type="text"
+          class="form-control"
+          placeholder="Enter author name"
+        />
+        <small v-if="errors[`authorName_${index}`]" class="text-danger">
+          {{ errors[`authorName_${index}`] }}
+        </small>
+      </div>
 
-<!-- Audiobook Pricing -->
-<div class="mb-4">
-  <h6 class="fw-bold text-primary">Audiobook Pricing</h6>
-  <div class="row mb-3">
-    <div class="col-md-6 mb-3">
-      <label class="form-label">Price</label>
-      <input v-model="form.audioPrice" type="number" class="form-control" />
-      <small v-if="errors.audioPrice" class="text-danger">{{ errors.audioPrice }}</small>
+      <!-- Remove Author Button -->
+      <div v-if="form.authors.length > 1" class="text-end">
+        <button type="button" class="btn btn-sm btn-outline-danger" @click="removeAuthor(index)">
+          Remove Author
+        </button>
+      </div>
     </div>
-    <div class="col-md-6 mb-3">
-      <label class="form-label">Currency</label>
-      <select v-model="form.audioCurrency" class="form-select">
-        <option value="">Select</option>
-        <option>USD</option><option>EUR</option><option>NGN</option><option>GBP</option>
-      </select>
-      <small v-if="errors.audioCurrency" class="text-danger">{{ errors.audioCurrency }}</small>
+
+    <!-- Add Another Author -->
+    <div class="mb-3">
+      <button type="button" class="btn btn-sm btn-outline-primary" @click="addAuthor">
+        + Add Another Author
+      </button>
     </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-md-6 mb-3">
-      <label class="form-label">SKU</label>
-      <input v-model="form.audioSku" type="text" class="form-control" />
-      <small v-if="errors.audioSku" class="text-danger">{{ errors.audioSku }}</small>
+
+    <!-- Navigation -->
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-secondary px-4" @click="setStep(3)">
+        Back
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary px-4"
+        :disabled="!canProceedStep4"
+      >
+        Submit
+      </button>
     </div>
-    <div class="col-md-6 mb-3">
-      <label class="form-label">Discount (%)</label>
-      <input v-model="form.audioDiscount" type="number" min="0" max="100" class="form-control" />
-      <small v-if="errors.audioDiscount" class="text-danger">{{ errors.audioDiscount }}</small>
-    </div>
-  </div>
+  </form>
 </div>
 
-<!-- Navigation -->
-<div class="d-flex justify-content-between">
-  <button type="button" class="btn btn-secondary px-4" @click="setStep(3)">Back</button>
-  <button type="submit" class="btn btn-primary px-4">Submit</button>
-</div>
-</form>
-</div>
 
 
 
@@ -498,33 +616,33 @@ export default {
   data() {
     return {
       dropdowns: { ebook: true, products: true, orders: false },
-      activeLink: 'new-product', 
+      activeLink: "new-product",
       activeStep: 1,
+      filePreviewUrl: null,
       form: {
         // Step 1: Product Info
         title: "",
-        size: "",
-        pages: "",
         category: "",
         description: "",
-        type: "",
-        // Step 2: Media
-        coverImage: null,
-        productImages: [],
-        // Step 3: Author
-        authorName: "",
-        authorBio: "",
-        authorLinkedIn: "",
-        // Step 4: Pricing - E-book
-        ebookPrice: "",
-        ebookCurrency: "",
-        ebookSku: "",
-        ebookDiscount: "",
-        // Step 4: Pricing - Audiobook
+        image: null,
+        imagePreview: null,
+
+        // Step 2: Ebook
+        pages: "",
+        price: "",
+        currency: "",
+        size: "",
+        file: null,
+
+        // Step 3: Audiobook
+        audioDuration: "",
+        audioSize: "",
         audioPrice: "",
         audioCurrency: "",
-        audioSku: "",
-        audioDiscount: ""
+        audioFile: null,
+
+        // Step 4: Authors
+        authors: [{ name: "" }]
       },
       errors: {}
     };
@@ -535,203 +653,181 @@ export default {
       return `${((this.activeStep - 1) / (totalSteps - 1)) * 100}%`;
     },
     canProceedStep3() {
-      const bioFilled = !!this.form.authorBio;
-      const linkedInFilled = !!this.form.authorLinkedIn;
-      const bioValid = !bioFilled || this.form.authorBio.length >= 10;
-      const linkedInValid =
-        !linkedInFilled ||
-        /^https:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/.test(this.form.authorLinkedIn);
-      return bioValid && linkedInValid;
+      return (
+        this.form.audioDuration &&
+        this.form.audioSize &&
+        this.form.audioPrice &&
+        this.form.audioCurrency &&
+        this.form.audioFile
+      );
     },
     canProceedStep4() {
-      const ebookFields = [
-        this.form.ebookPrice,
-        this.form.ebookCurrency,
-        this.form.ebookSku,
-        this.form.ebookDiscount
-      ];
-      const audioFields = [
-        this.form.audioPrice,
-        this.form.audioCurrency,
-        this.form.audioSku,
-        this.form.audioDiscount
-      ];
-      return ebookFields.every(f => f !== "" && f !== null) && audioFields.every(f => f !== "" && f !== null);
-    }
-  },
-  watch: {
-    "form.authorBio"(val) {
-      this.errors.authorBio = val && val.length < 10 ? "Biography must be at least 10 characters" : "";
-    },
-    "form.authorLinkedIn"(val) {
-      if (!val) this.errors.authorLinkedIn = "";
-      else {
-        const pattern = /^https:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/;
-        this.errors.authorLinkedIn = pattern.test(val) ? "" : "Enter a valid LinkedIn URL";
-      }
+      return this.form.authors.every((a) => a.name && a.name.trim() !== "");
     }
   },
   methods: {
-  // Set active link and open parent dropdowns
-  setActiveLink(link) {
-    this.activeLink = link;
-
-    // Open dropdowns based on link
-    if (["overview", "products", "new-product", "edit-product", "product-list"].includes(link)) {
-      this.dropdowns.ebook = true;
-    }
-    if (["new-product", "edit-product", "product-list"].includes(link)) {
-      this.dropdowns.products = true;
-    }
-    if (["orders", "pending-orders", "completed-orders", "refund-requests"].includes(link)) {
-      this.dropdowns.ebook = true;
-      this.dropdowns.orders = true;
-    }
-
-    // Sync active step for New Product
-    if (link === "new-product") this.activeStep = 1;
-  },
-
-  toggleDropdown(name) {
-    this.dropdowns[name] = !this.dropdowns[name];
-  },
-
-  setStep(step) {
-    this.activeStep = step;
-  },
-
-  validateStep(step = this.activeStep) {
-    this.errors = {};
-
-    if (step === 1) {
-      if (!this.form.title) this.errors.title = "Title is required";
-      if (!this.form.size) this.errors.size = "Size is required";
-      if (!this.form.pages) this.errors.pages = "Duration/Pages is required";
-      if (!this.form.category) this.errors.category = "Category is required";
-      if (!this.form.description) this.errors.description = "Description is required";
-      if (!this.form.type) this.errors.type = "Type is required";
-    }
-
-    if (step === 2) {
-      if (!this.form.coverImage) this.errors.coverImage = "Cover image is required";
-      if (!this.form.productImages.length) this.errors.productImages = "Add at least one product image";
-    }
-
-    if (step === 3) {
-      const bioFilled = !!this.form.authorBio;
-      const linkedInFilled = !!this.form.authorLinkedIn;
-      if (bioFilled && this.form.authorBio.length < 10)
-        this.errors.authorBio = "Biography must be at least 10 characters";
+    setActiveLink(link) {
+      this.activeLink = link;
       if (
-        linkedInFilled &&
-        !/^https:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/.test(this.form.authorLinkedIn)
-      )
-        this.errors.authorLinkedIn = "Enter a valid LinkedIn URL";
-    }
+        ["overview", "products", "new-product", "edit-product", "product-list"].includes(link)
+      ) {
+        this.dropdowns.ebook = true;
+      }
+      if (["new-product", "edit-product", "product-list"].includes(link)) {
+        this.dropdowns.products = true;
+      }
+      if (
+        ["orders", "pending-orders", "completed-orders", "refund-requests"].includes(link)
+      ) {
+        this.dropdowns.ebook = true;
+        this.dropdowns.orders = true;
+      }
+      if (link === "new-product") this.activeStep = 1;
+    },
 
-    if (step === 4) {
-      // E-book
-      if (!this.form.ebookPrice) this.errors.ebookPrice = "Price required";
-      if (!this.form.ebookCurrency) this.errors.ebookCurrency = "Currency required";
-      if (!this.form.ebookSku) this.errors.ebookSku = "SKU required";
-      if (!this.form.ebookDiscount) this.errors.ebookDiscount = "Discount required";
-      // Audiobook
-      if (!this.form.audioPrice) this.errors.audioPrice = "Price required";
-      if (!this.form.audioCurrency) this.errors.audioCurrency = "Currency required";
-      if (!this.form.audioSku) this.errors.audioSku = "SKU required";
-      if (!this.form.audioDiscount) this.errors.audioDiscount = "Discount required";
-    }
+    toggleDropdown(name) {
+      this.dropdowns[name] = !this.dropdowns[name];
+    },
 
-    return Object.keys(this.errors).length === 0;
-  },
+    setStep(step) {
+      this.activeStep = step;
+    },
 
-  nextStep() {
-    if (this.activeStep === 3 && !this.canProceedStep3) return;
-    if (!this.validateStep()) return;
+    validateStep(step = this.activeStep) {
+      this.errors = {};
 
-    if (this.activeStep < 4) this.activeStep++;
-    else this.submitForm();
-  },
+      if (step === 1) {
+        if (!this.form.title) this.errors.title = "Title is required";
+        if (!this.form.category) this.errors.category = "Category is required";
+        if (!this.form.description) this.errors.description = "Description is required";
+        if (!this.form.image) this.errors.image = "Product image is required";
+      }
 
-  submitForm() {
-    // Validate all steps that matter
-    const step1Valid = this.validateStep(1);
-    const step2Valid = this.validateStep(2);
-    const step4Valid = this.validateStep(4);
+      if (step === 2) {
+        if (!this.form.pages) this.errors.pages = "Pages required";
+        if (!this.form.price) this.errors.price = "Price required";
+        if (!this.form.currency) this.errors.currency = "Currency required";
+        if (!this.form.size) this.errors.size = "File size required";
+        if (!this.form.file) this.errors.file = "File upload required";
+      }
 
-    if (!step1Valid || !step2Valid || !step4Valid) {
-      alert("Please fill all required fields correctly before submitting.");
-      return;
-    }
+      if (step === 3) {
+        if (!this.form.audioDuration) this.errors.audioDuration = "Duration required";
+        if (!this.form.audioSize) this.errors.audioSize = "File size required";
+        if (!this.form.audioPrice) this.errors.audioPrice = "Price required";
+        if (!this.form.audioCurrency) this.errors.audioCurrency = "Currency required";
+        if (!this.form.audioFile) this.errors.audioFile = "Audiobook file required";
+      }
 
-    const bioFilled = !!this.form.authorBio;
-    const linkedInFilled = !!this.form.authorLinkedIn;
-    if (bioFilled && this.form.authorBio.length < 10) {
-      alert("Please correct the author biography.");
-      return;
-    }
-    if (
-      linkedInFilled &&
-      !/^https:\/\/(www\.)?linkedin\.com\/in\/[A-z0-9_-]+\/?$/.test(this.form.authorLinkedIn)
-    ) {
-      alert("Please correct the LinkedIn URL.");
-      return;
-    }
+      if (step === 4) {
+        this.form.authors.forEach((a, index) => {
+          if (!a.name || a.name.trim() === "") {
+            this.errors[`authorName_${index}`] = "Author name is required";
+          }
+        });
+      }
 
-    console.log("Form submitted:", this.form);
-    alert("Form submitted successfully!");
+      return Object.keys(this.errors).length === 0;
+    },
 
-    // Reset form
-    this.activeStep = 1;
-    Object.keys(this.form).forEach((key) => {
-      this.form[key] = Array.isArray(this.form[key]) ? [] : null;
-    });
-    this.errors = {};
-  },
+    nextStep() {
+      if (this.activeStep === 3 && !this.canProceedStep3) return;
+      if (!this.validateStep()) return;
+      if (this.activeStep < 4) this.activeStep++;
+      else this.submitForm();
+    },
 
-  onFileChange(event, type) {
-    const files = event.target.files;
-    if (!files.length) return;
+    submitForm() {
+      const step1Valid = this.validateStep(1);
+      const step2Valid = this.validateStep(2);
+      const step3Valid = this.validateStep(3);
+      const step4Valid = this.validateStep(4);
 
-    if (type === "cover") {
-      const reader = new FileReader();
-      reader.onload = (e) => (this.form.coverImage = e.target.result);
-      reader.readAsDataURL(files[0]);
-    }
+      if (!step1Valid || !step2Valid || !step3Valid || !step4Valid) {
+        alert("Please fill all required fields correctly before submitting.");
+        return;
+      }
 
-    if (type === "product") {
-      Array.from(files).forEach((file) => {
-        if (this.form.productImages.length >= 5) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const imgData = e.target.result;
-          if (!this.form.productImages.includes(imgData)) this.form.productImages.push(imgData);
-        };
-        reader.readAsDataURL(file);
+      console.log("Form submitted:", this.form);
+      alert("Form submitted successfully!");
+
+      this.activeStep = 1;
+      Object.keys(this.form).forEach((key) => {
+        if (Array.isArray(this.form[key])) {
+          this.form[key] = [];
+        } else {
+          this.form[key] = null;
+        }
       });
+      this.form.authors = [{ name: "" }]; // reset authors separately
+      this.errors = {};
+    },
+
+    addAuthor() {
+      this.form.authors.push({ name: "" });
+    },
+
+    removeAuthor(index) {
+      this.form.authors.splice(index, 1);
+    },
+
+    onFileChange(event, type) {
+      const files = event.target.files;
+      if (!files.length) return;
+      const file = files[0];
+
+      if (type === "image") {
+        this.form.image = file;
+        this.form.imagePreview = URL.createObjectURL(file);
+      }
+
+      if (type === "file") {
+        this.form.file = file;
+        if (file.type === "application/pdf") {
+          this.filePreviewUrl = URL.createObjectURL(file);
+        } else {
+          this.filePreviewUrl = null;
+        }
+      }
+
+      if (type === "audiobook") {
+        this.form.audioFile = file;
+      }
+    },
+
+    onDrop(event, type) {
+      const files = event.dataTransfer.files;
+      if (!files.length) return;
+      this.onFileChange({ target: { files } }, type);
+    },
+
+    removeImage(type) {
+      if (type === "image") {
+        this.form.image = null;
+        this.form.imagePreview = null;
+      }
+    },
+
+    removeFile(type) {
+      if (type === "file") {
+        this.form.file = null;
+        this.filePreviewUrl = null;
+      }
+      if (type === "audiobook") {
+        this.form.audioFile = null;
+      }
+    },
+
+    getFileIcon(fileName) {
+      if (fileName.endsWith(".docx")) return "bi bi-file-earmark-word";
+      if (fileName.endsWith(".epub")) return "bi bi-book";
+      if (fileName.endsWith(".mp3") || fileName.endsWith(".m4a") || fileName.endsWith(".wav"))
+        return "bi bi-file-earmark-music";
+      return "bi bi-file-earmark";
     }
-  },
-
-  onDrop(event, type) {
-    const files = event.dataTransfer.files;
-    if (!files.length) return;
-    this.onFileChange({ target: { files } }, type);
-  },
-
-  removeImage(type, index = null) {
-    if (type === "cover") this.form.coverImage = null;
-    if (type === "product" && index !== null) this.form.productImages.splice(index, 1);
-  },
-
-  openNewProduct() {
-    this.setActiveLink("new-product");
   }
-}
-
 };
 </script>
-
-
 
 
 <style scoped>

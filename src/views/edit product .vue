@@ -23,20 +23,10 @@
       </a>
 
       <ul v-show="dropdowns.ebook" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
-        <!-- Overview -->
-        <li class="nav-item">
-          <a
-            href="#"
-            class="nav-link"
-            :class="{ active: activeLink === 'overview' }"
-            @click.prevent="activeLink = 'overview'"
-          >
-            Overview
-          </a>
-        </li>
+       
 
         <!-- Products Dropdown -->
-        <li class="nav-item">
+        <li class="nav-item mt-2">
           <a 
             href="#"
             class="nav-link d-flex justify-content-between align-items-center"
@@ -82,51 +72,7 @@
           </ul>
         </li>
 
-        <!-- Orders Dropdown -->
-        <li class="nav-item">
-          <a
-            href="#"
-            class="nav-link d-flex justify-content-between align-items-center"
-            :class="{ active: activeLink === 'orders' }"
-            @click.prevent="dropdowns.orders = !dropdowns.orders; activeLink = 'orders'"
-          >
-            Orders
-            <i :class="['bi', dropdowns.orders ? 'bi-chevron-up' : 'bi-chevron-down']" class="ms-2"></i>
-          </a>
-
-          <ul v-show="dropdowns.orders" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
-            <li>
-              <a
-                href="#"
-                class="nav-link"
-                :class="{ active: activeLink === 'pending-orders' }"
-                @click.prevent="activeLink = 'pending-orders'"
-              >
-                Pending 
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="nav-link"
-                :class="{ active: activeLink === 'completed-orders' }"
-                @click.prevent="activeLink = 'completed-orders'"
-              >
-                Completed  
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="nav-link"
-                :class="{ active: activeLink === 'refund-requests' }"
-                @click.prevent="activeLink = 'refund-requests'"
-              >
-                  Requests
-              </a>
-            </li>
-          </ul>
-        </li>
+       
       </ul>
     </li>
   </ul>

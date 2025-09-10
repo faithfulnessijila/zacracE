@@ -18,12 +18,7 @@
 
             <ul :class="['nav flex-column mt-2', dropdowns.ebook ? 'show' : '']" style="transition: all 0.3s ease;">
 
-              <li>
-                <a href="#" class="nav-link" :class="{ active: activeLink === 'overview' }"
-                   @click.prevent="setActiveLink('overview')">
-                  Overview
-                </a>
-              </li>
+            
 
               <li>
                 <a  href="#" class="nav-link d-flex justify-content-between align-items-center"
@@ -42,22 +37,7 @@
                 </ul>
               </li>
 
-              <li>
-                <a href="#" class="nav-link d-flex justify-content-between align-items-center"
-                   :class="{ active: activeLink === 'orders' }"
-                   @click.prevent="toggleDropdown('orders')">
-                  Orders
-                  <i class="bi chevron" :class="dropdowns.orders ? 'bi-chevron-up open' : 'bi-chevron-down'"></i>
-                </a>
-                <ul :class="['nav flex-column', dropdowns.orders ? 'show' : '']">
-                  <li><a href="#" class="nav-link" :class="{ active: activeLink === 'pending-orders' }"
-                         @click.prevent="setActiveLink('pending-orders')">Pending</a></li>
-                  <li><a href="#" class="nav-link" :class="{ active: activeLink === 'completed-orders' }"
-                         @click.prevent="setActiveLink('completed-orders')">Completed</a></li>
-                  <li><a href="#" class="nav-link" :class="{ active: activeLink === 'refund-requests' }"
-                         @click.prevent="setActiveLink('refund-requests')">Request</a></li>
-                </ul>
-              </li>
+              
             </ul>
           </li>
         </ul>
