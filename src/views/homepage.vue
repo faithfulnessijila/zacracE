@@ -596,7 +596,7 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
-  margin-top: -6px !important; 
+  margin-top: -7px !important; 
 
   }
   .navbar-logo h3 {
@@ -627,7 +627,7 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
-  margin-top: -6px !important; 
+  margin-top: -7px !important; 
 
   }
   .navbar-logo h3 {
@@ -654,7 +654,7 @@ nav.navbar {
 @media (max-width: 360px) {
   .navbar-logo img {
     width: 26px;
-  margin-top: -6px !important; 
+  margin-top: -7px !important; 
 
   }
   .navbar-logo h3 {
