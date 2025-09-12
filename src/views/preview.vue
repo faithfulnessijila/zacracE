@@ -1430,7 +1430,7 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
-  margin-top: -0.1px !important; 
+ 
 
   }
   .navbar-logo h3 {
@@ -1461,7 +1461,7 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
-  margin-top: -0.1px !important; 
+
 
   }
   .navbar-logo h3 {
@@ -1488,7 +1488,8 @@ nav.navbar {
 @media (max-width: 360px) {
   .navbar-logo img {
     width: 26px;
-  margin-top: -0.1px !important; 
+    margin-top: -5px !important; 
+
 
   }
   .navbar-logo h3 {
