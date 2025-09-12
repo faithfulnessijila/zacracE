@@ -1277,7 +1277,8 @@ nav.navbar {
   width: clamp(15px, 6vw, 17px);
   height: auto;
   display: block;
-  margin-top: -1px !important; 
+  margin-top: -0.1px !important; 
+
  
 }
 
@@ -1429,6 +1430,8 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
+  margin-top: -0.1px !important; 
+
   }
   .navbar-logo h3 {
     font-size: 16px;
@@ -1458,6 +1461,8 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
+  margin-top: -0.1px !important; 
+
   }
   .navbar-logo h3 {
     font-size: 14px; 
@@ -1483,6 +1488,8 @@ nav.navbar {
 @media (max-width: 360px) {
   .navbar-logo img {
     width: 26px;
+  margin-top: -0.1px !important; 
+
   }
   .navbar-logo h3 {
     font-size: 12px !important;
