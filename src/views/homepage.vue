@@ -1,259 +1,131 @@
 <template>
   <div>
-   
-      
+    
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-3 py-3"
-      style="
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        display: block;
-        padding: 10px 90px !important;
-      "
-    >
-      <div class="container-fluid container-fluid1">
-       
-        <div class="navbar-logo">
-          <img
-            src="/public/d.png"
-            style="margin-top: -10px !important"
-            alt="Logo"
-            class="logo-icon"
-          />
-          <h3 class="logo-text" style="font-size: 20px">
-            Zacrac <span>Learning</span>
-          </h3>
-        </div>
-
-        
-        <button
-          class="navbar-toggler"
-          type="button"
-          @click="toggleNavbar"
-          aria-label="Toggle navigation"
-          style="
-            background-color: #4d148c;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-          "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 512 512"
-          >
-            <path
-              fill="none"
-              stroke="#ffffff"
-              stroke-linecap="round"
-              stroke-miterlimit="10"
-              stroke-width="40"
-              d="M88 152h336M88 256h336M88 360h336"
-            />
-          </svg>
-        </button>
-
-    
-      
-          <form
-            class="d-flex w-100 w-lg-auto mx-lg-4 mb-3 mb-lg-0"
-            style="max-width: 400px;"
-          >
-            <div class="input-group">
-              <input
-  type="text"
-  style="font-size: 10px; "
-  class="form-control rounded-0"
-  placeholder="Search on Zacrac Learning"
-  aria-label="Search"
-/>
-
-              <button
-                class="btn rounded-0"
-                type="button"
-                style="background-color: #313131; border-color: #313131"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="1.3em"
-                  height="1.3em"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="#fff"
-                    d="M20.031 20.79c.46.46 1.17-.25.71-.7l-3.75-3.76a7.9 7.9 0 0 0 2.04-5.31c0-4.39-3.57-7.96-7.96-7.96s-7.96 3.57-7.96 7.96s3.57 7.96 7.96 7.96c1.98 0 3.81-.73 5.21-1.94zM4.11 11.02c0-3.84 3.13-6.96 6.96-6.96c3.84 0 6.96 3.12 6.96 6.96s-3.12 6.96-6.96 6.96c-3.83 0-6.96-3.12-6.96-6.96"
-                  />
-                </svg>
-              </button>
-            </div>
-          </form>
-          <div
-          class="collapse navbar-collapse mt-3 mt-lg-0"
-          id="mainNavbar"
-          ref="navbarCollapse"
-        >
-         
-          <ul
-            class="navbar-nav ms-auto d-flex align-items-center gap-3 flex-wrap"
-          >
-          
-            <li class="nav-item text-center">
-              <a
-                class="nav-link text-dark d-flex flex-column align-items-center"
-                href="#"
-              >
-                <svg
-                  style="color: gray !important"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="2em"
-                  height="2em"
-                  viewBox="0 0 512 512"
-                >
-                  <path
-                    fill="#494848"
-                    d="m278.574 20.672l-28.246 43.463c-36.452-29.484-87.944-38.624-127.96-30.428c-54.457 11.15-100.166 60.347-97.895 131.46c2.394 74.955 54.71 129.71 104.89 174.823c25.09 22.554 50.84 43.086 69.928 61.535c37.685 34.062 55.942 92.366 55.942 92.366s24.534-59.502 55.942-89.572c19.692-18.7 45.676-39.61 71.324-62.93c51.298-46.644 104.404-104.034 102.094-177.618c0-122.308-121.2-121.013-167.883-78.495c19.323-10.226 40.12-12.397 58.798-8.214c34.297 7.683 62.693 35.935 64.332 88.108c1.562 49.92-39.09 98.088-88.11 142.654c-24.508 22.28-49.752 42.445-71.324 62.93c-11.456 10.884-16.74 20.514-25.174 31.795c-8.437-11.983-13.663-22.066-25.173-33.192C174.715 306.4 86.784 238.475 83.27 163.77c-.72-62.22 72.103-78.604 111.246-51.04l-45.924 25.258c67.393 11.144 124.746 37.36 185.597 75.588L278.573 20.672z"
-                  />
-                </svg>
-                <small>Wishlist</small>
-              </a>
-            </li>
-
-         
-            <li class="nav-item text-center">
-              <a
-                class="nav-link text-dark d-flex flex-column align-items-center"
-                href="#"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="2em"
-                  height="2em"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill="#494848"
-                    d="M2.997 3.496a.5.5 0 0 1 .5-.5h.438c.727 0 1.145.473 1.387.945c.165.323.284.717.383 1.059H16a1 1 0 0 1 .962 1.272l-1.496 5.275A2 2 0 0 1 13.542 13H8.463a2 2 0 0 1-1.93-1.473l-.642-2.355l-.01-.032l-1.03-3.498l-.1-.337c-.1-.346-.188-.652-.32-.909c-.159-.31-.305-.4-.496-.4h-.438a.5.5 0 0 1-.5-.5M6.845 8.87l.653 2.396a1 1 0 0 0 .965.736h5.08a1 1 0 0 0 .961-.727L16 6H6zM10 15.499a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0m-1 0a.5.5 0 1 0-1 0a.5.5 0 0 0 1 0m6 0a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0m-1 0a.5.5 0 1 0-1 0a.5.5 0 0 0 1 0"
-                  />
-                </svg>
-                <small>Cart</small>
-              </a>
-            </li>
-
-           
-            <li class="nav-item" v-if="user">
-  <span class="me-2 fw-bold" style="color: #4d148c; font-size: 18px;">
-     Welcome, {{ user.name }}
-  </span>
-  <button
-  class="btn logout-btn btn-sm ms-2"
-  @click="logout"
+  class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-3 py-3"
+  style="box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); display: block; padding: 10px 90px !important;"
 >
-  Logout
-</button>
+<div class="container-fluid container-fluid1 d-flex align-items-center justify-content-between flex-wrap">
 
-</li>
+<!-- Logo on the left -->
+<div class="navbar-logo d-flex align-items-center">
+  <img src="/public/d.png" alt="Logo" class="logo-icon" style="margin-top: -10px;" />
+  <h3 class="logo-text ms-2" style="font-size: 20px;">Zacrac <span>Learning</span></h3>
+</div>
+
+<!-- Right side: Account / Profile -->
+<div class="d-flex align-items-center gap-3 flex-wrap">
+
+  <!-- Guest Buttons -->
+  <div v-if="!user" class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2">
+    <button @click="$router.push('/sign-up')" class="btn text-white fw-semibold px-3 py-2"
+            style="border-radius: 0; font-size: 14px; background-color: #4d148c;">
+      Create account
+    </button>
+    <span class="text-muted small">
+      Have an account? 
+      <a @click="$router.push('/sign-in')" href="#" class="fw-semibold" style="color: #4d148c;">Sign in</a>
+    </span>
+  </div>
+
+  <!-- Profile Dropdown -->
+  <div v-if="user" class="nav-item dropdown profile-dropdown" style="list-style: none;">
+    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+      <i class="bi bi-person-circle fs-3 text-dark"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 p-3" style="width: 250px;">
+      <li class="text-center mb-3">
+        <i class="bi bi-person-circle fs-1 text-secondary mb-2"></i>
+        <div class="fw-bold">{{ user.name }}</div>
+        <div class="text-muted small">{{ user.gender }}</div>
+        <div class="text-muted small">{{ user.email }}</div>
+      </li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item py-2" href="#"><i class="bi bi-credit-card me-2"></i> Transactions</a></li>
+      <li><a class="dropdown-item py-2" href="#"><i class="bi bi-bag-check me-2"></i> Purchased</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><button class="dropdown-item text-danger fw-semibold py-2" @click="logout"><i class="bi bi-box-arrow-right me-2"></i> Sign Out</button></li>
+    </ul>
+  </div>
+
+</div>
+</div>
 
 
-<li v-else class="nav-item text-center">
-  <button
-    @click="$router.push('/sign-up')"
-    class="btn text-white fw-semibold px-3 py-2 w-100"
-    style="
-      border-radius: 0;
-      font-size: 14px;
-      background-color: #4d148c;
-    "
-  >
-    Create account
-  </button>
-  <span class="d-block mt-1 text-muted" style="font-size: 13px">
-    Have an account?
-    <a
-      @click="$router.push('/sign-in')"
-      href="#"
-      class="fw-semibold"
-      style="color: #4d148c"
-      >Sign in</a
-    >
-  </span>
-</li>
 
-          </ul>
-        </div>
-      </div>
-
-
+  <!-- Dropdowns eBooks & Audio -->
+  <div class="container-fluid">
+  <ul class="dropdowns-container d-flex gap-4 mt-4" style="padding-left: 0; list-style: none;">
     
-      <div class="container-fluid">
-        <ul class="dropdowns-container" style="margin-top: 10px">
+    <!-- eBooks Dropdown -->
+    <!-- eBooks Dropdown -->
+<li 
+  class="custom-dropdown" 
+  :class="{ active: activeDropdown === 'ebooks' }" 
+  style="list-style: none;"
+>
+  <a href="javascript:void(0)" 
+     @click.prevent="toggleDropdown('ebooks')" 
+     class="nav-toggle no-bullets"
+     style="font-family: 'Georgia', serif; font-size: 20px; font-style: italic; font-weight: bold; color: black; letter-spacing: 2px; text-transform: capitalize; text-decoration: none;">
+    eBooks 
+    <span class="arrow" 
+          :style="{ 
+            fontSize: '16px', 
+            color: activeDropdown === 'ebooks' ? '#4d148c' : 'black', 
+            transform: activeDropdown === 'ebooks' ? 'rotate(180deg)' : 'rotate(0deg)', 
+            transition: 'transform 0.3s ease' 
+          }">
+      &#9662;
+    </span>
+  </a>
 
-          
-         
-          <li class="custom-dropdown" style="list-style: none !important">
-            <a
-              href="#"
-              @click="closeNavbar"
-              style="
-                font-family: 'Georgia', serif;
-                font-size: 20px;
-                font-style: italic;
-                font-weight: bold;
-                color: black;
-                letter-spacing: 2px;
-                text-transform: capitalize;
-                text-decoration: none;
-              "
-              class="nav-toggle no-bullets"
-            >
-              eBooks
-              <span class="arrow" style="font-size: 16px; color: black"
-                >&#9662;</span
-              >
-            </a>
+  <!-- Show only when ebooks is active -->
+  <ul class="big-dropdown" v-show="activeDropdown === 'ebooks'">
+    <li v-for="(category, index) in categories" :key="index">
+      <a :href="`#${category.name}`">{{ category.name }}</a>
+    </li>
+  </ul>
+</li>
 
-            <ul class="big-dropdown">
-              <li v-for="(category, index) in categories" :key="index">
-                <a :href="`#${category.name}`">{{ category.name }}</a>
 
-              </li>
-            </ul>
-          </li>
+    <!-- Audiobooks Dropdown -->
+   <!-- Audiobooks Dropdown -->
+<li 
+  class="custom-dropdown" 
+  :class="{ active: activeDropdown === 'audio' }" 
+  style="list-style: none;"
+>
+  <a href="javascript:void(0)" 
+     @click.prevent="toggleDropdown('audio')" 
+     class="nav-toggle no-bullets"
+     style="font-family: 'Georgia', serif; font-size: 20px; font-style: italic; font-weight: bold; color: black; letter-spacing: 2px; text-transform: capitalize; text-decoration: none;">
+    AUDIOBOOKS 
+    <span class="arrow" 
+          :style="{ 
+            fontSize: '16px', 
+            color: activeDropdown === 'audio' ? '#4d148c' : 'black', 
+            transform: activeDropdown === 'audio' ? 'rotate(180deg)' : 'rotate(0deg)', 
+            transition: 'transform 0.3s ease' 
+          }">
+      &#9662;
+    </span>
+  </a>
 
-         
-          <li class="custom-dropdown" style="list-style: none !important">
-            <a
-              href="#"
-              @click="closeNavbar"
-              style="
-                font-family: 'Georgia', serif;
-                font-size: 20px;
-                font-style: italic;
-                font-weight: bold;
-                color: black;
-                letter-spacing: 2px;
-                text-transform: capitalize;
-                text-decoration: none;
-              "
-              class="nav-toggle no-bullets"
-            >
-              AUDIOBOOKS
-              <span class="arrow" style="font-size: 16px; color: black"
-                >&#9662;</span
-              >
-            </a>
+  <!-- Show only when audio is active -->
+  <ul class="big-dropdown" v-show="activeDropdown === 'audio'">
+    <li v-for="(category, index) in categories" :key="index">
+      <a :href="`#${category.name}`">{{ category.name }}</a>
+    </li>
+  </ul>
+</li>
 
-            <ul class="big-dropdown">
-              <li v-for="(category, index) in categories" :key="index">
-                <a :href="`#${category.name}`">{{ category.name }}</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-     
-    </div>
-    </nav>
+
+  </ul>
+</div>
+
+</nav>
+
   
     <div v-for="(category, index) in categories" :key="index" class="container my-5">
       <button
@@ -291,158 +163,111 @@
   </div>
 
 
-  <div class="bg-secondary text-white py-5 mt-5">
-    <div class="container">
-      <div class="row">
-
-        <div class="col-12 col-md-3 mb-4">
-         
-          <ul class="list-unstyled">
-          
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Management Team</a
-              >
-            </li>
-            
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >eRecycling Program</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Free Apps</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Buy eGift Cards</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Get Help</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Sitemap</a
-              >
-            </li>
-          </ul>
+  <footer class="bg-secondary  text-white py-5 mt-5">
+  <div class="container">
+    <div class="row align-items-start">
+      
+      <!-- Branding Section -->
+      <div class="col-12 col-md-3 mb-4">
+        <div class="d-flex align-items-center mb-2">
+          <img src="/public/d.png" alt="Logo" style="width: 35px; height: 35px; margin-right: 10px;" />
+          <h4 class="fw-bold mb-0">Zacrac Learning</h4>
         </div>
+        <h4>Africa's No. 1 Data School</h4>
+        <div class="d-flex gap-3">
+  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+     style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
+    <i class="bi bi-facebook"></i>
+  </a>
+  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+     style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
+    <i class="bi bi-twitter"></i>
+  </a>
+  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+     style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
+    <i class="bi bi-linkedin"></i>
+  </a>
+  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+     style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
+    <i class="bi bi-youtube"></i>
+  </a>
+</div>
 
-   
-        <div class="col-12 col-md-3 mb-4">
-          <h5 class="mb-3">Quick Links</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-white text-decoration-underline">Blog</a>
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Pricing</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Instructors</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Careers</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Affiliate Program</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Support</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Terms & Condition</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Privacy Policies</a
-              >
-            </li>
-          </ul>
-        </div>
 
-     
-        <div class="col-12 col-md-3 mb-4">
-          <h5 class="mb-3">Ways to learn</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >self-placed Courses</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Incubator Programs</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Cohort-based Courses</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Enterprise Learning</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Career-building Paths</a
-              >
-            </li>
-          </ul>
-        </div>
+<p class=" small d-block mt-5">
+  © Copyright 2025 All Rights Reserved
+</p>
 
-        <div class="col-12 col-md-3 mb-4">
-          <h5 class="mb-3">Courses</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >MS Excel</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline">R</a>
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Power Bi</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline"
-                >Python</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-decoration-underline">SQL</a>
-            </li>
-          </ul>
-        </div>
       </div>
+
+      <!-- Quick Links -->
+      <div class="col-6 col-md-2 mb-4">
+        <h5 class="mb-3">Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Blog</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Pricing</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Instructors</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Careers</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Affiliate Program</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Support</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Terms & Condition</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Privacy Policies</a></li>
+        </ul>
+      </div>
+
+      <!-- Ways to Learn -->
+      <div class="col-6 col-md-2 mb-4">
+        <h5 class="mb-3">Ways to Learn</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Self-paced Courses</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Incubator Programs</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Cohort-based Courses</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Enterprise Learning</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Career-building Paths</a></li>
+        </ul>
+      </div>
+
+      <!-- Courses -->
+      <div class="col-6 col-md-2 mb-4">
+        <h5 class="mb-3">Courses</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">MS Excel</a></li>
+          <li><a href="#" class="text-white text-decoration-none">R</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Power BI</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Python</a></li>
+          <li><a href="#" class="text-white text-decoration-none">SQL</a></li>
+        </ul>
+      </div>
+
+      <!-- Visit Us -->
+      <div class="col-12 col-md-3 mb-4">
+        <h5 class="mb-3">Visit Us</h5>
+        <p>
+          2nd Floor, Sovereign Trust Insurance Building, Alagbaka, Akure, Ondo State, Nigeria.
+        </p>
+        <p>Be the first to know about our exciting offers on Data Science, AI, and ML courses.</p>
+        <form class="d-flex">
+          <input 
+            type="email" 
+            class="form-control form-control-sm bg-light text-white me-2 border-0" 
+            placeholder="Type email here" 
+            style="max-width: 180px;"
+          />
+          <button class="btn btn-sm" type="submit" style="background-color: #4d148c; color: #fff;">
+            Subscribe
+          </button>
+        </form>
+      </div>
+
     </div>
   </div>
+</footer>
+
 </template>
 <script>
 import axios from "axios";
 import Carousel from "../components/carousel.vue";
+import { ref } from "vue";
 
 export default {
   components: {
@@ -452,8 +277,10 @@ export default {
     return {
       categories: [],
       user: null,
-      shopProducts: [],
       loadingUser: true,
+
+      // New: track which dropdown is active (ebooks, audiobooks, etc.)
+      activeDropdown: null,
     };
   },
 
@@ -462,42 +289,25 @@ export default {
   },
 
   methods: {
-    
-    toggleNavbar() {
-      this.bsCollapse.toggle();
-    },
-    closeNavbar() {
-      if (
-        this.bsCollapse &&
-        this.$refs.navbarCollapse.classList.contains("show")
-      ) {
-        this.bsCollapse.hide();
-      }
-    },
     handleClickOutside(event) {
-      const navbar = this.$refs.navbarCollapse;
-      if (
-        navbar &&
-        navbar.classList.contains("show") &&
-        !navbar.contains(event.target) &&
-        !event.target.closest(".navbar-toggler")
-      ) {
-        this.bsCollapse.hide();
+      // Close dropdowns if clicking outside
+      if (!event.target.closest(".custom-dropdown")) {
+        this.activeDropdown = null;
       }
     },
-    setupMultiCardCarousel() {
-      const items = document.querySelectorAll(
-        "#multiCardCarousel .carousel-item"
-      );
 
+    toggleDropdown(name) {
+      this.activeDropdown = this.activeDropdown === name ? null : name;
+    },
+
+    setupMultiCardCarousel() {
+      const items = document.querySelectorAll("#multiCardCarousel .carousel-item");
       items.forEach((el) => {
         const minPerSlide = 3;
         let next = el.nextElementSibling;
 
         for (let i = 1; i < minPerSlide; i++) {
-          if (!next) {
-            next = items[0];
-          }
+          if (!next) next = items[0];
           const cloneChild = next.firstElementChild.cloneNode(true);
           el.appendChild(cloneChild);
           next = next.nextElementSibling;
@@ -513,7 +323,7 @@ export default {
         );
         this.categories = response.data.categories;
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch categories:", error);
       }
     },
 
@@ -522,17 +332,12 @@ export default {
         const token = localStorage.getItem("token");
         const storedUser = localStorage.getItem("user");
 
-        if (storedUser) {
-          this.user = JSON.parse(storedUser);
-        }
-
+        if (storedUser) this.user = JSON.parse(storedUser);
         if (!token) return;
 
         const { data } = await axios.get(
           "https://zacracebookwebsite.onrender.com/api/me",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
 
         this.user = data.user || data;
@@ -553,34 +358,127 @@ export default {
   },
 
   mounted() {
+    // Load user from localStorage
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-    }
+    if (storedUser) this.user = JSON.parse(storedUser);
 
-    const navbarEl = document.getElementById("mainNavbar");
-    this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, {
-      toggle: false,
-    });
-
-    document.addEventListener("click", this.handleClickOutside);
-    this.setupMultiCardCarousel();
+    // Initialize categories & carousel
     this.api();
+    this.setupMultiCardCarousel();
     this.fetchUser();
 
-    const fromGoogle = localStorage.getItem("fromGoogleLogin");
-  if (fromGoogle === "true") {
-    localStorage.removeItem("fromGoogleLogin"); // Clear flag
-    this.$router.replace("/auth-callback"); // Redirect to welcome page
-  }
+    // Redirect after Google login if needed
+    if (localStorage.getItem("fromGoogleLogin") === "true") {
+      localStorage.removeItem("fromGoogleLogin");
+      this.$router.replace("/auth-callback");
+    }
+
+    // Add global listener for outside click
+    document.addEventListener("click", this.handleClickOutside);
   },
 };
 </script>
 
+
 <style scoped>
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #4d148c !important; /* default blue */
+}
+/* Make Sign Out button background transparent on hover */
+.profile-dropdown .dropdown-item.text-danger:hover {
+  background-color: transparent !important;
+  color: #dc3545; /* keep the text red */
+}
+/* Adjust Logo on Small Screens */
+@media (max-width: 720px) { .navbar-logo { margin-left: -40px !important; } }
+@media (max-width: 438px) { .navbar-logo { font-size: 14px !important; margin-left: -100px !important; } }
+@media (max-width: 424px) { .navbar-logo { margin-left: -105px !important; } }
+@media (max-width: 398px) { .navbar-logo { margin-left: -190px !important; } }
+@media (max-width: 375px) { .navbar-logo { margin-left: -160px !important; } }
+@media (max-width: 374px) { .navbar-logo { margin-left: -190px !important; } }
+@media (max-width: 342px) { .navbar-logo { margin-left: -240px !important; } .logo-text { font-size: 15px !important; } }
+@media (max-width: 336px) { .navbar-logo { margin-left: -240px !important; } .logo-text { font-size: 15px !important; } }
+
+
+
+
+/* Navbar Container & Input Adjustments */
+@media (max-width: 1132px) { .container-fluid { padding: 10px 1px !important; } }
+@media (max-width: 1043px) { .navbar { padding: 10px 40px !important; } }
+@media (max-width: 1110px) { .navbar-nav { display: none !important; } .input-group { margin-left: 20px !important; } }
+@media (max-width: 990px) { .input-group { margin-top: 15px !important; } }
+
+
+/* =========================
+   Navbar Container
+   ========================= */
+nav.navbar {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  width: 100%;
+  padding: 10px 90px; /* default desktop */
+}
+
+.container-fluid1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+/* =========================
+   Logo
+   ========================= */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.navbar-logo img {
+  width: clamp(15px, 6vw, 17px);
+  height: auto;
+  display: block;
+  margin-top: 0.1px !important; 
+ 
+}
+
+.navbar-logo h3 {
+  font-size: clamp(14px, 2vw, 20px);
+  margin-left: 8px;
+  margin-bottom: 0;
+  margin-top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================
+   Profile / Auth Buttons
+   ========================= */
+.profile-dropdown,
+.d-flex.align-items-center.gap-3,
+.d-flex.flex-column.flex-md-row.align-items-start.align-items-md-center.gap-2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1050;
+}
+
+/* =========================
+   Guest / Logout Buttons
+   ========================= */
 .logout-btn {
   background-color: #4d148c;
-  color: #fff;                     
+  color: #fff;
   border: none;
   padding: 8px 18px;
   font-size: 15px;
@@ -588,12 +486,11 @@ export default {
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
 }
 
 .logout-btn:hover {
   background-color: #5e19b3;
-  color: #fff !important;          
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
@@ -601,367 +498,170 @@ export default {
 .logout-btn:active {
   transform: scale(0.98);
   box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-  color: #fff !important;         
 }
 
+/* =========================
+   Hide Hamburger
+   ========================= */
+.navbar-toggler {
+  display: none !important;
+}
 
+/* =========================
+   Dropdown Navigation
+   ========================= */
+.custom-dropdown {
+  position: relative;
+}
+
+.nav-toggle {
+  color: black;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.arrow {
+  margin-left: 6px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.custom-dropdown:hover .nav-toggle,
+.custom-dropdown:focus-within .nav-toggle {
+  color: #4d148c;
+}
+
+.custom-dropdown:hover .arrow,
+.custom-dropdown:focus-within .arrow {
+  transform: rotate(180deg);
+  color: #4d148c;
+}
+
+/* =========================
+   Big Dropdown
+   ========================= */
+.big-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  display: grid; /* v-show handles visibility */
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 10px;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  list-style: none;
+  min-width: 360px;
+  max-width: 600px;
+  font-size: 14px;
+}
+
+.big-dropdown li {
+  list-style: none;
+}
+
+.big-dropdown a {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #f1f1f1;
+  color: #333;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  text-align: left;
+  word-break: break-word;
+}
+
+.big-dropdown a:hover {
+  background-color: #4d148c;
+  color: #fff;
+}
+
+/* =========================
+   Responsive Navbar & Dropdowns
+   ========================= */
+
+/* Tablet / small screens */
 @media (max-width: 768px) {
-  .logout-btn {
-    padding: 8px 16px;
-    font-size: 16px; 
-    width: 100%; 
-    margin-top: 8px;
+  nav.navbar {
+    padding: 10px 20px;
+  }
+  .navbar-logo {
+    flex: 1;
+    justify-content: flex-start;
+  }
+  .navbar-logo img {
+    max-width: 26px;
+  }
+  .navbar-logo h3 {
+    font-size: 16px;
+  }
+  .profile-dropdown {
+    margin-left: auto;
+    position: relative;
+  }
+  .big-dropdown {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    min-width: 210px;
+    max-width: 400px;
+    font-size: 12px;
+    padding: 0.75rem;
+  }
+  .dropdowns-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
 }
- 
- 
- .hover-card {
-     transition: box-shadow 0.3s ease;
-   }
- 
-   .hover-card:hover {
-     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-   }
- 
-   .hover-card:hover .col-md-8 {
-     border: none !important;
-   }
- 
- .custom-cart-btn {
-   background-color: #6c757d; 
-   color: white; 
-   border: none;
-   border-radius: 8px;
-   font-size: 13px;
-   transition: all 0.3s ease;
- }
- 
- .custom-cart-btn:hover {
-   background-color: #5a6268;
-   color: white;
-   border: 1px solid white;
- }
- 
- .custom-cart-btn:active {
-   background-color: #545b62; 
-   border: 2px solid white;
- }
- 
- .hover-red-bold {
-   font-weight: bold;
- 
-   color: black;
-   transition: color 0.2s ease;
-   cursor: pointer;
- }
- .hover-red-bold:hover {
-   color: #4d148c;
- }
- 
- .navbar-toggler:focus {
-   box-shadow: none !important;
-   outline: none !important;
- }
- 
- .dropdowns-container {
-   display: flex;
-   flex-wrap: wrap;
-   gap: 2rem;
-   padding: 1rem 0;
- }
- 
- .custom-dropdown {
-   position: relative;
- }
- 
- .nav-toggle {
-   color: black;
-   font-weight: 600;
-   text-decoration: none;
-   transition: all 0.3s ease;
-   list-style: none;
- }
- 
- .arrow {
-   margin-left: 5px;
-   transition: transform 0.3s ease, color 0.3s ease;
- }
- 
 
- .custom-dropdown:hover .nav-toggle,
- .custom-dropdown:hover .arrow {
- color: #4d148c !important;
- }
- 
- .custom-dropdown:hover .arrow {
-   transform: rotate(180deg);
- }
- .big-dropdown {
-   position: absolute;
-   top: 100%;
-   left: 0;
-   z-index: 999;
-   display: none; 
-   grid-template-columns: repeat(2, minmax(180px, 1fr));
-   gap: 10px;
-   padding: 1rem;
-   background-color: #fff;
-   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-   border-radius: 8px;
-   list-style: none;
-   min-width: 360px;
-   max-width: 600px;
-   font-size: 14px;
-   word-wrap: break-word;
- }
- 
- .custom-dropdown:hover .big-dropdown {
-   display: grid;
- }
- 
- .big-dropdown li {
-   list-style: none;
- }
- 
- .big-dropdown a {
-   display: block;
-   padding: 8px 12px;
-   border-radius: 6px;
-   background-color: #f1f1f1;
-   color: #333;
-   font-weight: 500;
-   text-decoration: none;
-   transition: all 0.2s ease;
-   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-   white-space: normal;
-   word-break: break-word; 
-   text-align: left;
- }
- 
- .big-dropdown a:hover {
-   background-color: #4d148c;
-   color: white;
- }
- 
- @media (max-width: 752px) {
-   .big-dropdown {
-     display: none !important;
-   }
-   .custom-dropdown:hover .nav-toggle,
-   .custom-dropdown:hover .arrow {
-     color: black !important;
-   }
-   .arrow {
-     display: none !important;
-   }
- }
- 
-
- .custom-dropdown:hover .dropdown-menu {
-   display: block;
-   margin-top: 0.5rem;
- }
- 
- 
- .big-dropdown {
-   min-width: 100%;
-   max-width: 500px;
-   columns: 2;
-   padding: 20px;
-   display: none;
-   position: absolute;
-   background-color: white;
-   border: 1px solid #dee2e6;
-   z-index: 1000;
- }
- 
-
- @media (max-width: 576px) {
-   .big-dropdown {
-     columns: 1;
-     width: 100%;
-   }
- }
- 
-
- .custom-dropdown:hover .nav-toggle {
-   color: #4d148c;
- }
- 
- .custom-dropdown:hover .arrow {
-   transform: rotate(180deg);
-   color: #4d148c;
- }
- 
- 
- .arrow {
-   margin-left: 6px;
-   transition: transform 0.3s ease;
- }
- 
- .custom-dropdown-item {
-   font-size: 12px;
- }
- 
- .custom-dropdown-item:hover {
-   color:  #4d148c !important; 
-   background-color: #f8f9fa; 
- }
- .custom-underline {
-   position: relative;
-   text-decoration: none;
- }
- 
- .custom-underline:hover {
-   text-decoration: underline;
-   color: green !important;
-   font-weight: small !important;
- }
-
-
- @media (max-width: 720px) {
- .navbar-logo {
-   margin-left: -40px !important;
- }
-}
-
-@media (max-width: 438px) {
- .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -100px !important;
-  
- }
- .navbar-toggler {
-   margin-top: -55px !important;
-   margin-left: 260px !important;
- }
-}
-@media (max-width: 424px) {
- .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -105px !important;
-  
- }
- .navbar-toggler {
-   margin-top: -55px !important;
-   margin-left: 240px !important;
- }
-}
-@media (max-width: 398px) {
- .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -190px !important;
- }
- .navbar-toggler {
-   margin-top: -55px !important;
-   margin-left: 210px !important;
- }
-}
-@media (max-width: 375px) {
- .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -160px !important;
- }
- .navbar-toggler {
-   margin-top: -55px !important;
-   margin-left: 200px !important;
- }
-}
-@media (max-width: 374px) {
- .navbar-logo {
-   font-size: 14px !important;
-   margin-left: -190px !important;
- }
- .navbar-toggler {
-   margin-top: -55px !important;
-   margin-left: 200px !important;
- }
-}
-@media (max-width: 342px) {
- .navbar-logo {
-  
-   margin-left: -240px !important;
- }
- .logo-text {
-   font-size: 15px !important;
- }
- .navbar-toggler {
-   margin-top: -55px !important;
-   margin-left: 170px !important;
- }
-}
-@media (max-width: 336px) {
- .navbar-logo {
-   margin-left: -240px !important;
- }
- .logo-text {
-   font-size: 15px !important;
- }
- .navbar-toggler {
-   margin-top: -55px !important;
-   margin-left: 160px !important;
- }
-}
-
-@media (max-width: 1132px) {
-.container-fluid{
- padding: 10px 1px !important;
-
-}
-
-}
-
-@media (max-width: 1043px) {
-.navbar{
- padding: 10px 40px !important;
-}
-
-}
-@media (max-width: 1110px) {
-
-.navbar-nav {
-
-  display: none !important;
-
-}
-.input-group {
-margin-left:20px !important;
-
-}
-
-
-}
-@media (max-width: 990px) {
-
-
-.input-group {
-margin-top : 15px !important;
-
-}
-
-
-}
-
-@media (max-width: 992px) {
-
- .navbar-toggler {
-   display: none !important;
-  
- }
-}
-@media (max-width: 816px) {
-
-.navbar-toggler {
-  display: block !important;
- 
-}
-.navbar-nav {
-
-display: block !important;
-
+/* Mobile screens */
+@media (max-width: 452px) {
+  nav.navbar {
+    padding: 8px 15px !important;
+  }
+  .navbar-logo img {
+    max-width: 26px;
+  }
+  .navbar-logo h3 {
+    font-size: 14px; 
+  }
+  .big-dropdown {
+    grid-template-columns: 1fr;
+    min-width: 180px;
+    max-width: 100%;
+    font-size: 12px;
+    padding: 0.5rem;
+  }
+  .dropdowns-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .custom-dropdown {
+    font-size: 12px !important;
 }
 }
 
-
-
+/* Tiny screens */
+@media (max-width: 360px) {
+  .navbar-logo img {
+    width: 26px;
+  }
+  .navbar-logo h3 {
+    font-size: 12px !important;
+  }
+  .profile-dropdown svg {
+    width: 22px;
+    height: 22px;
+  }
+  .logout-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
 </style>
+
