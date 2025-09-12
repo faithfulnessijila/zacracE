@@ -596,6 +596,8 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
+  margin-top: -5px !important; 
+
   }
   .navbar-logo h3 {
     font-size: 16px;
@@ -625,6 +627,8 @@ nav.navbar {
   }
   .navbar-logo img {
     max-width: 26px;
+  margin-top: -5px !important; 
+
   }
   .navbar-logo h3 {
     font-size: 14px; 
@@ -664,8 +668,6 @@ nav.navbar {
     padding: 4px 8px;
     font-size: 12px;
   }
- 
 }
-
 </style>
 
