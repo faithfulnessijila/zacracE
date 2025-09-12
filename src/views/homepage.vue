@@ -590,13 +590,16 @@ nav.navbar {
   nav.navbar {
     padding: 10px 20px;
   }
+  .profile-dropdown {
+    margin-right: -67px !important;
+  }
   .navbar-logo {
     flex: 1;
     justify-content: flex-start;
   }
   .navbar-logo img {
     max-width: 26px;
-  margin-top: -7px !important; 
+ 
 
   }
   .navbar-logo h3 {
@@ -607,7 +610,7 @@ nav.navbar {
     position: relative;
   }
   .big-dropdown {
-    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    grid-template-columns: repeat(2, minmax(100px, 2fr));
     min-width: 210px;
     max-width: 400px;
     font-size: 12px;
@@ -634,12 +637,14 @@ nav.navbar {
     font-size: 14px; 
   }
   .big-dropdown {
-    grid-template-columns: 1fr;
-    min-width: 180px;
-    max-width: 100%;
+    grid-template-columns: repeat(2, minmax(100px, 2fr));
+    min-width: 210px;
+    max-width: 400px;
     font-size: 12px;
-    padding: 0.5rem;
+    padding: 0.75rem;
   }
+
+
   .dropdowns-container {
     flex-direction: column;
     align-items: flex-start;
@@ -648,12 +653,16 @@ nav.navbar {
   .custom-dropdown {
     font-size: 12px !important;
 }
+.nav-toggle{
+  font-size: 13px !important;
+
+}
 }
 
 /* Tiny screens */
 @media (max-width: 360px) {
   .navbar-logo img {
-    width: 26px;
+    width: 16px;
   margin-top: -7px !important; 
 
   }
@@ -668,6 +677,84 @@ nav.navbar {
     padding: 4px 8px;
     font-size: 12px;
   }
+  .nav-toggle{
+  font-size: 11px !important;
+
 }
+nav.navbar {
+    padding: 18px 10px !important;
+  }
+.big-dropdown {
+    grid-template-columns: repeat(2, minmax(100px, 2fr));
+    min-width: 110px;
+    max-width: 300px;
+    font-size: 7px;
+    padding: 0.65rem;
+  margin-left: -35px !important; 
+
+  }
+}
+@media (max-width: 300px) {
+  .navbar-logo img {
+    width: 16px;
+  margin-top: -7px !important; 
+
+  }
+  nav.navbar {
+    padding: 10px 5px !important;
+  }
+  
+  .profile-dropdown svg {
+    width: 22px;
+    height: 22px;
+  
+  }
+  .logout-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .nav-toggle{
+  font-size: 9px !important;
+
+}
+.big-dropdown {
+    grid-template-columns: repeat(2, minmax(100px, 2fr));
+    min-width: 110px;
+    max-width: 300px;
+    font-size: 7px;
+    padding: 0.65rem;
+  margin-left: -35px !important; 
+
+  }
+}
+/* Small screens: move profile dropdown to the right */
+@media (max-width: 768px) {
+  .profile-dropdown {
+    margin-left: auto;        /* pushes it to the right */
+    position: relative;       /* ensure dropdown is positioned relative to parent */
+    justify-content: flex-end; /* align items to right if flex */
+  }
+}
+
+/* Tiny screens */
+@media (max-width: 452px) {
+  .profile-dropdown {
+    margin-right: -67px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .profile-dropdown {
+    margin-left: auto !important;
+  }
+}
+.d-flex.align-items-center.gap-3 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-end; /* ensures items are on the right */
+  flex-shrink: 0;
+}
+
 </style>
 
