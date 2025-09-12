@@ -444,7 +444,7 @@ nav.navbar {
   width: clamp(15px, 6vw, 17px);
   height: auto;
   display: block;
- 
+  margin-top: -0.1px !important; 
  
 }
 
