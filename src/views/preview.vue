@@ -1277,7 +1277,7 @@ nav.navbar {
   width: clamp(15px, 6vw, 17px);
   height: auto;
   display: block;
-  margin-top: -0.5px !important; 
+  margin-top: -1px !important; 
  
 }
 
