@@ -1371,9 +1371,7 @@ nav.navbar {
   color: #4d148c;
 }
 
-/* =========================
-   Big Dropdown
-   ========================= */
+
 .big-dropdown {
   position: absolute;
   top: 100%;
