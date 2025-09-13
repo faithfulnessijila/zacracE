@@ -377,29 +377,29 @@
 
         <!-- Like/Dislike Buttons -->
         <div class="d-flex gap-2">
-          <div class="review-actions d-flex gap-2">
-            <button
-  class="btn btn-sm"
-  :class="review.userVote === 'like' ? 'btn-success' : 'btn-light'"
-  @click="likeReview(review)"
-  :disabled="voting"
->
-  👍 {{ review.likes }}
-</button>
+  <button
+    class="btn btn-sm"
+    :class="[
+      review.userVote === 'like' ? 'btn-success' : 'btn-light',
+      voting && review._id === activeReviewId ? 'disabled' : ''
+    ]"
+    @click="likeReview(review)"
+  >
+    👍 {{ review.likes }}
+  </button>
 
-<button
-  class="btn btn-sm"
-  :class="review.userVote === 'dislike' ? 'btn-danger' : 'btn-light'"
-  @click="dislikeReview(review)"
-  :disabled="voting"
->
-  👎 {{ review.dislikes }}
-</button>
-
+  <button
+    class="btn btn-sm"
+    :class="[
+      review.userVote === 'dislike' ? 'btn-danger' : 'btn-light',
+      voting && review._id === activeReviewId ? 'disabled' : ''
+    ]"
+    @click="dislikeReview(review)"
+  >
+    👎 {{ review.dislikes }}
+  </button>
 </div>
 
-
-        </div>
       </div>
     </div>
   </div>
@@ -583,6 +583,9 @@ export default {
       editingReviewId: null,
       submittingReview: false,
       voting: false,
+      voting: false,
+activeReviewId: null,
+
 
       // UI
       errorMessage: "",
@@ -794,64 +797,65 @@ export default {
 
     // ---------------- Voting ----------------
     async voteReview(review, type) {
-  if (!this.user?._id) return this.showError("Sign in to vote!");
-  if (this.voting) return;
-
-  const previousVote = review.userVote;
-  this.voting = true;
-
-  // 🔥 Optimistic UI update
-  if (type === "like") {
-    if (review.userVote === "like") {
-      review.likes--;
-      review.userVote = null;
-    } else {
-      if (review.userVote === "dislike") review.dislikes--;
-      review.likes++;
-      review.userVote = "like";
-    }
-  } else if (type === "dislike") {
-    if (review.userVote === "dislike") {
-      review.dislikes--;
-      review.userVote = null;
-    } else {
-      if (review.userVote === "like") review.likes--;
-      review.dislikes++;
-      review.userVote = "dislike";
-    }
+  if (!this.user?._id) {
+    this.showError("You must be logged in to vote!");
+    return this.$router.push("/sign-in");
+  }
+  if (!this.token) {
+    this.showError("No token found. Please log in again.");
+    return;
   }
 
   const { productId } = this.$route.params;
-  const url =
-    type === "like"
-      ? `${API_BASE}/review/${productId}/like-review`
-      : `${API_BASE}/review/${productId}/dislike-review`;
+  if (!productId) {
+    console.error("[Vote Review] productId is undefined");
+    this.showError("Invalid product. Try refreshing.");
+    return;
+  }
 
+  this.voting = true;
   try {
-    // 🔥 Send GET with query params instead of PUT with body
-    await axios.get(url, {
+    const url = `${API_BASE}/review/${productId}/${type}-review`;
+
+    await axios.post(url, null, {
       params: {
         userId: this.user._id,
-        reviewId: review._id
+        reviewId: review._id,
       },
-      headers: { Authorization: `Bearer ${this.token}` }
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
     });
-  } catch (err) {
-    // 🔥 Revert UI on error
-    review.userVote = previousVote;
-    if (previousVote === "like") {
-      review.likes++;
-      review.dislikes--;
-    } else if (previousVote === "dislike") {
-      review.dislikes++;
-      review.likes--;
+
+    // ✅ Optimistic UI update
+    if (type === "like") {
+      if (review.userVote === "like") {
+        review.likes--;
+        review.userVote = null;
+      } else {
+        if (review.userVote === "dislike") review.dislikes--;
+        review.likes++;
+        review.userVote = "like";
+      }
+    } else if (type === "dislike") {
+      if (review.userVote === "dislike") {
+        review.dislikes--;
+        review.userVote = null;
+      } else {
+        if (review.userVote === "like") review.likes--;
+        review.dislikes++;
+        review.userVote = "dislike";
+      }
     }
-    console.error(err.response?.data || err.message);
-    this.showError("Failed to vote review.");
+  } catch (err) {
+    console.error("[Vote Review] Failed:", err.response?.data || err.message);
+    this.showError(err.response?.data?.message || "Failed to vote review.");
   } finally {
     this.voting = false;
   }
-},
+}
+
+,
 
 
     likeReview(review) {

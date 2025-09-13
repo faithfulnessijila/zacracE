@@ -127,6 +127,9 @@
   </div>
   
   </nav>
+
+
+  
   
     
       <div v-for="(category, index) in categories" :key="index" class="container my-5">
@@ -163,6 +166,16 @@
         </div>
       </div>
     </div>
+  
+
+
+
+
+
+
+
+
+
   
   
     <footer class="bg-secondary  text-white py-5 mt-5">
