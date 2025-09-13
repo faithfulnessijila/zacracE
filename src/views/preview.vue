@@ -19,16 +19,18 @@
 <div class="d-flex align-items-center gap-3 flex-wrap">
 
   <!-- Guest Buttons -->
-  <div v-if="!user" class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-2">
-    <button @click="$router.push('/sign-up')" class="btn text-white fw-semibold px-3 py-2"
-            style="border-radius: 0; font-size: 14px; background-color: #4d148c;">
-      Create account
-    </button>
-    <span class="text-muted small">
-      Have an account? 
-      <a @click="$router.push('/sign-in')" href="#" class="fw-semibold" style="color: #4d148c;">Sign in</a>
-    </span>
-  </div>
+  <div v-if="!user" class="d-flex flex-row align-items-center gap-2 guest-buttons">
+  <button 
+    @click="$router.push('/sign-up')" 
+    class="btn text-white fw-semibold px-3 py-2"
+    style="border-radius: 4px; background-color: #4d148c;">
+    Create account
+  </button>
+  <span class="text-muted small">
+    Have an account? 
+    <a @click="$router.push('/sign-in')" href="#" class="fw-semibold" style="color: #4d148c;">Sign in</a>
+  </span>
+</div>
 
   <!-- Profile Dropdown -->
   <div v-if="user" class="nav-item dropdown profile-dropdown" style="list-style: none;">
@@ -44,7 +46,7 @@
       </li>
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item py-2" href="#"><i class="bi bi-credit-card me-2"></i> Transactions</a></li>
-      <li><a class="dropdown-item py-2" href="#"><i class="bi bi-bag-check me-2"></i> Purchased</a></li>
+      <li><a  @click="$router.push('/purchase')" class="dropdown-item py-2" href="#"><i class="bi bi-bag-check me-2"></i> Purchased</a></li>
       <li><hr class="dropdown-divider"></li>
       <li><button class="dropdown-item text-danger fw-semibold py-2" @click="logout"><i class="bi bi-box-arrow-right me-2"></i> Sign Out</button></li>
     </ul>
@@ -449,7 +451,7 @@
       <!-- Branding Section -->
       <div class="col-12 col-md-3 mb-4">
         <div class="d-flex align-items-center mb-2">
-          <img src="/public/d.png" alt="Logo" style="width: 35px; height: 35px; margin-right: 10px;" />
+         
           <h4 class="fw-bold mb-0">Zacrac Learning</h4>
         </div>
         <h4>Africa's No. 1 Data School</h4>
@@ -1598,6 +1600,38 @@ nav.navbar {
   gap: 1rem;
   justify-content: flex-end; /* ensures items are on the right */
   flex-shrink: 0;
+}
+
+@media (max-width: 360px) {
+  .guest-actions span {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .guest-actions button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+.guest-buttons button {
+  font-size: 14px;
+}
+.guest-buttons span {
+  font-size: 13px;
+}
+
+/* Small screens */
+@media (max-width: 480px) {
+  .guest-buttons {
+    gap: 6px; /* tighter spacing */
+  }
+  .guest-buttons button {
+    font-size: 12px;
+    padding: 4px 10px !important; /* smaller button */
+  }
+  .guest-buttons span {
+    font-size: 12px;
+  }
 }
 
 </style>

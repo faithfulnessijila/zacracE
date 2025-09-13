@@ -16,6 +16,12 @@ import Productlist from '@/views/productlist.vue';
 
 import Admin from '@/views/admin.vue';
 
+import Purchase from '@/views/purchase.vue';
+
+
+
+
+
 
 
 
@@ -37,8 +43,13 @@ const routes = [
     path: '/new-password',  component: Newpassword
 },
 {
+  path: '/purchase', component: Purchase 
+
+},
+{
   path: '/product',  component: Product
   },
+
   {
     path: '/edit-product',
     name: 'EditProduct',
