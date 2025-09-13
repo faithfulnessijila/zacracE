@@ -129,10 +129,10 @@
 </div>
 
 </nav>
-    <div class="container py-4">
+<div class="container py-4">
 
 <!-- Skeleton Loader -->
-<div v-if="loadingBook" class="d-flex flex-column flex-md-row gap-3">
+<div v-if="loadingBook" class="d-flex flex-column flex-lg-row gap-3">
   <div class="skeleton skeleton-img" style="width: 140px; height: 200px;"></div>
   <div class="flex-grow-1">
     <div class="skeleton skeleton-title mb-2" style="width: 60%; height: 22px;"></div>
@@ -147,21 +147,20 @@
   <!-- Format Indicator Buttons -->
   <div class="d-flex gap-2 mb-3 pb-2 border-bottom flex-wrap">
     <button
-  v-if="book.formats.some(f => f.type === 'ebook')"
-  class="btn btn-sm fw-bold me-2"
-  style="background-color: #4d148c; color: #fff; border: none;"
->
-  eBook
-</button>
+      v-if="book.formats.some(f => f.type === 'ebook')"
+      class="btn btn-sm fw-bold me-2"
+      style="background-color: #4d148c; color: #fff; border: none;"
+    >
+      eBook
+    </button>
 
-<button
-  v-if="book.formats.some(f => f.type === 'audiobook')"
-  class="btn btn-sm fw-bold"
-  style="background-color: #4d148c; color: #fff; border: none;"
->
-  Audiobook
-</button>
-
+    <button
+      v-if="book.formats.some(f => f.type === 'audiobook')"
+      class="btn btn-sm fw-bold"
+      style="background-color: #4d148c; color: #fff; border: none;"
+    >
+      Audiobook
+    </button>
   </div>
 
   <!-- Show all formats -->
@@ -174,7 +173,7 @@
       'shadow-sm',
       'rounded',
       'col-12',
-      'col-md-6',  // Half width on medium+ screens
+      'col-md-6',
       'mb-3',
       format.type === 'ebook' ? 'ebook-card' : 'audiobook-card'
     ]"
@@ -183,7 +182,7 @@
     <!-- Top-right format label -->
     <span class="format-label" :class="format.type">{{ format.type }}</span>
 
-    <div class="d-flex flex-column flex-md-row gap-3 align-items-start">
+    <div class="d-flex flex-column flex-lg-row gap-3 align-items-start">
       <!-- Cover -->
       <div class="text-center" :style="book.formats.length === 1 ? 'max-width: 250px; flex-shrink: 0;' : 'max-width: 180px; flex-shrink: 0;'">
         <div class="book-cover-container rounded shadow-sm" style="overflow: hidden; background-color: #f8f9fa;">
@@ -210,10 +209,8 @@
 
         <div class="d-flex align-items-center gap-2 mb-2">
           <h6 class="text-danger mb-0">
-  ₦{{ format.price.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
-</h6>
-
-
+            ₦{{ format.price.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+          </h6>
           <button class="btn btn-sm custom-buy-btn">Buy Now</button>
         </div>
 
@@ -224,16 +221,11 @@
         </div>
 
         <span
-  class="badge mt-2 text-uppercase"
-  :style="{
-    backgroundColor: '#4d148c',
-    color: '#fff',
-    fontSize: '0.75rem'
-  }"
->
-  {{ format.type }}
-</span>
-
+          class="badge mt-2 text-uppercase"
+          :style="{ backgroundColor: '#4d148c', color: '#fff', fontSize: '0.75rem' }"
+        >
+          {{ format.type }}
+        </span>
       </div>
     </div>
   </div>
@@ -246,6 +238,7 @@
 </div>
 
 </div>
+
 
     </div>
   
