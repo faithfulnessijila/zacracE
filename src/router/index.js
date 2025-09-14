@@ -17,6 +17,7 @@ import Productlist from '@/views/productlist.vue';
 import Admin from '@/views/admin.vue';
 
 import Purchase from '@/views/purchase.vue';
+import AdminSignin from '@/views/admin-signin.vue';
 
 
 
@@ -65,6 +66,9 @@ const routes = [
 },
 {
   path: '/admin',  component: Admin
+},
+{
+  path: '/admin-signin',  component: AdminSignin
 },
 {
   path: "/auth-callback", 

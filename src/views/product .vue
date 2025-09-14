@@ -69,6 +69,11 @@
 
     <!-- Main Content -->
     <main class="flex-fill p-4 bg-light">
+      <div v-if="alert.show" class="alert" :class="'alert-' + alert.type + ' alert-dismissible fade show'" role="alert">
+  {{ alert.message }}
+  <button type="button" class="btn-close" @click="alert.show = false"></button>
+</div>
+
       <!-- Header -->
       <div class="d-flex align-items-center mb-4 flex-wrap">
         <h3 class="fw-bold new-product-title">New Product</h3>
@@ -644,7 +649,8 @@ export default {
         // Step 4: Authors
         authors: [{ name: "" }]
       },
-      errors: {}
+      errors: {},
+      alert: { show: false, type: "", message: "" } 
     };
   },
   computed: {
@@ -737,30 +743,75 @@ export default {
       else this.submitForm();
     },
 
-    submitForm() {
-      const step1Valid = this.validateStep(1);
-      const step2Valid = this.validateStep(2);
-      const step3Valid = this.validateStep(3);
-      const step4Valid = this.validateStep(4);
+    async submitForm() {
+  // Validate steps
+  const step1Valid = this.validateStep(1);
+  const step2Valid = this.validateStep(2);
+  const step3Valid = this.validateStep(3);
+  const step4Valid = this.validateStep(4);
 
-      if (!step1Valid || !step2Valid || !step3Valid || !step4Valid) {
-        alert("Please fill all required fields correctly before submitting.");
-        return;
-      }
+  if (!step1Valid || !step2Valid || !step3Valid || !step4Valid) {
+    this.alert = { show: true, type: "danger", message: "Please fill all required fields correctly before submitting." };
+    return;
+  }
 
-      console.log("Form submitted:", this.form);
-      alert("Form submitted successfully!");
+  try {
+    // 🔹 Build FormData
+    const formData = new FormData();
+    formData.append("title", this.form.title);
+    formData.append("category", this.form.category);
+    formData.append("description", this.form.description);
+    formData.append("image", this.form.image);
 
+    formData.append("pages", this.form.pages);
+    formData.append("price", this.form.price);
+    formData.append("currency", this.form.currency);
+    formData.append("size", this.form.size);
+    formData.append("file", this.form.file);
+
+    formData.append("audioDuration", this.form.audioDuration);
+    formData.append("audioSize", this.form.audioSize);
+    formData.append("audioPrice", this.form.audioPrice);
+    formData.append("audioCurrency", this.form.audioCurrency);
+    formData.append("audioFile", this.form.audioFile);
+
+    // authors as JSON string
+    formData.append("authors", JSON.stringify(this.form.authors));
+
+    // 🔹 Send request
+    const response = await fetch("https://zacracebookwebsite.onrender.com/ebook/products/add-product", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+    const result = await response.json();
+    console.log("Form submitted successfully:", result);
+
+    this.alert = { show: true, type: "success", message: "Form submitted successfully!" };
+    this.resetForm();
+
+    // auto-close alert after 5s
+    setTimeout(() => (this.alert.show = false), 5000);
+  } catch (err) {
+    console.error("Submission error:", err);
+    this.alert = { show: true, type: "danger", message: "Network error or server unreachable." };
+    setTimeout(() => (this.alert.show = false), 5000); // auto close
+  }
+}
+
+,
+
+    resetForm() {
       this.activeStep = 1;
       Object.keys(this.form).forEach((key) => {
-        if (Array.isArray(this.form[key])) {
-          this.form[key] = [];
-        } else {
-          this.form[key] = null;
-        }
+        if (Array.isArray(this.form[key])) this.form[key] = [];
+        else this.form[key] = null;
       });
-      this.form.authors = [{ name: "" }]; // reset authors separately
+      this.form.authors = [{ name: "" }];
       this.errors = {};
+      this.filePreviewUrl = null;
     },
 
     addAuthor() {
