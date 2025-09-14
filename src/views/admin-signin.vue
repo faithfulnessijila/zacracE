@@ -96,126 +96,118 @@
       </div>
     </div>
   </template>
-  <script>
-  import axios from "axios";
-  
-  export default {
-    data() {
-      return {
-        form: {
-          email: "",
-          password: "",
-        },
-        loading: false,
-        errorMessage: "",
-        errors: {},
-      };
-    },
-  
-    methods: {
-      // Normal email/password login
-      async handleSubmit() {
-    // Reset errors and messages
-    this.errorMessage = "";
-    this.errors = {};
-    this.loading = true;
-  
-    // Validate form before sending
-    if (!this.validateForm()) {
-      this.loading = false;
-      return;
+ <script>
+ import axios from "axios";
+ 
+ export default {
+   data() {
+     return {
+       form: {
+         email: "",
+         password: "",
+       },
+       loading: false,
+       errorMessage: "",
+       errors: {},
+     };
+   },
+ 
+   methods: {
+     // Form validation
+     validateForm() {
+       const errors = {};
+       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ 
+       if (!this.form.email) {
+         errors.email = "Email is required";
+       } else if (!emailRegex.test(this.form.email)) {
+         errors.email = "Invalid email format";
+       }
+ 
+       if (!this.form.password) {
+         errors.password = "Password is required";
+       } else if (this.form.password.length < 6) {
+         errors.password = "Password must be at least 6 characters";
+       }
+ 
+       this.errors = errors;
+       return Object.keys(errors).length === 0;
+     },
+ 
+     // Login handler
+     async handleSubmit() {
+  this.errorMessage = "";
+  this.errors = {};
+  this.loading = true;
+
+  // Validate form first
+  if (!this.validateForm()) {
+    this.loading = false;
+    return;
+  }
+
+  try {
+    // Make sure this endpoint matches your backend
+    const res = await axios.post(
+      "https://zacracebookwebsite.onrender.com/admin-signin",
+      this.form,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    const { token, user } = res.data;
+
+    if (!token || !user) {
+      throw new Error("Invalid login response from server.");
     }
-  
-    try {
-      // Send POST request to backend
-      const res = await axios.post(
-        "https://zacracebookwebsite.onrender.com/admin-signin",
-        this.form,
-        { headers: { "Content-Type": "application/json" } }
-      );
-  
-      // Destructure token and user from response
-      const { token, user } = res.data;
-  
-      // Validate response
-      if (!token || !user) {
-        throw new Error("Invalid login response from server.");
-      }
-  
-      // Store token and user in localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-  
-      // Redirect to auth-callback page
-      this.$router.push("/auth-callback").catch(() => {
-        // Fallback if router push fails
-        window.location.href = "/admin";
-      });
-    } catch (error) {
-      const status = error.response?.status;
-      const message = error.response?.data?.message || error.message;
-  
-      // Handle specific backend messages
-      if (message.includes("different provider")) {
-        this.errorMessage = "⚠️ This email is linked to a Google account. Please sign in with Google.";
-      } else if (status === 400) {
-        this.errorMessage = message || "Invalid email or password.";
-      } else if (status === 409) {
-        this.errorMessage = "⚠️ Email already registered. Please sign in.";
-      } else if (status === 500) {
-        this.errorMessage = "🚨 Server error. Please try again later.";
-      } else {
-        this.errorMessage = message || "Something went wrong. Please try again.";
-      }
-    } finally {
-      this.loading = false;
+
+    // Store login info
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Redirect immediately
+    window.location.href = "/admin"; // Forces navigation to dashboard
+
+  } catch (error) {
+    const status = error.response?.status;
+    const message = error.response?.data?.message || error.message;
+
+    if (status === 404) {
+      this.errorMessage = "⚠️ Login endpoint not found. Check your URL!";
+    } else if (status === 400) {
+      this.errorMessage = "Invalid email or password.";
+    } else if (status === 500) {
+      this.errorMessage = "Server error. Please try again later.";
+    } else {
+      this.errorMessage = message || "Something went wrong. Please try again.";
     }
-  },
-  
-  
-      // Form validation
-      validateForm() {
-        const errors = {};
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-        if (!this.form.email) errors.email = "Email is required";
-        else if (!emailRegex.test(this.form.email)) errors.email = "Invalid email format";
-  
-        if (!this.form.password) errors.password = "Password is required";
-        else if (this.form.password.length < 6) errors.password = "Password must be at least 6 characters";
-  
-        this.errors = errors;
-        return Object.keys(errors).length === 0;
-      },
-  
-    
-  
-    
-  
-      // Match carousel height to form height
-      setCarouselHeight() {
-        const form = this.$el.querySelector(".form-container");
-        const carousel = this.$el.querySelector(".image-container");
-        if (form && carousel) {
-          carousel.style.height = form.offsetHeight + "px";
-        }
-      },
-    },
-  
-    mounted() {
-      this.$nextTick(() => {
-        this.setCarouselHeight();
-        window.addEventListener("resize", this.setCarouselHeight);
-        this.handleTokenFromURL();
-      });
-    },
-  
-    beforeUnmount() {
-      window.removeEventListener("resize", this.setCarouselHeight);
-    },
-  };
-  </script>
-  
+  } finally {
+    this.loading = false;
+  }
+},
+ 
+     // Keep carousel height synced with form
+     setCarouselHeight() {
+       const form = this.$el.querySelector(".form-container");
+       const carousel = this.$el.querySelector(".image-container");
+       if (form && carousel) {
+         carousel.style.height = form.offsetHeight + "px";
+       }
+     },
+   },
+ 
+   mounted() {
+     this.$nextTick(() => {
+       this.setCarouselHeight();
+       window.addEventListener("resize", this.setCarouselHeight);
+     });
+   },
+ 
+   beforeUnmount() {
+     window.removeEventListener("resize", this.setCarouselHeight);
+   },
+ };
+ </script>
+ 
   <style>
   
   .image-container {

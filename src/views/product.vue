@@ -38,23 +38,42 @@
 
       <ul v-show="dropdowns.products" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
         <li>
-          <a  @click="$router.push('/product')" href="#" class="nav-link" :class="{ active: activeLink === 'new-product' }"
-             @click.prevent="setActiveLink('new-product')">
-            New Product
-          </a>
-        </li>
-        <li>
-          <a @click="$router.push('/edit-product')" href="#" class="nav-link" :class="{ active: activeLink === 'edit-product' }"
-             @click.prevent="setActiveLink('edit-product')">
-            Edit Product
-          </a>
-        </li>
-        <li>
-          <a @click="$router.push('/product-list')" href="#" class="nav-link" :class="{ active: activeLink === 'product-list' }"
-             @click.prevent="setActiveLink('product-list')">
-            Product List
-          </a>
-        </li>
+<a
+  href="#"
+  class="nav-link"
+  :class="{ active: activeLink === 'product' }"
+  @click.prevent="goToNewProduct"
+>
+  New Product
+</a> </li>
+       
+<li>
+  <a
+    href="#"
+    class="nav-link"
+    :class="{ active: activeLink === 'edit-product' }"
+    @click.prevent="goToEdit(product?._id)"
+  >
+    Edit Product
+  </a>
+</li>
+
+
+
+
+<li>
+  <a
+    href="#"
+    class="nav-link"
+    :class="{ active: activeLink === 'product-list' }"
+    @click.prevent="goToProductList"
+  >
+    Product List
+  </a>
+</li>
+
+
+
       </ul>
     </li>
 
@@ -69,18 +88,18 @@
 
     <!-- Main Content -->
     <main class="flex-fill p-4 bg-light">
+      <div v-if="alert.show" class="alert" :class="'alert-' + alert.type + ' alert-dismissible fade show'" role="alert">
+  {{ alert.message }}
+  <button type="button" class="btn-close" @click="alert.show = false"></button>
+</div>
+
+
       <!-- Header -->
-      <div class="d-flex align-items-center mb-4 flex-wrap">
-        <h3 class="fw-bold new-product-title">Edit Product</h3>
-        <div class="search-bar ms-3 position-relative mt-2 mt-md-0">
-          <input
-            type="text"
-            class="form-control search-input ps-5"
-            placeholder="Search..."
-          />
-          <i class="bi bi-search search-icon"></i>
-        </div>
-      </div>
+      <div class="d-flex align-items-center mb-4 flex-wrap justify-content-start">
+  <h3 class="fw-bold new-product-title">New Product</h3>
+</div>
+
+
 
       <!-- Steps -->
       <div class="steps mb-4">
@@ -396,7 +415,7 @@
 
 
 
-<!-- Step 3: Author -->
+
 <transition name="slide-fade" mode="out-in">
   <div v-if="activeStep === 3" key="step3" class="card shadow-sm p-4 mb-4 product-form-card">
   <h5 class="text-center mb-4">Audiobook Upload</h5>
@@ -410,7 +429,7 @@
           v-model="form.audioDuration"
           type="text"
           class="form-control w-100"
-          placeholder="e.g. 1min"
+          placeholder="e.g 1min"
           style="padding: 8px 12px; font-size: 0.95rem;"
         />
         <small v-if="errors.audioDuration" class="text-danger">{{ errors.audioDuration }}</small>
@@ -588,12 +607,19 @@
         Back
       </button>
       <button 
-        type="submit" 
-        class="btn btn-primary px-4"
-        :disabled="!canProceedStep4"
-      >
-        Submit
-      </button>
+  type="button"
+  class="btn btn-primary px-4 d-flex align-items-center justify-content-center"
+  :disabled="submitting"
+  @click="submitForm"
+>
+  <span v-if="!submitting">Submit</span>
+  <span v-else class="d-flex align-items-center">
+    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    Submitting...
+  </span>
+</button>
+
+
     </div>
   </form>
 </div>
@@ -615,36 +641,32 @@ export default {
   name: "Sidebar",
   data() {
     return {
-      dropdowns: { ebook: true, products: true, orders: false },
-      activeLink: "edit-product",
+      submitting: false,
+      dropdowns: { ebook: true, products: true, },
+      activeLink: "product",
       activeStep: 1,
       filePreviewUrl: null,
       form: {
-        // Step 1: Product Info
+        productId: null,
         title: "",
         category: "",
         description: "",
         image: null,
         imagePreview: null,
-
-        // Step 2: Ebook
         pages: "",
         price: "",
         currency: "",
         size: "",
         file: null,
-
-        // Step 3: Audiobook
         audioDuration: "",
         audioSize: "",
         audioPrice: "",
         audioCurrency: "",
         audioFile: null,
-
-        // Step 4: Authors
-        authors: [{ name: "" }]
+        authors: [{ name: "" }],
       },
-      errors: {}
+      errors: {},
+      alert: { show: false, type: "", message: "" },
     };
   },
   computed: {
@@ -653,37 +675,43 @@ export default {
       return `${((this.activeStep - 1) / (totalSteps - 1)) * 100}%`;
     },
     canProceedStep3() {
-      return (
-        this.form.audioDuration &&
-        this.form.audioSize &&
-        this.form.audioPrice &&
-        this.form.audioCurrency &&
-        this.form.audioFile
-      );
+      const { audioDuration, audioSize, audioPrice, audioCurrency, audioFile } = this.form;
+      return audioDuration && audioSize && audioPrice && audioCurrency && audioFile;
     },
     canProceedStep4() {
       return this.form.authors.every((a) => a.name && a.name.trim() !== "");
-    }
+    },
   },
   methods: {
+    goToNewProduct() {
+  this.setActiveLink('new-product');
+  this.$router.push('/product');
+},
+goToEdit(productId) {
+    this.activeLink = 'edit-product';
+
+    if (productId) {
+      this.$router.push({ name: 'EditProduct', params: { productId } });
+    } else {
+      this.$router.push({ name: 'EditProduct' }); // no ID → new product
+    }
+  },
+  goToProductList() {
+    this.setActiveLink('product-list'); // set the active link
+    this.$router.push('/product-list'); // navigate
+  },
+  
+  setActiveLink(link) {
+    this.activeLink = link;
+  },
     setActiveLink(link) {
       this.activeLink = link;
-      if (
-        ["overview", "products", "new-product", "edit-product", "product-list"].includes(link)
-      ) {
-        this.dropdowns.ebook = true;
-      }
-      if (["new-product", "edit-product", "product-list"].includes(link)) {
-        this.dropdowns.products = true;
-      }
-      if (
-        ["orders", "pending-orders", "completed-orders", "refund-requests"].includes(link)
-      ) {
-        this.dropdowns.ebook = true;
-        this.dropdowns.orders = true;
-      }
+      this.dropdowns.ebook = ["overview", "products", "new-product", "edit-product", "product-list"].includes(link);
+      this.dropdowns.products = ["new-product", "edit-product", "product-list"].includes(link);
+      this.dropdowns.orders = ["orders", "pending-orders", "completed-orders", "refund-requests"].includes(link);
       if (link === "new-product") this.activeStep = 1;
     },
+   
 
     toggleDropdown(name) {
       this.dropdowns[name] = !this.dropdowns[name];
@@ -702,7 +730,6 @@ export default {
         if (!this.form.description) this.errors.description = "Description is required";
         if (!this.form.image) this.errors.image = "Product image is required";
       }
-
       if (step === 2) {
         if (!this.form.pages) this.errors.pages = "Pages required";
         if (!this.form.price) this.errors.price = "Price required";
@@ -710,7 +737,6 @@ export default {
         if (!this.form.size) this.errors.size = "File size required";
         if (!this.form.file) this.errors.file = "File upload required";
       }
-
       if (step === 3) {
         if (!this.form.audioDuration) this.errors.audioDuration = "Duration required";
         if (!this.form.audioSize) this.errors.audioSize = "File size required";
@@ -718,12 +744,9 @@ export default {
         if (!this.form.audioCurrency) this.errors.audioCurrency = "Currency required";
         if (!this.form.audioFile) this.errors.audioFile = "Audiobook file required";
       }
-
       if (step === 4) {
-        this.form.authors.forEach((a, index) => {
-          if (!a.name || a.name.trim() === "") {
-            this.errors[`authorName_${index}`] = "Author name is required";
-          }
+        this.form.authors.forEach((a, i) => {
+          if (!a.name || a.name.trim() === "") this.errors[`authorName_${i}`] = "Author name is required";
         });
       }
 
@@ -731,36 +754,97 @@ export default {
     },
 
     nextStep() {
-      if (this.activeStep === 3 && !this.canProceedStep3) return;
-      if (!this.validateStep()) return;
-      if (this.activeStep < 4) this.activeStep++;
-      else this.submitForm();
+      if ((this.activeStep === 3 && !this.canProceedStep3) || !this.validateStep()) return;
+      this.activeStep < 4 ? this.activeStep++ : this.submitForm();
+    },
+    async submitForm() {
+  // validate all steps
+  for (let step = 1; step <= 4; step++) {
+    if (!this.validateStep(step)) {
+      this.showAlert("danger", "Please fill all required fields correctly before submitting.");
+      return;
+    }
+  }
+
+  this.submitting = true; // start loading
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      this.handleUnauthorized();
+      return;
+    }
+
+    const formData = new FormData();
+    for (const key in this.form) {
+      if (key === "authors") {
+        formData.append(key, JSON.stringify(this.form[key]));
+      } else if (this.form[key] !== null) {
+        formData.append(key, this.form[key]);
+      }
+    }
+
+    const res = await fetch("https://zacracebookwebsite.onrender.com/ebook/products/add-product", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+
+    if (res.status === 401) {
+      this.handleUnauthorized();
+      return;
+    }
+
+    if (!res.ok) {
+      // 🔹 Try to extract backend error message
+      let errorMessage = `Server error: ${res.status}`;
+      try {
+        const errorData = await res.json();
+        if (errorData?.message) errorMessage = errorData.message;
+      } catch (_) {
+        // ignore JSON parse errors
+      }
+      throw new Error(errorMessage);
+    }
+
+    const result = await res.json();
+    console.log("Submitted:", result);
+
+    if (result.productId) {
+      this.form.productId = result.productId;
+    }
+
+    this.showAlert("success", "Form submitted successfully!");
+    this.resetForm();
+  } catch (err) {
+    console.error("Submission error:", err);
+    this.showAlert("danger", err.message || "Network error or server unreachable.");
+  } finally {
+    this.submitting = false; // stop loading
+  }
+},
+
+    handleUnauthorized() {
+      this.showAlert("danger", "Session expired. Redirecting to login...");
+      setTimeout(() => {
+        localStorage.removeItem("token");
+        this.$router.push("/admin-signin");
+      }, 2000);
     },
 
-    submitForm() {
-      const step1Valid = this.validateStep(1);
-      const step2Valid = this.validateStep(2);
-      const step3Valid = this.validateStep(3);
-      const step4Valid = this.validateStep(4);
+    showAlert(type, message) {
+      this.alert = { show: true, type, message };
+      setTimeout(() => (this.alert.show = false), 5000);
+    },
 
-      if (!step1Valid || !step2Valid || !step3Valid || !step4Valid) {
-        alert("Please fill all required fields correctly before submitting.");
-        return;
-      }
-
-      console.log("Form submitted:", this.form);
-      alert("Form submitted successfully!");
-
+    resetForm() {
       this.activeStep = 1;
       Object.keys(this.form).forEach((key) => {
-        if (Array.isArray(this.form[key])) {
-          this.form[key] = [];
-        } else {
-          this.form[key] = null;
-        }
+        if (Array.isArray(this.form[key])) this.form[key] = [];
+        else this.form[key] = null;
       });
-      this.form.authors = [{ name: "" }]; // reset authors separately
+      this.form.authors = [{ name: "" }];
       this.errors = {};
+      this.filePreviewUrl = null;
     },
 
     addAuthor() {
@@ -772,27 +856,18 @@ export default {
     },
 
     onFileChange(event, type) {
-      const files = event.target.files;
-      if (!files.length) return;
-      const file = files[0];
+      const file = event.target.files?.[0];
+      if (!file) return;
 
       if (type === "image") {
         this.form.image = file;
         this.form.imagePreview = URL.createObjectURL(file);
       }
-
       if (type === "file") {
         this.form.file = file;
-        if (file.type === "application/pdf") {
-          this.filePreviewUrl = URL.createObjectURL(file);
-        } else {
-          this.filePreviewUrl = null;
-        }
+        this.filePreviewUrl = file.type === "application/pdf" ? URL.createObjectURL(file) : null;
       }
-
-      if (type === "audiobook") {
-        this.form.audioFile = file;
-      }
+      if (type === "audiobook") this.form.audioFile = file;
     },
 
     onDrop(event, type) {
@@ -801,33 +876,23 @@ export default {
       this.onFileChange({ target: { files } }, type);
     },
 
-    removeImage(type) {
-      if (type === "image") {
-        this.form.image = null;
-        this.form.imagePreview = null;
-      }
-    },
-
     removeFile(type) {
-      if (type === "file") {
-        this.form.file = null;
-        this.filePreviewUrl = null;
-      }
-      if (type === "audiobook") {
-        this.form.audioFile = null;
-      }
+      if (type === "image") this.form.image = this.form.imagePreview = null;
+      if (type === "file") this.form.file = this.filePreviewUrl = null;
+      if (type === "audiobook") this.form.audioFile = null;
     },
 
     getFileIcon(fileName) {
+      if (!fileName) return "bi bi-file-earmark";
       if (fileName.endsWith(".docx")) return "bi bi-file-earmark-word";
       if (fileName.endsWith(".epub")) return "bi bi-book";
-      if (fileName.endsWith(".mp3") || fileName.endsWith(".m4a") || fileName.endsWith(".wav"))
-        return "bi bi-file-earmark-music";
+      if (/\.(mp3|m4a|wav)$/.test(fileName)) return "bi bi-file-earmark-music";
       return "bi bi-file-earmark";
-    }
-  }
+    },
+  },
 };
 </script>
+
 
 
 <style scoped>

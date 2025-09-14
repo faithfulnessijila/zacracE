@@ -79,42 +79,107 @@
 </template>
 
 <script>
+import axios from "axios";
+
+const API_BASE = "https://zacracebookwebsite.onrender.com";
+
 export default {
   name: "Dashboard",
   data() {
     return {
-      
       dropdowns: {
         ebook: false,
         products: false,
         orders: false,
       },
       stats: {
-        user: "Faithfulness",
-        revenue: 12500,
-        ebooks: 320,
-        audiobooks: 145,
+        users: 0,
+        revenue: 0,
+        ebooks: 0,
+        audiobooks: 0,
       },
-      categories: [
-        { name: "Data Analytics", ebooks: 0, audiobooks: 0 },
-        { name: "Product Design", ebooks: 12, audiobooks: 5 },
-        { name: "Cybersecurity", ebooks: 8, audiobooks: 3 },
-        { name: "Software Development", ebooks: 20, audiobooks: 11 },
-        { name: "YouTube Creation", ebooks: 6, audiobooks: 2 },
-        { name: "Project Management", ebooks: 6, audiobooks: 2 },
-      ],
+      categories: [],
+      token: localStorage.getItem("adminToken") || null,
+      loading: false,
+      errorMessage: "",
+      activeLink: "",
     };
   },
   methods: {
     toggleDropdown(menu) {
       this.dropdowns[menu] = !this.dropdowns[menu];
     },
+
     setActiveLink(link) {
       this.activeLink = link;
     },
+
+    async fetchDashboard() {
+      if (!this.token) {
+        this.errorMessage = "No admin token found.";
+        return;
+      }
+
+      this.loading = true;
+      this.errorMessage = "";
+
+      try {
+        const { data } = await axios.get(`${API_BASE}/admin/statistics/dashboard`, {
+          headers: { Authorization: `Bearer ${this.token}` },
+        });
+        this.stats = data.stats || {};
+        this.categories = data.categories || [];
+      } catch (err) {
+        const status = err.response?.status;
+        if (status === 401) {
+          // Token expired, try re-login
+          console.warn("Token expired, attempting auto-login...");
+          await this.adminLogin(true);
+        } else {
+          this.errorMessage = err.response?.data?.message || err.message;
+          console.error("Failed to fetch dashboard:", err);
+        }
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async adminLogin(isRetry = false) {
+      try {
+        const { data } = await axios.post(`${API_BASE}/admin/login`, {
+          email: "omolewao.timothy.17@gmail.com",
+          password: "Pass@pass001",
+        });
+
+        this.token = data.token;
+        localStorage.setItem("adminToken", data.token);
+
+        if (!isRetry) {
+          // Only fetch dashboard if this is not a retry after token expiry
+          this.fetchDashboard();
+        } else {
+          // Retry fetch after successful login
+          await this.fetchDashboard();
+        }
+      } catch (err) {
+        this.errorMessage = err.response?.data?.message || err.message;
+        console.error("Admin login failed:", err);
+      }
+    },
+  },
+
+  mounted() {
+    if (this.token) {
+      this.fetchDashboard();
+    } else {
+      this.adminLogin();
+    }
   },
 };
 </script>
+
+
+
 <style scoped>
 .ebook-link .chevron {
   color: #fff !important;

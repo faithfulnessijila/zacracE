@@ -24,42 +24,61 @@
 </a>
 
 
-  <ul  v-show="dropdowns.ebook" class="nav flex-column ms-3 mt-2" style="transition: all 0.3s ease;">
+<ul  v-show="dropdowns.ebook" class="nav flex-column ms-3 mt-2" style="transition: all 0.3s ease;">
    
 
-    <!-- Products Dropdown -->
-    <li class="nav-item">
-      <a href="#" class="nav-link d-flex justify-content-between align-items-center"
-         :class="{ active: activeLink === 'products' }"
-         @click.prevent="toggleDropdown('products')">
-        Products
-        <i :class="['bi', dropdowns.products ? 'bi-chevron-up' : 'bi-chevron-down']" class="ms-2"></i>
-      </a>
+   <!-- Products Dropdown -->
+   <li class="nav-item">
+     <a href="#" class="nav-link d-flex justify-content-between align-items-center"
+        :class="{ active: activeLink === 'products' }"
+        @click.prevent="toggleDropdown('products')">
+       Products
+       <i :class="['bi', dropdowns.products ? 'bi-chevron-up' : 'bi-chevron-down']" class="ms-2"></i>
+     </a>
 
-      <ul v-show="dropdowns.products" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
-        <li>
-          <a  @click="$router.push('/product')" href="#" class="nav-link" :class="{ active: activeLink === 'new-product' }"
-             @click.prevent="setActiveLink('new-product')">
-            New Product
-          </a>
-        </li>
-        <li>
-          <a @click="$router.push('/edit-product')" href="#" class="nav-link" :class="{ active: activeLink === 'edit-product' }"
-             @click.prevent="setActiveLink('edit-product')">
-            Edit Product
-          </a>
-        </li>
-        <li>
-          <a @click="$router.push('/product-list')" href="#" class="nav-link" :class="{ active: activeLink === 'product-list' }"
-             @click.prevent="setActiveLink('product-list')">
-            Product List
-          </a>
-        </li>
-      </ul>
-    </li>
+     <ul v-show="dropdowns.products" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
+       <li>
+<a
+ href="#"
+ class="nav-link"
+ :class="{ active: activeLink === 'product' }"
+ @click.prevent="goToNewProduct"
+>
+ New Product
+</a> </li>
+      
+<li>
+ <a
+   href="#"
+   class="nav-link"
+   :class="{ active: activeLink === 'edit-product' }"
+   @click.prevent="goToEdit(product?._id)"
+ >
+   Edit Product
+ </a>
+</li>
 
- 
-  </ul>
+
+
+
+<li>
+ <a
+   href="#"
+   class="nav-link"
+   :class="{ active: activeLink === 'product-list' }"
+   @click.prevent="goToProductList"
+ >
+   Product List
+ </a>
+</li>
+
+
+
+     </ul>
+   </li>
+
+
+ </ul>
 </li>
 
   </ul>
@@ -69,23 +88,45 @@
 
     <!-- Main Content -->
     <main class="flex-fill p-4 bg-light">
-      <div v-if="alert.show" class="alert" :class="'alert-' + alert.type + ' alert-dismissible fade show'" role="alert">
-  {{ alert.message }}
-  <button type="button" class="btn-close" @click="alert.show = false"></button>
+    <!-- Header -->
+<!-- Header with Live Search -->
+<div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4">
+  <h3 class="fw-bold new-product-title mb-3 mb-md-0" style="color: #4d148c;">
+    Edit Product
+  </h3>
+
+  <!-- Search Bar -->
+  <div class="search-bar ms-md-3 position-relative" style="width: 300px;">
+    <input
+      type="text"
+      class="form-control search-input ps-5"
+      v-model="searchQuery"
+      @input="searchProducts"
+      placeholder="Search for a product..."
+    />
+    <i class="bi bi-search search-icon"></i>
+
+    <!-- Search Results Dropdown -->
+    <ul
+      v-if="searchResults.length"
+      class="list-group position-absolute w-100 mt-1 shadow"
+      style="z-index: 10; max-height: 250px; overflow-y: auto;"
+    >
+      <li
+        v-for="product in searchResults"
+        :key="product._id"
+        class="list-group-item list-group-item-action"
+        @click="goToEdit(product._id); searchQuery = ''; searchResults = []"
+        style="cursor: pointer;"
+      >
+        {{ product.title }}
+      </li>
+    </ul>
+  </div>
 </div>
 
-      <!-- Header -->
-      <div class="d-flex align-items-center mb-4 flex-wrap">
-        <h3 class="fw-bold new-product-title">New Product</h3>
-        <div class="search-bar ms-3 position-relative mt-2 mt-md-0">
-          <input
-            type="text"
-            class="form-control search-input ps-5"
-            placeholder="Search..."
-          />
-          <i class="bi bi-search search-icon"></i>
-        </div>
-      </div>
+
+
 
       <!-- Steps -->
       <div class="steps mb-4">
@@ -401,7 +442,7 @@
 
 
 
-
+<!-- Step 3: Author -->
 <transition name="slide-fade" mode="out-in">
   <div v-if="activeStep === 3" key="step3" class="card shadow-sm p-4 mb-4 product-form-card">
   <h5 class="text-center mb-4">Audiobook Upload</h5>
@@ -415,7 +456,7 @@
           v-model="form.audioDuration"
           type="text"
           class="form-control w-100"
-          placeholder="e.g 1min"
+          placeholder="e.g. 1min"
           style="padding: 8px 12px; font-size: 0.95rem;"
         />
         <small v-if="errors.audioDuration" class="text-danger">{{ errors.audioDuration }}</small>
@@ -588,18 +629,32 @@
     </div>
 
     <!-- Navigation -->
-    <div class="d-flex justify-content-between">
-      <button type="button" class="btn btn-secondary px-4" @click="setStep(3)">
-        Back
-      </button>
-      <button 
-        type="submit" 
-        class="btn btn-primary px-4"
-        :disabled="!canProceedStep4"
-      >
-        Submit
-      </button>
-    </div>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+  <button type="button" class="btn btn-secondary px-4" @click="setStep(3)">
+    Back
+  </button>
+
+  <div>
+    <button 
+      type="button" 
+      class="btn btn-primary px-4 me-2"
+      :disabled="!canProceedStep4"
+      @click="submitForm"
+    >
+      Update
+    </button>
+
+    <button 
+      type="button" 
+      class="btn btn-danger px-4"
+      @click="handleDelete"
+    >
+      Delete
+    </button>
+  </div>
+</div>
+
+
   </form>
 </div>
 
@@ -617,248 +672,275 @@
 </template>
 <script>
 export default {
-  name: "Sidebar",
+  name: "EditProduct",
+  props: ["productId"], // from route params
   data() {
     return {
-      dropdowns: { ebook: true, products: true, orders: false },
-      activeLink: "new-product",
+      searchQuery: "",
+    searchResults: [],
+    searchTimeout: null,
+      submitting: false,
       activeStep: 1,
       filePreviewUrl: null,
+      dropdowns: {
+        ebook: true ,
+        products: true,
+      },
+      activeLink: "edit-product",
       form: {
-        // Step 1: Product Info
+        productId: null,
         title: "",
         category: "",
         description: "",
         image: null,
         imagePreview: null,
-
-        // Step 2: Ebook
         pages: "",
         price: "",
         currency: "",
         size: "",
         file: null,
-
-        // Step 3: Audiobook
         audioDuration: "",
         audioSize: "",
         audioPrice: "",
         audioCurrency: "",
         audioFile: null,
-
-        // Step 4: Authors
-        authors: [{ name: "" }]
+        authors: [{ name: "" }],
       },
       errors: {},
-      alert: { show: false, type: "", message: "" } 
+      alert: { show: false, type: "", message: "" },
     };
   },
+
+  async mounted() {
+  if (!this.productId) {
+    // No ID provided: assign mock data
+    this.productId = "temp-12345";
+    this.form = {
+      productId: this.productId,
+      title: "Sample Product",
+      category: "Programming",
+      description: "This is a mock description for testing.",
+      image: null,
+      imagePreview: null,
+      pages: 120,
+      price: 25,
+      currency: "USD",
+      size: 10,
+      file: null,
+      audioDuration: "5 min",
+      audioSize: "15 MB",
+      audioPrice: 15,
+      audioCurrency: "USD",
+      audioFile: null,
+      authors: [{ name: "John Doe" }],
+    };
+    return; // Skip API fetch
+  }
+
+  // Otherwise, fetch real product
+  await this.fetchProduct();
+},
+
+async fetchProduct() {
+  if (!this.productId) return; // skip fetch if no ID
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return this.handleUnauthorized();
+
+    const res = await fetch(
+      `https://zacracebookwebsite.onrender.com/ebook/products/${this.productId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (!res.ok) throw new Error("Failed to fetch product");
+    const data = await res.json();
+
+    this.form = {
+      ...this.form,
+      productId: data._id,
+      title: data.title,
+      category: data.category,
+      description: data.description,
+      pages: data.pages,
+      price: data.price,
+      currency: data.currency,
+      size: data.size,
+      audioDuration: data.audioDuration,
+      audioSize: data.audioSize,
+      audioPrice: data.audioPrice,
+      audioCurrency: data.audioCurrency,
+      authors: data.authors?.length ? data.authors : [{ name: "" }],
+    };
+    if (data.imageUrl) this.form.imagePreview = data.imageUrl;
+    if (data.fileUrl) this.filePreviewUrl = data.fileUrl;
+  } catch (err) {
+    console.error("Fetch error:", err);
+    this.showAlert("danger", "Failed to load product data.");
+  }
+},
+
+
   computed: {
     progressWidth() {
-      const totalSteps = 4;
-      return `${((this.activeStep - 1) / (totalSteps - 1)) * 100}%`;
-    },
-    canProceedStep3() {
-      return (
-        this.form.audioDuration &&
-        this.form.audioSize &&
-        this.form.audioPrice &&
-        this.form.audioCurrency &&
-        this.form.audioFile
-      );
+      return `${(this.activeStep - 1) * 33}%`;
     },
     canProceedStep4() {
-      return this.form.authors.every((a) => a.name && a.name.trim() !== "");
+      return this.form.authors.every((a) => a.name.trim() !== "");
+    },
+  },
+
+  methods: {
+
+    searchProducts() {
+    // Clear any previous timeout
+    clearTimeout(this.searchTimeout);
+
+    // Set a new timeout to trigger API call after 500ms
+    this.searchTimeout = setTimeout(async () => {
+      if (!this.searchQuery.trim()) {
+        this.searchResults = [];
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return this.handleUnauthorized();
+
+        const res = await fetch(
+          `https://zacracebookwebsite.onrender.com/ebook/products/search-product?search=${encodeURIComponent(this.searchQuery)}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (!res.ok) throw new Error("Search failed");
+
+        const data = await res.json();
+        this.searchResults = data; // store results
+      } catch (err) {
+        console.error("Search error:", err);
+        this.showAlert("danger", "Failed to search products.");
+      }
+    }, 500); // 500ms delay
+  },
+    goToNewProduct() {
+  this.setActiveLink('new-product');
+  this.$router.push('/product');
+},
+goToEdit(productId) {
+    this.activeLink = 'edit-product';
+
+    if (productId) {
+      this.$router.push({ name: 'EditProduct', params: { productId } });
+    } else {
+      this.$router.push({ name: 'EditProduct' }); // no ID → new product
     }
   },
-  methods: {
+  goToProductList() {
+    this.setActiveLink('product-list'); // set the active link
+    this.$router.push('/product-list'); // navigate
+  },
+  
+  setActiveLink(link) {
+    this.activeLink = link;
+  },
+    /** ---------------- DROPDOWNS ---------------- */
+    toggleDropdown(key) {
+      this.dropdowns[key] = !this.dropdowns[key];
+    },
     setActiveLink(link) {
       this.activeLink = link;
-      if (
-        ["overview", "products", "new-product", "edit-product", "product-list"].includes(link)
-      ) {
-        this.dropdowns.ebook = true;
-      }
-      if (["new-product", "edit-product", "product-list"].includes(link)) {
-        this.dropdowns.products = true;
-      }
-      if (
-        ["orders", "pending-orders", "completed-orders", "refund-requests"].includes(link)
-      ) {
-        this.dropdowns.ebook = true;
-        this.dropdowns.orders = true;
-      }
-      if (link === "new-product") this.activeStep = 1;
     },
 
-    toggleDropdown(name) {
-      this.dropdowns[name] = !this.dropdowns[name];
-    },
-
+    /** ---------------- STEP NAVIGATION ---------------- */
     setStep(step) {
-      this.activeStep = step;
+      if (step < this.activeStep) {
+        this.activeStep = step;
+      } else if (this.validateStep(this.activeStep)) {
+        this.activeStep = step;
+      } else {
+        this.showAlert("danger", "Please complete the current step first.");
+      }
     },
-
-    validateStep(step = this.activeStep) {
+    nextStep() {
+      if (this.validateStep(this.activeStep)) {
+        this.activeStep++;
+      } else {
+        this.showAlert("danger", "Please complete all required fields.");
+      }
+    },
+    validateStep(step) {
       this.errors = {};
-
       if (step === 1) {
-        if (!this.form.title) this.errors.title = "Title is required";
-        if (!this.form.category) this.errors.category = "Category is required";
-        if (!this.form.description) this.errors.description = "Description is required";
-        if (!this.form.image) this.errors.image = "Product image is required";
+        if (!this.form.title) this.errors.title = "Title is required.";
+        if (!this.form.category) this.errors.category = "Category is required.";
+        if (!this.form.description)
+          this.errors.description = "Description is required.";
+        if (!this.form.imagePreview)
+          this.errors.image = "Product image is required.";
       }
-
       if (step === 2) {
-        if (!this.form.pages) this.errors.pages = "Pages required";
-        if (!this.form.price) this.errors.price = "Price required";
-        if (!this.form.currency) this.errors.currency = "Currency required";
-        if (!this.form.size) this.errors.size = "File size required";
-        if (!this.form.file) this.errors.file = "File upload required";
+        if (!this.form.pages) this.errors.pages = "Number of pages required.";
+        if (!this.form.price) this.errors.price = "Price is required.";
+        if (!this.form.currency) this.errors.currency = "Currency required.";
+        if (!this.form.size) this.errors.size = "File size is required.";
+        if (!this.form.file) this.errors.file = "Upload file is required.";
       }
-
       if (step === 3) {
-        if (!this.form.audioDuration) this.errors.audioDuration = "Duration required";
-        if (!this.form.audioSize) this.errors.audioSize = "File size required";
-        if (!this.form.audioPrice) this.errors.audioPrice = "Price required";
-        if (!this.form.audioCurrency) this.errors.audioCurrency = "Currency required";
-        if (!this.form.audioFile) this.errors.audioFile = "Audiobook file required";
+        if (!this.form.audioDuration)
+          this.errors.audioDuration = "Duration required.";
+        if (!this.form.audioSize) this.errors.audioSize = "Size required.";
+        if (!this.form.audioPrice) this.errors.audioPrice = "Price required.";
+        if (!this.form.audioCurrency)
+          this.errors.audioCurrency = "Currency required.";
+        if (!this.form.audioFile)
+          this.errors.audioFile = "Audio file is required.";
       }
-
       if (step === 4) {
-        this.form.authors.forEach((a, index) => {
-          if (!a.name || a.name.trim() === "") {
-            this.errors[`authorName_${index}`] = "Author name is required";
-          }
+        this.form.authors.forEach((author, i) => {
+          if (!author.name)
+            this.errors[`authorName_${i}`] = "Author name required.";
         });
       }
-
       return Object.keys(this.errors).length === 0;
     },
 
-    nextStep() {
-      if (this.activeStep === 3 && !this.canProceedStep3) return;
-      if (!this.validateStep()) return;
-      if (this.activeStep < 4) this.activeStep++;
-      else this.submitForm();
-    },
-
-    async submitForm() {
-  // Validate steps
-  const step1Valid = this.validateStep(1);
-  const step2Valid = this.validateStep(2);
-  const step3Valid = this.validateStep(3);
-  const step4Valid = this.validateStep(4);
-
-  if (!step1Valid || !step2Valid || !step3Valid || !step4Valid) {
-    this.alert = { show: true, type: "danger", message: "Please fill all required fields correctly before submitting." };
-    return;
-  }
-
-  try {
-    // 🔹 Build FormData
-    const formData = new FormData();
-    formData.append("title", this.form.title);
-    formData.append("category", this.form.category);
-    formData.append("description", this.form.description);
-    formData.append("image", this.form.image);
-
-    formData.append("pages", this.form.pages);
-    formData.append("price", this.form.price);
-    formData.append("currency", this.form.currency);
-    formData.append("size", this.form.size);
-    formData.append("file", this.form.file);
-
-    formData.append("audioDuration", this.form.audioDuration);
-    formData.append("audioSize", this.form.audioSize);
-    formData.append("audioPrice", this.form.audioPrice);
-    formData.append("audioCurrency", this.form.audioCurrency);
-    formData.append("audioFile", this.form.audioFile);
-
-    // authors as JSON string
-    formData.append("authors", JSON.stringify(this.form.authors));
-
-    // 🔹 Send request
-    const response = await fetch("https://zacracebookwebsite.onrender.com/ebook/products/add-product", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) throw new Error(`Server error: ${response.status}`);
-
-    const result = await response.json();
-    console.log("Form submitted successfully:", result);
-
-    this.alert = { show: true, type: "success", message: "Form submitted successfully!" };
-    this.resetForm();
-
-    // auto-close alert after 5s
-    setTimeout(() => (this.alert.show = false), 5000);
-  } catch (err) {
-    console.error("Submission error:", err);
-    this.alert = { show: true, type: "danger", message: "Network error or server unreachable." };
-    setTimeout(() => (this.alert.show = false), 5000); // auto close
-  }
-}
-
-,
-
-    resetForm() {
-      this.activeStep = 1;
-      Object.keys(this.form).forEach((key) => {
-        if (Array.isArray(this.form[key])) this.form[key] = [];
-        else this.form[key] = null;
-      });
-      this.form.authors = [{ name: "" }];
-      this.errors = {};
-      this.filePreviewUrl = null;
-    },
-
-    addAuthor() {
-      this.form.authors.push({ name: "" });
-    },
-
-    removeAuthor(index) {
-      this.form.authors.splice(index, 1);
-    },
-
+    /** ---------------- FILE HANDLING ---------------- */
     onFileChange(event, type) {
-      const files = event.target.files;
-      if (!files.length) return;
-      const file = files[0];
+      const file = event.target.files[0];
+      if (!file) return;
 
       if (type === "image") {
         this.form.image = file;
         this.form.imagePreview = URL.createObjectURL(file);
       }
-
       if (type === "file") {
         this.form.file = file;
-        if (file.type === "application/pdf") {
-          this.filePreviewUrl = URL.createObjectURL(file);
-        } else {
-          this.filePreviewUrl = null;
-        }
+        this.filePreviewUrl = URL.createObjectURL(file);
       }
-
       if (type === "audiobook") {
         this.form.audioFile = file;
       }
     },
-
     onDrop(event, type) {
-      const files = event.dataTransfer.files;
-      if (!files.length) return;
-      this.onFileChange({ target: { files } }, type);
-    },
+      const file = event.dataTransfer.files[0];
+      if (!file) return;
 
-    removeImage(type) {
       if (type === "image") {
-        this.form.image = null;
-        this.form.imagePreview = null;
+        this.form.image = file;
+        this.form.imagePreview = URL.createObjectURL(file);
+      }
+      if (type === "file") {
+        this.form.file = file;
+        this.filePreviewUrl = URL.createObjectURL(file);
+      }
+      if (type === "audiobook") {
+        this.form.audioFile = file;
       }
     },
-
+    removeImage() {
+      this.form.image = null;
+      this.form.imagePreview = null;
+    },
     removeFile(type) {
       if (type === "file") {
         this.form.file = null;
@@ -868,15 +950,165 @@ export default {
         this.form.audioFile = null;
       }
     },
-
-    getFileIcon(fileName) {
-      if (fileName.endsWith(".docx")) return "bi bi-file-earmark-word";
-      if (fileName.endsWith(".epub")) return "bi bi-book";
-      if (fileName.endsWith(".mp3") || fileName.endsWith(".m4a") || fileName.endsWith(".wav"))
-        return "bi bi-file-earmark-music";
+    getFileIcon(filename) {
+      const ext = filename.split(".").pop().toLowerCase();
+      if (ext === "pdf") return "bi bi-filetype-pdf";
+      if (ext === "docx") return "bi bi-file-earmark-word";
+      if (ext === "epub") return "bi bi-book";
       return "bi bi-file-earmark";
+    },
+
+    /** ---------------- AUTHORS ---------------- */
+    addAuthor() {
+      this.form.authors.push({ name: "" });
+    },
+    removeAuthor(index) {
+      this.form.authors.splice(index, 1);
+    },
+
+    /** ---------------- API ---------------- */
+    async fetchProduct() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return this.handleUnauthorized();
+
+        const res = await fetch(
+          `https://zacracebookwebsite.onrender.com/ebook/products/${this.productId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (!res.ok) throw new Error("Failed to fetch product");
+        const data = await res.json();
+
+        this.form = {
+          ...this.form,
+          productId: data._id,
+          title: data.title,
+          category: data.category,
+          description: data.description,
+          pages: data.pages,
+          price: data.price,
+          currency: data.currency,
+          size: data.size,
+          audioDuration: data.audioDuration,
+          audioSize: data.audioSize,
+          audioPrice: data.audioPrice,
+          audioCurrency: data.audioCurrency,
+          authors: data.authors?.length ? data.authors : [{ name: "" }],
+        };
+        if (data.imageUrl) this.form.imagePreview = data.imageUrl;
+        if (data.fileUrl) this.filePreviewUrl = data.fileUrl;
+      } catch (err) {
+        console.error("Fetch error:", err);
+        this.showAlert("danger", "Failed to load product data.");
+      }
+    },
+
+    async submitForm() {
+  for (let step = 1; step <= 4; step++) {
+    if (!this.validateStep(step)) {
+      this.showAlert(
+        "danger",
+        "Please fill all required fields correctly before submitting."
+      );
+      return;
     }
   }
+
+  this.submitting = true;
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return this.handleUnauthorized();
+
+    const formData = new FormData();
+
+    // Always append productId
+    formData.append("productId", this.productId);
+
+    for (const key in this.form) {
+      if (key === "authors") {
+        formData.append("authors", JSON.stringify(this.form.authors));
+      } else if (this.form[key] !== null) {
+        formData.append(key, this.form[key]);
+      }
+    }
+
+    const res = await fetch(
+      "https://zacracebookwebsite.onrender.com/ebook/products/edit-product",
+      {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      }
+    );
+
+    if (res.status === 401) return this.handleUnauthorized();
+    if (!res.ok) {
+      let message = `Server error: ${res.status}`;
+      try {
+        const errData = await res.json();
+        if (errData?.message) message = errData.message;
+      } catch {}
+      throw new Error(message);
+    }
+
+    this.showAlert("success", "Product updated successfully!");
+  } catch (err) {
+    console.error("Update error:", err);
+    this.showAlert("danger", err.message || "Network/server error.");
+  } finally {
+    this.submitting = false;
+  }
+},
+
+async handleDelete() {
+  if (!confirm("Are you sure you want to delete this product?")) return;
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return this.handleUnauthorized();
+
+    const res = await fetch(
+      "https://zacracebookwebsite.onrender.com/ebook/products/delete-product",
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ productId: this.productId })
+      }
+    );
+
+    if (res.status === 401) return this.handleUnauthorized();
+    if (!res.ok) {
+      let message = `Failed to delete product (status ${res.status})`;
+      try {
+        const errData = await res.json();
+        if (errData?.message) message = errData.message;
+      } catch {}
+      throw new Error(message);
+    }
+
+    this.showAlert("success", "Product deleted successfully!");
+    setTimeout(() => this.$router.push("/product"), 1500);
+  } catch (err) {
+    console.error("Delete error:", err);
+    this.showAlert("danger", err.message || "Could not delete product.");
+  }
+},
+
+    /** ---------------- HELPERS ---------------- */
+    handleUnauthorized() {
+      this.showAlert("danger", "Session expired. Redirecting to login...");
+      setTimeout(() => {
+        localStorage.removeItem("token");
+        this.$router.push("/admin-signin");
+      }, 2000);
+    },
+    showAlert(type, message) {
+      this.alert = { show: true, type, message };
+      setTimeout(() => (this.alert.show = false), 5000);
+    },
+  },
 };
 </script>
 

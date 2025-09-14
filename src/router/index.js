@@ -8,11 +8,17 @@ import Homepage from '@/views/homepage.vue';
 import Preview from '@/views/preview.vue';
 import AuthCallback from '@/views/AuthCallback.vue';
 
+import Product from '@/views/Product.vue';
 
 
-import Product from '@/views/product .vue';
-import EditProduct from '@/views/edit product .vue';
-import Productlist from '@/views/productlist.vue';
+
+
+import EditProduct from '@/views/edit-product.vue';
+
+
+
+
+import Productlist from '@/views/product-list.vue';
 
 import Admin from '@/views/admin.vue';
 
@@ -48,27 +54,36 @@ const routes = [
 
 },
 {
-  path: '/product',  component: Product
-  },
+  path: '/product/:productId?',
+  name: 'Product',
+  component: Product,
+  props: true,
+},
 
-  {
-    path: '/edit-product',
-    name: 'EditProduct',
-    component: EditProduct,
-    props: true
-  },
-  
 {
-  path: '/preview/:productId',name: 'Preview',  component:Preview
+  path: '/edit-product/:productId?',
+  name: 'EditProduct',
+  component: EditProduct,
+  props: true
+},
+
+
+
+{
+  path: '/preview/:productId?',
+  name: 'Preview',
+  component: Preview
+}
+
+,
+{
+  path: '/product-list',  name: 'ProductList',  component: Productlist
 },
 {
-  path: '/product-list',  component: Productlist
+  path: '/admin',name: 'Admin',  component: Admin
 },
 {
-  path: '/admin',  component: Admin
-},
-{
-  path: '/admin-signin',  component: AdminSignin
+  path: '/admin-signin',  name: 'AdminSignin',  component: AdminSignin
 },
 {
   path: "/auth-callback", 

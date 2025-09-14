@@ -211,7 +211,13 @@
           <h6 class="text-danger mb-0">
             ₦{{ format.price.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
           </h6>
-          <button class="btn btn-sm custom-buy-btn">Buy Now</button>
+          <button
+      @click="initiatePayment"
+      class="btn btn-primary mt-3"
+      :disabled="!book || !book._id"
+    >
+      Buy Now
+    </button>
         </div>
 
         <div class="d-flex flex-wrap gap-2 text-muted" style="font-size: 0.85rem;">
@@ -547,353 +553,325 @@
   </template>
  
  <script>
-import axios from "axios";
-import Carousel from "../components/carousel.vue";
-
-const API_BASE = "https://zacracebookwebsite.onrender.com";
-
-export default {
-  name: "ProductDetails",
-  components: { Carousel },
-
-  data() {
-    return {
-      // Navbar
-      categories: [],
-      user: null,
-      userLoaded: false,
-      bsCollapse: null,
-      hoverRating: 0,
-
-      // Book
-      book: { coverImageUrl: null, formats: [] },
-      loadingBook: true,
-
-      // Reviews
-      reviews: [],
-      reviewText: "",
-      selectedRating: 0,
-      editingReviewId: null,
-      submittingReview: false,
-      voting: false,
-      voting: false,
-activeReviewId: null,
-
-
-      // UI
-      errorMessage: "",
-      successMessage: "",
-      hover: null,
-      token: localStorage.getItem("token"),
-    };
-  },
-
-  beforeUnmount() {
-    document.removeEventListener("click", this.handleClickOutside);
-  },
-
-  methods: {
-    // ---------------- Navbar ----------------
-    toggleNavbar() {
-      this.bsCollapse?.toggle();
-    },
-    closeNavbar() {
-      if (this.bsCollapse?.isShown) this.bsCollapse.hide();
-    },
-    handleClickOutside(event) {
-      const navbar = this.$refs.navbarCollapse;
-      if (
-        navbar?.classList.contains("show") &&
-        !navbar.contains(event.target) &&
-        !event.target.closest(".navbar-toggler")
-      ) {
-        this.bsCollapse.hide();
-      }
-    },
-
-    // ---------------- API Calls ----------------
-    async fetchCategories() {
-      try {
-        const { data } = await axios.get(`${API_BASE}/ebook/products/shop`);
-        this.categories = data.categories || [];
-      } catch (err) {
-        console.error("[Categories] Failed:", err.response?.data || err.message);
-      }
-    },
-
-    async fetchBook() {
-      this.loadingBook = true;
-      try {
-        const { productId } = this.$route.params;
-        const { data } = await axios.get(`${API_BASE}/ebook/products/${productId}`);
-        this.book = data || { coverImageUrl: null, formats: [] };
-      } catch (err) {
-        console.error("[Book] Failed:", err.response?.data || err.message);
-      } finally {
-        this.loadingBook = false;
-      }
-    },
-
-    async fetchReviews() {
-      try {
-        const { productId } = this.$route.params;
-        const { data } = await axios.get(`${API_BASE}/review/${productId}`);
-
-        if (!Array.isArray(data.reviews)) {
-          console.warn("[Reviews] Unexpected response:", data);
-          this.reviews = [];
-          return;
-        }
-
-        this.reviews = data.reviews.map((r) => {
-          const userObj = r.user || r.userInfo || null;
-          const userId = userObj?._id || userObj?.userId || null;
-          const userName =
-            userObj?.name || userObj?.fullName || userObj?.username || (userId ? `User-${userId.slice(-4)}` : "Anonymous");
-
-          return {
-            ...r,
-            user: { _id: userId, name: userName },
-            likes: r.likes?.length || 0,
-            dislikes: r.dislikes?.length || 0,
-            userVote: r.userVote || null,
-          };
-        });
-      } catch (err) {
-        console.error("[Reviews] Failed:", err.response?.data || err.message);
-      }
-    },
-
-    async fetchUser() {
-  if (!this.token) {
-    this.userLoaded = true;
-    return;
-  }
-  try {
-    const { data } = await axios.get(`${API_BASE}/api/me`, {
-      headers: { Authorization: `Bearer ${this.token}` },
-    });
-
-    this.user = {
-      _id: data.user._id,
-      name: data.user.name || data.user.username,
-      gender: data.user.gender || "N/A",
-      email: data.user.email || "N/A"
-    };
-
-    localStorage.setItem("user", JSON.stringify(this.user));
-  } catch (err) {
-    console.error("[User] Failed:", err.response?.data || err.message);
-    this.logout();
-  } finally {
-    this.userLoaded = true;
-  }
-}
-,
-
-    logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      this.user = null;
-      this.$router.push("/sign-in");
-    },
-
-    // ---------------- Review Actions ----------------
-    async submitReview() {
-      this.clearMessages();
-
-      if (!this.reviewText.trim()) return this.showError("Please write a review!");
-      if (!this.selectedRating) return this.showError("Please select a rating!");
-      if (!this.user?._id) {
-        this.showError("You need to be signed in!");
-        return this.$router.push("/sign-in");
-      }
-
-      this.submittingReview = true;
-      const { productId } = this.$route.params;
-
-      try {
-        let reviewData;
-
-        if (this.editingReviewId) {
-          await axios.put(
-            `${API_BASE}/review/${productId}/edit-review`,
-            { review: this.reviewText, rating: this.selectedRating },
-            { params: { userId: this.user._id, reviewId: this.editingReviewId }, headers: { Authorization: `Bearer ${this.token}` } }
-          );
-
-          const index = this.reviews.findIndex((r) => r._id === this.editingReviewId);
-          if (index !== -1) {
-            this.reviews[index] = {
-              ...this.reviews[index],
-              review: this.reviewText,
-              rating: this.selectedRating,
-              user: { _id: this.user._id, name: this.user.name },
-            };
-          }
-
-          this.showSuccess("Review updated!");
-        } else {
-          const { data } = await axios.post(
-            `${API_BASE}/review/${productId}/add-review`,
-            { review: this.reviewText, rating: this.selectedRating },
-            { params: { userId: this.user._id }, headers: { Authorization: `Bearer ${this.token}` } }
-          );
-
-          reviewData = data.review || {};
-
-          this.reviews.unshift({
-            _id: reviewData._id || `temp-${Date.now()}`,
-            review: this.reviewText,
-            rating: this.selectedRating,
-            createdAt: reviewData.createdAt || new Date().toISOString(),
-            likes: reviewData.likes?.length || 0,
-            dislikes: reviewData.dislikes?.length || 0,
-            userVote: null,
-            user: { _id: this.user._id, name: this.user.name },
-          });
-
-          this.showSuccess("Review submitted!");
-        }
-
-        this.resetReviewForm();
-      } catch (err) {
-        console.error("[Submit Review] Failed:", err.response?.data || err.message);
-        this.showError(err.response?.data?.message || "Failed to submit review.");
-      } finally {
-        this.submittingReview = false;
-      }
-    },
-
-    startEditReview(review) {
-      this.reviewText = review.review;
-      this.selectedRating = review.rating;
-      this.editingReviewId = review._id;
-    },
-
-    async deleteReview(reviewId) {
-      if (!this.user?._id) return this.showError("Sign in to delete review!");
-      const { productId } = this.$route.params;
-
-      try {
-        await axios.delete(`${API_BASE}/review/${productId}/delete-review`, {
-          params: { userId: this.user._id, reviewId },
-          headers: { Authorization: `Bearer ${this.token}` },
-        });
-        this.showSuccess("Review deleted!");
-        this.reviews = this.reviews.filter((r) => r._id !== reviewId);
-      } catch (err) {
-        console.error("[Delete Review] Failed:", err.response?.data || err.message);
-        this.showError("Could not delete review.");
-      }
-    },
-
-    // ---------------- Voting ----------------
-    async voteReview(review, type) {
-  if (!this.user?._id) {
-    this.showError("You must be logged in to vote!");
-    return this.$router.push("/sign-in");
-  }
-  if (!this.token) {
-    this.showError("No token found. Please log in again.");
-    return;
-  }
-
-  const { productId } = this.$route.params;
-  if (!productId) {
-    console.error("[Vote Review] productId is undefined");
-    this.showError("Invalid product. Try refreshing.");
-    return;
-  }
-
-  this.voting = true;
-  try {
-    const url = `${API_BASE}/review/${productId}/${type}-review`;
-
-    await axios.post(url, null, {
-      params: {
-        userId: this.user._id,
-        reviewId: review._id,
-      },
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
-    });
-
-    // ✅ Optimistic UI update
-    if (type === "like") {
-      if (review.userVote === "like") {
-        review.likes--;
-        review.userVote = null;
-      } else {
-        if (review.userVote === "dislike") review.dislikes--;
-        review.likes++;
-        review.userVote = "like";
-      }
-    } else if (type === "dislike") {
-      if (review.userVote === "dislike") {
-        review.dislikes--;
-        review.userVote = null;
-      } else {
-        if (review.userVote === "like") review.likes--;
-        review.dislikes++;
-        review.userVote = "dislike";
-      }
-    }
-  } catch (err) {
-    console.error("[Vote Review] Failed:", err.response?.data || err.message);
-    this.showError(err.response?.data?.message || "Failed to vote review.");
-  } finally {
-    this.voting = false;
-  }
-}
-
-,
-
-
-    likeReview(review) {
-      this.voteReview(review, "like");
-    },
-    dislikeReview(review) {
-      this.voteReview(review, "dislike");
-    },
-
-    // ---------------- Helpers ----------------
-    resetReviewForm() {
-      this.reviewText = "";
-      this.selectedRating = 0;
-      this.editingReviewId = null;
-    },
-    clearMessages() {
-      this.errorMessage = "";
-      this.successMessage = "";
-    },
-    showError(msg) {
-      this.errorMessage = msg;
-      setTimeout(() => (this.errorMessage = ""), 4000);
-    },
-    showSuccess(msg) {
-      this.successMessage = msg;
-      setTimeout(() => (this.successMessage = ""), 4000);
-    },
-  },
-
-  mounted() {
-    const navbarEl = this.$refs.navbarCollapse;
-    if (navbarEl) {
-      this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, { toggle: false });
-    }
-    document.addEventListener("click", this.handleClickOutside);
-
-    this.fetchCategories();
-    this.fetchUser().then(() => {
-      this.fetchBook();
-      this.fetchReviews();
-    });
-  },
-};
-</script>
-
+ import axios from "axios";
+ import Carousel from "../components/carousel.vue";
+ 
+ const API_BASE = "https://zacracebookwebsite.onrender.com";
+ 
+ export default {
+   name: "ProductDetails",
+   components: { Carousel },
+ 
+   data() {
+     return {
+       // Navbar
+       categories: [],
+       user: null,
+       userLoaded: false,
+       bsCollapse: null,
+       hoverRating: 0,
+ 
+       // Book
+       book: { coverImageUrl: null, formats: [] },
+       loadingBook: true,
+ 
+       // Reviews
+       reviews: [],
+       reviewText: "",
+       selectedRating: 0,
+       editingReviewId: null,
+       submittingReview: false,
+       voting: false,
+       activeReviewId: null,
+ 
+       // UI
+       errorMessage: "",
+       successMessage: "",
+       token: localStorage.getItem("token"),
+     };
+   },
+ 
+   beforeUnmount() {
+     document.removeEventListener("click", this.handleClickOutside);
+   },
+ 
+   methods: {
+     // ---------------- Payment ----------------
+     async initiatePayment() {
+       if (!this.user?._id) {
+         this.showError("You need to be signed in to make a payment!");
+         return this.$router.push("/sign-in");
+       }
+ 
+       const { productId } = this.$route.params;
+       const formatType = this.book.formats.includes("ebook") ? "ebook" : "audiobook";
+ 
+       try {
+         const { data } = await axios.post(
+           `${API_BASE}/initiate-payment/${productId}`,
+           { email: this.user.email, formatType },
+           { headers: { Authorization: `Bearer ${this.token}` } }
+         );
+ 
+         if (data?.paymentUrl) {
+           window.location.href = data.paymentUrl;
+         } else {
+           this.showError("Failed to initiate payment. Please try again.");
+         }
+       } catch (err) {
+         console.error("[Payment] Failed:", err.response?.data || err.message);
+         this.showError(err.response?.data?.message || "Payment initiation failed.");
+       }
+     },
+ 
+     // ---------------- Navbar ----------------
+     toggleNavbar() {
+       this.bsCollapse?.toggle();
+     },
+     closeNavbar() {
+       if (this.bsCollapse?.isShown) this.bsCollapse.hide();
+     },
+     handleClickOutside(event) {
+       const navbar = this.$refs.navbarCollapse;
+       if (navbar?.classList.contains("show") &&
+           !navbar.contains(event.target) &&
+           !event.target.closest(".navbar-toggler")) {
+         this.bsCollapse.hide();
+       }
+     },
+ 
+     // ---------------- API Calls ----------------
+     async fetchCategories() {
+       try {
+         const { data } = await axios.get(`${API_BASE}/ebook/products/shop`);
+         this.categories = data.categories || [];
+       } catch (err) {
+         console.error("[Categories] Failed:", err.response?.data || err.message);
+       }
+     },
+ 
+     async fetchBook() {
+       this.loadingBook = true;
+       try {
+         const { productId } = this.$route.params;
+         const { data } = await axios.get(`${API_BASE}/ebook/products/${productId}`);
+         this.book = data || { coverImageUrl: null, formats: [] };
+       } catch (err) {
+         console.error("[Book] Failed:", err.response?.data || err.message);
+       } finally {
+         this.loadingBook = false;
+       }
+     },
+ 
+     async fetchReviews() {
+       try {
+         const { productId } = this.$route.params;
+         const { data } = await axios.get(`${API_BASE}/review/${productId}`);
+ 
+         if (!Array.isArray(data.reviews)) {
+           console.warn("[Reviews] Unexpected response:", data);
+           this.reviews = [];
+           return;
+         }
+ 
+         this.reviews = data.reviews.map(r => {
+           const userObj = r.user || r.userInfo || {};
+           const userId = userObj._id || userObj.userId || null;
+           const userName = userObj.name || userObj.fullName || userObj.username || (userId ? `User-${userId.slice(-4)}` : "Anonymous");
+ 
+           return {
+             ...r,
+             user: { _id: userId, name: userName },
+             likes: r.likes?.length || 0,
+             dislikes: r.dislikes?.length || 0,
+             userVote: r.userVote || null,
+           };
+         });
+       } catch (err) {
+         console.error("[Reviews] Failed:", err.response?.data || err.message);
+       }
+     },
+ 
+     async fetchUser() {
+       if (!this.token) {
+         this.userLoaded = true;
+         return;
+       }
+ 
+       try {
+         const { data } = await axios.get(`${API_BASE}/api/me`, {
+           headers: { Authorization: `Bearer ${this.token}` },
+         });
+ 
+         this.user = {
+           _id: data.user._id,
+           name: data.user.name || data.user.username,
+           gender: data.user.gender || "N/A",
+           email: data.user.email || "N/A"
+         };
+ 
+         localStorage.setItem("user", JSON.stringify(this.user));
+       } catch (err) {
+         console.error("[User] Failed:", err.response?.data || err.message);
+         this.logout();
+       } finally {
+         this.userLoaded = true;
+       }
+     },
+ 
+     logout() {
+       localStorage.removeItem("token");
+       localStorage.removeItem("user");
+       this.user = null;
+       this.$router.push("/sign-in");
+     },
+ 
+     // ---------------- Review Actions ----------------
+     async submitReview() {
+       this.clearMessages();
+       if (!this.reviewText.trim()) return this.showError("Please write a review!");
+       if (!this.selectedRating) return this.showError("Please select a rating!");
+       if (!this.user?._id) return this.$router.push("/sign-in");
+ 
+       this.submittingReview = true;
+       const { productId } = this.$route.params;
+ 
+       try {
+         if (this.editingReviewId) {
+           await axios.put(
+             `${API_BASE}/review/${productId}/edit-review`,
+             { review: this.reviewText, rating: this.selectedRating },
+             { params: { userId: this.user._id, reviewId: this.editingReviewId }, headers: { Authorization: `Bearer ${this.token}` } }
+           );
+ 
+           const index = this.reviews.findIndex(r => r._id === this.editingReviewId);
+           if (index !== -1) {
+             this.reviews[index] = { ...this.reviews[index], review: this.reviewText, rating: this.selectedRating, user: { _id: this.user._id, name: this.user.name } };
+           }
+ 
+           this.showSuccess("Review updated!");
+         } else {
+           const { data } = await axios.post(
+             `${API_BASE}/review/${productId}/add-review`,
+             { review: this.reviewText, rating: this.selectedRating },
+             { params: { userId: this.user._id }, headers: { Authorization: `Bearer ${this.token}` } }
+           );
+ 
+           const reviewData = data.review || {};
+           this.reviews.unshift({
+             _id: reviewData._id || `temp-${Date.now()}`,
+             review: this.reviewText,
+             rating: this.selectedRating,
+             createdAt: reviewData.createdAt || new Date().toISOString(),
+             likes: reviewData.likes?.length || 0,
+             dislikes: reviewData.dislikes?.length || 0,
+             userVote: null,
+             user: { _id: this.user._id, name: this.user.name },
+           });
+ 
+           this.showSuccess("Review submitted!");
+         }
+ 
+         this.resetReviewForm();
+       } catch (err) {
+         console.error("[Submit Review] Failed:", err.response?.data || err.message);
+         this.showError(err.response?.data?.message || "Failed to submit review.");
+       } finally {
+         this.submittingReview = false;
+       }
+     },
+ 
+     startEditReview(review) {
+       this.reviewText = review.review;
+       this.selectedRating = review.rating;
+       this.editingReviewId = review._id;
+     },
+ 
+     async deleteReview(reviewId) {
+       if (!this.user?._id) return this.showError("Sign in to delete review!");
+       const { productId } = this.$route.params;
+ 
+       try {
+         await axios.delete(`${API_BASE}/review/${productId}/delete-review`, {
+           params: { userId: this.user._id, reviewId },
+           headers: { Authorization: `Bearer ${this.token}` },
+         });
+         this.reviews = this.reviews.filter(r => r._id !== reviewId);
+         this.showSuccess("Review deleted!");
+       } catch (err) {
+         console.error("[Delete Review] Failed:", err.response?.data || err.message);
+         this.showError("Could not delete review.");
+       }
+     },
+ 
+     // ---------------- Voting ----------------
+     async voteReview(review, type) {
+       if (!this.user?._id) return this.$router.push("/sign-in");
+       if (!this.token) return this.showError("No token found. Please log in again.");
+ 
+       const { productId } = this.$route.params;
+       if (!productId) return this.showError("Invalid product. Try refreshing.");
+ 
+       this.voting = true;
+       try {
+         await axios.post(`${API_BASE}/review/${productId}/${type}-review`, null, {
+           params: { userId: this.user._id, reviewId: review._id },
+           headers: { Authorization: `Bearer ${this.token}` },
+         });
+ 
+         // Optimistic UI update
+         if (type === "like") {
+           if (review.userVote === "like") { review.likes--; review.userVote = null; }
+           else { if (review.userVote === "dislike") review.dislikes--; review.likes++; review.userVote = "like"; }
+         } else {
+           if (review.userVote === "dislike") { review.dislikes--; review.userVote = null; }
+           else { if (review.userVote === "like") review.likes--; review.dislikes++; review.userVote = "dislike"; }
+         }
+       } catch (err) {
+         console.error("[Vote Review] Failed:", err.response?.data || err.message);
+         this.showError(err.response?.data?.message || "Failed to vote review.");
+       } finally {
+         this.voting = false;
+       }
+     },
+ 
+     likeReview(review) { this.voteReview(review, "like"); },
+     dislikeReview(review) { this.voteReview(review, "dislike"); },
+ 
+     // ---------------- Helpers ----------------
+     resetReviewForm() {
+       this.reviewText = "";
+       this.selectedRating = 0;
+       this.editingReviewId = null;
+     },
+     clearMessages() {
+       this.errorMessage = "";
+       this.successMessage = "";
+     },
+     showError(msg) {
+       this.errorMessage = msg;
+       setTimeout(() => (this.errorMessage = ""), 4000);
+     },
+     showSuccess(msg) {
+       this.successMessage = msg;
+       setTimeout(() => (this.successMessage = ""), 4000);
+     },
+   },
+ 
+   mounted() {
+     const navbarEl = this.$refs.navbarCollapse;
+     if (navbarEl) this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, { toggle: false });
+ 
+     document.addEventListener("click", this.handleClickOutside);
+ 
+     this.fetchCategories();
+     this.fetchUser().then(() => {
+       this.fetchBook();
+       this.fetchReviews();
+     });
+   },
+ };
+ </script>
  
   
 

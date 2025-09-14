@@ -24,61 +24,65 @@
                 class="ms-2"
               ></i>
             </a>
+            <ul  v-show="dropdowns.ebook" class="nav flex-column ms-3 mt-2" style="transition: all 0.3s ease;">
+   
 
-            <ul v-show="dropdowns.ebook" class="nav flex-column ms-3">
+   <!-- Products Dropdown -->
+   <li class="nav-item">
+     <a href="#" class="nav-link d-flex justify-content-between align-items-center"
+        :class="{ active: activeLink === 'products' }"
+        @click.prevent="toggleDropdown('products')">
+       Products
+       <i :class="['bi', dropdowns.products ? 'bi-chevron-up' : 'bi-chevron-down']" class="ms-2"></i>
+     </a>
+
+     <ul v-show="dropdowns.products" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
+       <li>
+<a
+ href="#"
+ class="nav-link"
+ :class="{ active: activeLink === 'product' }"
+ @click.prevent="goToNewProduct"
+>
+ New Product
+</a> </li>
+      
+<li>
+ <a
+   href="#"
+   class="nav-link"
+   :class="{ active: activeLink === 'edit-product' }"
+   @click.prevent="goToEdit(product?._id)"
+ >
+   Edit Product
+ </a>
+</li>
+
+
+
+
+<li>
+ <a
+   href="#"
+   class="nav-link"
+   :class="{ active: activeLink === 'product-list' }"
+   @click.prevent="goToProductList"
+ >
+   Product List
+ </a>
+</li>
+
+
+
+     </ul>
+   </li>
+
+
+ </ul>
             
 
-              <!-- Products Dropdown -->
-              <li class="nav-item mt-2">
-                <a
-                  href="#"
-                  class="nav-link d-flex justify-content-between align-items-center"
-                  :class="{ active: activeLink === 'products' }"
-                  @click.prevent="dropdowns.products = !dropdowns.products; activeLink = 'products'"
-                >
-                  Products
-                  <i
-                    :class="['bi', dropdowns.products ? 'bi-chevron-up' : 'bi-chevron-down']"
-                    class="ms-2"
-                  ></i>
-                </a>
-
-                <ul v-show="dropdowns.products" class="nav flex-column ms-3">
-                  <li>
-                    <a @click="$router.push('/product')"
-                      href="#"
-                      class="nav-link"
-                      :class="{ active: activeLink === 'new-product' }"
-                      @click.prevent="openNewProduct"
-                    >
-                      New Product
-                    </a>
-                  </li>
-                  <li>
-                    <a @click="$router.push('/edit-product')"
-                      href="#"
-                      class="nav-link"
-                      :class="{ active: activeLink === 'edit-product' }"
-                      @click.prevent="activeLink = 'edit-product'"
-                    >
-                      Edit Product
-                    </a>
-                  </li>
-                  <li>
-                    <a @click="$router.push('/product-list')" 
-                      href="#"
-                      class="nav-link"
-                      :class="{ active: activeLink === 'product-list' }"
-                      @click.prevent="activeLink = 'product-list'"
-                    >
-                      Product List
-                    </a>
-                  </li>
-                </ul>
-              </li>
-
               
-            </ul>
+           
           </li>
         </ul>
       </nav>
@@ -87,18 +91,10 @@
     <!-- Main Content -->
     <main class="flex-grow-1 p-4 bg-light">
       <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 style= "color: #4d148c;  font-weight: bold;" class="mb-0">Product List</h3>
-          <div class="position-relative" style="width: 300px;">
-            <input
-              type="text"
-              class="form-control search-input"
-              v-model="search"
-              placeholder="Search anything here..."
-            />
-            <i class="bi bi-search search-icon"></i>
-          </div>
-        </div>
+        <div class="d-flex align-items-center mb-4">
+  <h3 style="color: #4d148c; font-weight: bold;" class="mb-0">Product List</h3>
+</div>
+
 
         <!-- Product Table -->
         <div class="card shadow-sm">
@@ -196,11 +192,14 @@ export default {
           audioPrice: 0,
           image: "https://randomuser.me/api/portraits/men/14.jpg"
         }
-      ]
+      ],
+      loading: false,
+      error: null
     };
   },
   computed: {
     filteredProducts() {
+      if (!this.search) return this.products;
       return this.products.filter(
         item =>
           item.name.toLowerCase().includes(this.search.toLowerCase()) ||
@@ -209,15 +208,63 @@ export default {
     }
   },
   methods: {
-  formatPrice(value) {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0
-    }).format(value);
-  }
-}
+    // Placeholder: future dynamic API fetch
+    async fetchProducts() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const token = localStorage.getItem("token");
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
+        const response = await fetch(
+          "https://zacracebookwebsite.onrender.com/admin-details",
+          { headers }
+        );
+
+        if (!response.ok) throw new Error("Failed to fetch products");
+
+        const data = await response.json();
+        this.products = data.products || this.products; // fallback to default
+      } catch (err) {
+        console.error(err);
+        this.error = "Unable to fetch products. Showing default list.";
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    goToNewProduct() {
+      this.setActiveLink("new-product");
+      this.$router.push("/product");
+    },
+
+    goToEdit(productId) {
+      this.activeLink = "edit-product";
+      this.$router.push({ name: "EditProduct", params: { productId } });
+    },
+
+    goToProductList() {
+      this.setActiveLink("product-list");
+      this.$router.push("/product-list");
+    },
+
+    setActiveLink(link) {
+      this.activeLink = link;
+    },
+
+    formatPrice(value) {
+      return new Intl.NumberFormat("en-NG", {
+        style: "currency",
+        currency: "NGN",
+        minimumFractionDigits: 0
+      }).format(value);
+    }
+  },
+
+  mounted() {
+    // optionally fetch dynamic products if token exists
+    this.fetchProducts();
+  }
 };
 </script>
 
