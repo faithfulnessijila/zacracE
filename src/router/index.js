@@ -77,7 +77,10 @@ const routes = [
 
 ,
 {
-  path: '/product-list',  name: 'ProductList',  component: Productlist
+  path: '/product-list',
+  name: 'ProductList',
+  component: Productlist,
+  meta: { requiresAuth: true }   // 👈 add this
 },
 {
   path: '/admin',name: 'Admin',  component: Admin
@@ -106,6 +109,16 @@ const router = createRouter({
    
     return { top: 0, left: 0 };
   },
+});
+// 🔐 Global auth guard
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("token");
+
+  if (to.meta.requiresAuth && !token) {
+    next("/sign-in"); // redirect if not logged in
+  } else {
+    next(); // allow
+  }
 });
 
 
