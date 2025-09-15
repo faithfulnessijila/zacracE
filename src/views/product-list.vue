@@ -89,7 +89,8 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-grow-1 p-4 bg-light">
+    <main v-if="isAuthenticated" class="flex-grow-1 p-4 bg-light">
+     
       <div class="container">
         <div class="d-flex align-items-center mb-4">
   <h3 style="color: #4d148c; font-weight: bold;" class="mb-0">Product List</h3>
@@ -140,6 +141,9 @@
 
       </div>
     </main>
+    <main v-else class="flex-grow-1 p-4 bg-light">
+  <p>Please log in to access this page.</p>
+</main>
   </div>
 </template>
 
@@ -198,6 +202,9 @@ export default {
     };
   },
   computed: {
+    isAuthenticated() {
+    return !!localStorage.getItem("token");
+  },
     filteredProducts() {
       if (!this.search) return this.products;
       return this.products.filter(
@@ -210,28 +217,28 @@ export default {
   methods: {
     // Placeholder: future dynamic API fetch
     async fetchProducts() {
-      this.loading = true;
-      this.error = null;
-      try {
-        const token = localStorage.getItem("token");
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  this.loading = true;
+  this.error = null;
 
-        const response = await fetch(
-          "https://zacracebookwebsite.onrender.com/admin-details",
-          { headers }
-        );
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No token found, cannot fetch products");
 
-        if (!response.ok) throw new Error("Failed to fetch products");
+    const headers = { Authorization: `Bearer ${token}` };
+    const response = await fetch("https://zacracebookwebsite.onrender.com/admin-details", { headers });
 
-        const data = await response.json();
-        this.products = data.products || this.products; // fallback to default
-      } catch (err) {
-        console.error(err);
-        this.error = "Unable to fetch products. Showing default list.";
-      } finally {
-        this.loading = false;
-      }
-    },
+    if (!response.ok) throw new Error("Failed to fetch products");
+
+    const data = await response.json();
+    this.products = data.products || this.products;
+
+  } catch (err) {
+    console.error(err);
+    this.error = "Unable to fetch products. Showing default list.";
+  } finally {
+    this.loading = false;
+  }
+},
 
     goToNewProduct() {
       this.setActiveLink("new-product");
@@ -262,9 +269,18 @@ export default {
   },
 
   mounted() {
-    // optionally fetch dynamic products if token exists
-    this.fetchProducts();
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    // Redirect to login if no token
+    this.$router.push("/sign-in");
+    return;
   }
+
+  // Token exists, fetch products
+  this.fetchProducts();
+}
+
 };
 </script>
 

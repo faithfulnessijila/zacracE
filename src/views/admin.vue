@@ -1,83 +1,147 @@
 <template>
   <div class="d-flex flex-column flex-md-row">
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar border-end p-3">
+      <!-- Logo & Title -->
       <div class="text-center mb-4">
         <img src="/d.png" alt="Logo" class="img-fluid mb-3" style="max-width: 50px;" />
         <h5  @click="$router.push('/admin')" style= "cursor:pointer; color: #4d148c;  font-weight: bold;" class="fw-bold brand-title">Zacrac Learning</h5>
       </div>
 
+      <!-- Sidebar Navigation -->
       <nav>
-        <ul class="nav flex-column mt-4">
-          <li class="nav-item">
-            <a href="#" class="nav-link ebook-link d-flex justify-content-between align-items-center"
-               @click.prevent="toggleDropdown('ebook')">
-              Zacrac E-book
-              <i class="bi bi-chevron-down chevron" :class="{ open: dropdowns.ebook }"></i>
-            </a>
+  <ul :class="['nav flex-column ms-3', dropdowns.products ? 'show' : '']" class="nav flex-column mt-4">
+    <!-- Zacrack E-book Dropdown -->
+   <!-- Zacrack E-book Dropdown -->
+<li class="nav-item">
+  <a 
+  href="#" 
+  class="nav-link ebook-link" 
+  @click.prevent="toggleDropdown('ebook')"
+>
+  Zacrack E-book
+  <i :class="['bi', 'bi-chevron-down', 'ms-2', 'chevron', { open: dropdowns.ebook } ]"></i>
+</a>
 
-            <ul :class="['nav flex-column mt-2', dropdowns.ebook ? 'show' : '']" style="transition: all 0.3s ease;">
 
-            
+<ul  v-show="dropdowns.ebook" class="nav flex-column ms-3 mt-2" style="transition: all 0.3s ease;">
+   
 
-              <li>
-                <a  href="#" class="nav-link d-flex justify-content-between align-items-center"
-                   :class="{ active: activeLink === 'products' }"
-                   @click.prevent="toggleDropdown('products')">
-                  Products
-                  <i class="bi chevron" :class="dropdowns.products ? 'bi-chevron-up open' : 'bi-chevron-down'"></i>
-                </a>
-                <ul :class="['nav flex-column', dropdowns.products ? 'show' : '']">
-                  <li><a  @click="$router.push('/product')" href="#" class="nav-link" :class="{ active: activeLink === 'new-product' }"
-                         @click.prevent="setActiveLink('new-product')">New Product</a></li>
-                  <li><a  @click="$router.push('/edit-product')" href="#" class="nav-link" :class="{ active: activeLink === 'edit-product' }"
-                         @click.prevent="setActiveLink('edit-product')">Edit Product</a></li>
-                  <li><a @click="$router.push('/product-list')"  href="#" class="nav-link" :class="{ active: activeLink === 'product-list' }"
-                         @click.prevent="setActiveLink('product-list')">Product List</a></li>
-                </ul>
-              </li>
+   <!-- Products Dropdown -->
+   <li class="nav-item">
+    <a
+  href="#"
+  class="nav-link d-flex justify-content-between text-black  align-items-center text-muted " 
+  :class="{ active: activeLink === 'products' }"
+  @click.prevent="toggleDropdown('products')"
+>
+  Products
+  <i :class="['bi', dropdowns.products ? 'bi-chevron-up' : 'bi-chevron-down']" class="ms-2"></i>
+</a>
 
-              
-            </ul>
-          </li>
-        </ul>
-      </nav>
+
+
+
+
+     <ul v-show="dropdowns.products" class="nav flex-column ms-3" style="transition: all 0.3s ease;">
+       <li>
+<a
+ href="#"
+ class="nav-link"
+ :class="{ active: activeLink === 'product' }"
+ @click.prevent="goToNewProduct"
+>
+ New Product
+</a> </li>
+      
+<li>
+ <a
+   href="#"
+   class="nav-link"
+   :class="{ active: activeLink === 'edit-product' }"
+   @click.prevent="goToEdit(product?._id)"
+ >
+   Edit Product
+ </a>
+</li>
+
+
+
+
+<li>
+ <a
+   href="#"
+   class="nav-link"
+   :class="{ active: activeLink === 'product-list' }"
+   @click.prevent="goToProductList"
+ >
+   Product List
+ </a>
+</li>
+
+
+
+     </ul>
+   </li>
+
+
+ </ul>
+</li>
+
+  </ul>
+</nav>
+
     </aside>
-
     <!-- Main Content -->
     <main class="flex-fill p-4">
-      <h3 style= "color: #4d148c;  font-weight: bold;" class="my-4">Dashboard</h3>
+  <h3 style="color: #4d148c; font-weight: bold;" class="my-4">Dashboard</h3>
 
-      <div class="row mb-4">
-        <div class="col-md-3" v-for="(val, key) in stats" :key="key">
-          <div class="card shadow-sm">
-            <div class="card-body text-center">
-              <h6>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</h6>
-              <p class="fs-5">{{ key === 'revenue' ? '₦' + val : val }}</p>
-            </div>
+  <!-- Loading state -->
+<!-- Loading state -->
+<div v-if="loading" class="text-center my-4">
+  <p>Loading dashboard data...</p>
+  <div class="purple-spinner"></div>
+</div>
+
+  <!-- Error message -->
+  <div v-if="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Stats cards -->
+  <div v-if="!loading && !errorMessage" class="row mb-4">
+    <div class="col-md-3" v-for="(val, key) in stats" :key="key">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h6>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</h6>
+          <p class="fs-5">{{ key === 'revenue' ? '₦' + val : val }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div v-if="!loading && !errorMessage">
+    <h4 class="mb-3">Categories</h4>
+    <div class="row">
+      <div v-for="(category, index) in categories" :key="index" class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ category.name }}</h5>
+            <p><strong>Amount Sold:</strong></p>
+            <ul class="list-unstyled">
+              <li>Ebooks: {{ category.ebooks }}</li>
+              <li>Audiobooks: {{ category.audiobooks }}</li>
+            </ul>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</main>
 
-      <h4 class="mb-3">Categories</h4>
-      <div class="row">
-        <div v-for="(category, index) in categories" :key="index" class="col-md-4 mb-4">
-          <div class="card shadow-sm h-100">
-            <div class="card-body">
-              <h5 class="card-title">{{ category.name }}</h5>
-              <p><strong>Amount Sold:</strong></p>
-              <ul class="list-unstyled">
-                <li>Ebooks: {{ category.ebooks }}</li>
-                <li>Audiobooks: {{ category.audiobooks }}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 
@@ -87,25 +151,30 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      dropdowns: {
-        ebook: false,
-        products: false,
-        orders: false,
-      },
-      stats: {
-        users: 0,
-        revenue: 0,
-        ebooks: 0,
-        audiobooks: 0,
-      },
+      dropdowns: { ebook: false, products: false, orders: false },
+      stats: { users: 0, revenue: 0, ebooks: 0, audiobooks: 0 },
       categories: [],
-      token: localStorage.getItem("adminToken") || null,
+      token: localStorage.getItem("token") || null,
       loading: false,
       errorMessage: "",
       activeLink: "",
     };
   },
   methods: {
+    goToNewProduct() {
+      this.setActiveLink("new-product");
+      this.$router.push("/product");
+    },
+
+    goToEdit(productId) {
+      this.activeLink = "edit-product";
+      this.$router.push({ name: "EditProduct", params: { productId } });
+    },
+
+    goToProductList() {
+      this.setActiveLink("product-list");
+      this.$router.push("/product-list");
+    },
     toggleDropdown(menu) {
       this.dropdowns[menu] = !this.dropdowns[menu];
     },
@@ -114,66 +183,59 @@ export default {
       this.activeLink = link;
     },
 
-    async fetchDashboard() {
+    redirectToLogin() {
+      if (this.$router) {
+        this.$router.push("/admin-signin");
+      } else {
+        window.location.href = "/admin-signin";
+      }
+    },
+
+    async fetchDashboardAndCategories() {
       if (!this.token) {
-        this.errorMessage = "No admin token found.";
-        return;
+        this.errorMessage = "No token found. Please login.";
+        return this.redirectToLogin();
       }
 
       this.loading = true;
       this.errorMessage = "";
 
       try {
-        const { data } = await axios.get(`${API_BASE}/admin/statistics/dashboard`, {
-          headers: { Authorization: `Bearer ${this.token}` },
-        });
-        this.stats = data.stats || {};
-        this.categories = data.categories || [];
+        // Fetch stats and categories in parallel
+        const [dashboardRes, categoryRes] = await Promise.all([
+          axios.get(`${API_BASE}/admin/statistics/dashboard`, {
+            headers: { Authorization: `Bearer ${this.token}` },
+          }),
+          axios.get(`${API_BASE}/ebook/products/category`, {
+            headers: { Authorization: `Bearer ${this.token}` },
+          }),
+        ]);
+
+        // Update stats
+        this.stats = dashboardRes.data.stats || {};
+
+        // Update categories for dropdown
+        this.categories = categoryRes.data || [];
+
       } catch (err) {
         const status = err.response?.status;
+
         if (status === 401) {
-          // Token expired, try re-login
-          console.warn("Token expired, attempting auto-login...");
-          await this.adminLogin(true);
+          console.warn("Token expired or invalid. Redirecting to login...");
+          localStorage.removeItem("token");
+          this.redirectToLogin();
         } else {
           this.errorMessage = err.response?.data?.message || err.message;
-          console.error("Failed to fetch dashboard:", err);
+          console.error("Failed to fetch dashboard or categories:", err);
         }
       } finally {
         this.loading = false;
       }
     },
-
-    async adminLogin(isRetry = false) {
-      try {
-        const { data } = await axios.post(`${API_BASE}/admin/login`, {
-          email: "omolewao.timothy.17@gmail.com",
-          password: "Pass@pass001",
-        });
-
-        this.token = data.token;
-        localStorage.setItem("adminToken", data.token);
-
-        if (!isRetry) {
-          // Only fetch dashboard if this is not a retry after token expiry
-          this.fetchDashboard();
-        } else {
-          // Retry fetch after successful login
-          await this.fetchDashboard();
-        }
-      } catch (err) {
-        this.errorMessage = err.response?.data?.message || err.message;
-        console.error("Admin login failed:", err);
-      }
-    },
   },
 
   mounted() {
-    if (this.token) {
-      this.fetchDashboard();
-    } else {
-      this.adminLogin();
-    }
+    this.fetchDashboardAndCategories();
   },
 };
 </script>
@@ -181,6 +243,30 @@ export default {
 
 
 <style scoped>
+
+.purple-spinner {
+  margin: 10px auto;
+  width: 30px;          /* smaller width */
+  height: 30px;         /* smaller height */
+  border: 4px solid #ddd;
+  border-top: 4px solid #4d148c; /* purple color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Optional extra small */
+.purple-spinner.small {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ddd;
+  border-top: 3px solid #4d148c;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .ebook-link .chevron {
   color: #fff !important;
   transition: transform 0.3s ease;
@@ -223,14 +309,16 @@ export default {
 
   .nav-link,
   .ebook-link {
-    font-size: 1rem; /* keep normal size for readability */
-    padding: 0.5rem 1rem; /* slightly bigger tap targets */
+    font-size: 1rem !important; /* keep normal size for readability */
+    padding: 0.5rem 1rem !important; /* slightly bigger tap targets */
   }
 
   .brand-title {
-    font-size: 1.1rem;
+    font-size: 1.1rem !important;
   }
 }
+
+
 
 /* Base nav link */
 .nav-link {
@@ -745,96 +833,4 @@ input:invalid, select:invalid {
   }
 }
 
-
-.sidebar {
-  width: 250px;
-  min-height: 100vh;
-  background: #f8f9fa;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
-.brand-title {
-  color: #4d148c;
-  font-weight: bold;
-}
-
-.nav-link {
-  color: #333;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #4d148c !important;
-}
-
-.nav-link.active {
-  background-color: #4d148c;
-  color: #fff !important;
-  font-weight: 600;
-}
-
-.ebook-link {
-  background-color: #4d148c;
-  border-radius: 12px;
-  padding: 0.5rem 1rem;
-  color: #fff !important;
-  font-weight: 600;
-  text-align: center;
-  transition: background 0.3s ease;
-}
-
-.ebook-link:hover {
-  background-color: #5e18aa;
-  color: #fff !important;
-}
-
-.nav .nav {
-  padding-left: 1rem;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.nav .nav.show {
-  max-height: 500px; /* enough for nested menus */
-}
-
-.chevron {
-  transition: transform 0.3s ease;
-}
-
-.chevron.open {
-  transform: rotate(180deg);
-}
-
-/* Main content takes remaining space */
-main.flex-fill {
-  width: 100%;
-  margin: 0;
-  padding: 1rem;
-  overflow-y: auto;
-}
-
-/* Responsive */
-@media (max-width: 767px) {
-  .sidebar {
-    width: 200px;
-    padding: 0.5rem;
-  }
-  .nav-link, .ebook-link {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.8rem;
-  }
-  .brand-title {
-    font-size: 1rem;
-  }
-}
 </style>

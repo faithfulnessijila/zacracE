@@ -136,36 +136,43 @@
  
      // Login handler
      async handleSubmit() {
+  this.loading = true;
   this.errorMessage = "";
   this.errors = {};
-  this.loading = true;
 
-  // Validate form first
   if (!this.validateForm()) {
     this.loading = false;
     return;
   }
 
   try {
-    // Make sure this endpoint matches your backend
     const res = await axios.post(
-      "https://zacracebookwebsite.onrender.com/admin-signin",
+      "https://zacracebookwebsite.onrender.com/admin/sign-in",
       this.form,
       { headers: { "Content-Type": "application/json" } }
     );
 
-    const { token, user } = res.data;
+    const { token, _id, name, email, isVerified, message } = res.data;
 
-    if (!token || !user) {
-      throw new Error("Invalid login response from server.");
+    if (!token) {
+      this.errorMessage = "⚠️ Login failed: no token returned from server.";
+      console.error("Server response:", res.data);
+      return;
     }
 
     // Store login info
     localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify({ _id, name, email, isVerified }));
 
-    // Redirect immediately
-    window.location.href = "/admin"; // Forces navigation to dashboard
+    // Optional: show success message
+    console.log(message);
+
+    // Redirect to admin dashboard
+    if (this.$router) {
+      this.$router.push("/admin");
+    } else {
+      window.location.href = "/admin";
+    }
 
   } catch (error) {
     const status = error.response?.status;
@@ -173,17 +180,20 @@
 
     if (status === 404) {
       this.errorMessage = "⚠️ Login endpoint not found. Check your URL!";
-    } else if (status === 400) {
+    } else if (status === 400 || status === 401) {
       this.errorMessage = "Invalid email or password.";
     } else if (status === 500) {
       this.errorMessage = "Server error. Please try again later.";
     } else {
       this.errorMessage = message || "Something went wrong. Please try again.";
     }
+    console.error("Login error:", error);
   } finally {
     this.loading = false;
   }
-},
+}
+
+,
  
      // Keep carousel height synced with form
      setCarouselHeight() {
