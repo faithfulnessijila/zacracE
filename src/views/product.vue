@@ -684,9 +684,41 @@ export default {
   },
   methods: {
     goToNewProduct() {
-  this.setActiveLink('new-product');
-  this.$router.push('/product');
+  const token = localStorage.getItem("token");
+  if (!token) {
+    this.handleUnauthorized();
+    return;
+  }
+  this.setActiveLink("new-product");
+  this.$router.push("/product");
 },
+
+goToEdit(productId) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    this.handleUnauthorized();
+    return;
+  }
+
+  this.activeLink = "edit-product";
+  if (productId) {
+    this.$router.push({ name: "EditProduct", params: { productId } });
+  } else {
+    this.$router.push({ name: "EditProduct" });
+  }
+},
+
+goToProductList() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    this.handleUnauthorized();
+    return;
+  }
+
+  this.setActiveLink("product-list");
+  this.$router.push("/product-list");
+},
+
 goToEdit(productId) {
     this.activeLink = 'edit-product';
 

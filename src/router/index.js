@@ -54,11 +54,13 @@ const routes = [
 
 },
 {
-  path: '/product/:productId?',
-  name: 'Product',
+  path: "/product",
+  name: "Product",
   component: Product,
+  meta: { requiresAuth: true },
   props: true,
 },
+
 
 {
   path: '/edit-product/:productId?',
