@@ -220,12 +220,14 @@
             ₦{{ format.price.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
           </h6>
           <button
-      @click="initiatePayment"
-      class="btn btn-primary mt-3"
-      :disabled="!book || !book._id"
-    >
-      Buy Now
-    </button>
+  @click="initiatePayment"
+  class="btn btn-primary mt-3"
+  :disabled="!book || !book._id || loadingPayment"
+>
+  <span v-if="loadingPayment">Processing...</span>
+  <span v-else>Buy Now</span>
+</button>
+
         </div>
 
         <div class="d-flex flex-wrap gap-2 text-muted" style="font-size: 0.85rem;">
@@ -618,31 +620,36 @@
    methods: {
      // ---------------- Payment ----------------
      async initiatePayment() {
-       if (!this.user?._id) {
-         this.showError("You need to be signed in to make a payment!");
-         return this.$router.push("/sign-in");
-       }
- 
-       const { productId } = this.$route.params;
-       const formatType = this.book.formats.includes("ebook") ? "ebook" : "audiobook";
- 
-       try {
-         const { data } = await axios.post(
-           `${API_BASE}/initiate-payment/${productId}`,
-           { email: this.user.email, formatType },
-           { headers: { Authorization: `Bearer ${this.token}` } }
-         );
- 
-         if (data?.paymentUrl) {
-           window.location.href = data.paymentUrl;
-         } else {
-           this.showError("Failed to initiate payment. Please try again.");
-         }
-       } catch (err) {
-         console.error("[Payment] Failed:", err.response?.data || err.message);
-         this.showError(err.response?.data?.message || "Payment initiation failed.");
-       }
-     },
+  if (!this.user?._id) {
+    this.showError("You need to be signed in to make a payment!");
+    return this.$router.push("/sign-in");
+  }
+
+  const { productId } = this.$route.params;
+  if (!productId) return this.showError("Invalid product.");
+
+  const formatType = this.book?.formats?.some(f => f.type === "ebook") ? "ebook" : "audiobook";
+
+  try {
+    const { data } = await axios.post(
+      `${API_BASE}/initiate-payment/${productId}`,
+      { email: this.user.email, formatType },
+      { headers: { Authorization: `Bearer ${this.token}` } }
+    );
+
+    console.log("Payment API response:", data);
+
+    if (data?.authorization_url) {
+      window.location.href = data.authorization_url;
+    } else {
+      this.showError(`Payment failed: ${data?.message || "No payment URL returned"}`);
+    }
+  } catch (err) {
+    console.error("[Payment] Error response:", err.response?.data || err.message);
+    this.showError(`Payment initiation failed: ${err.response?.data?.message || err.message}`);
+  }
+}
+,
  
      // ---------------- Navbar ----------------
      toggleNavbar() {
