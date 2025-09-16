@@ -8,10 +8,17 @@
 <div class="container-fluid container-fluid1 d-flex align-items-center justify-content-between flex-wrap">
 
 <!-- Logo on the left -->
-<div class="navbar-logo d-flex align-items-center">
+<div 
+  class="navbar-logo d-flex align-items-center" 
+  @click="$router.push('/')" 
+  style="cursor: pointer;"
+>
   <img src="/public/d.png" alt="Logo" class="logo-icon" style="margin-top: -10px;" />
-  <h3 class="logo-text ms-2" style="font-size: 20px;">Zacrac <span>Learning</span></h3>
+  <h3 class="logo-text ms-2" style="font-size: 20px;">
+    Zacrac <span>Learning</span>
+  </h3>
 </div>
+
 
 <!-- Right side: Account / Profile -->
 <div class="d-flex align-items-center gap-3 flex-wrap">

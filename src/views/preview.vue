@@ -10,10 +10,17 @@
 <div class="container-fluid container-fluid1 d-flex align-items-center justify-content-between flex-wrap">
 
 <!-- Logo on the left -->
-<div class="navbar-logo d-flex align-items-center">
+<div 
+  class="navbar-logo d-flex align-items-center" 
+  @click="$router.push('/')" 
+  style="cursor: pointer;"
+>
   <img src="/public/d.png" alt="Logo" class="logo-icon" style="margin-top: -10px;" />
-  <h3 class="logo-text ms-2" style="font-size: 20px;">Zacrac <span>Learning</span></h3>
+  <h3 class="logo-text ms-2" style="font-size: 20px;">
+    Zacrac <span>Learning</span>
+  </h3>
 </div>
+
 
 <!-- Right side: Account / Profile -->
 <div class="d-flex align-items-center gap-3 flex-wrap">
@@ -187,6 +194,7 @@
     ]"
     style="position: relative;"
   >
+  
     <!-- Top-right format label -->
     <span class="format-label" :class="format.type">{{ format.type }}</span>
 
@@ -221,12 +229,22 @@
           </h6>
           <button
   @click="initiatePayment"
-  class="btn btn-primary mt-3"
   :disabled="!book || !book._id || loadingPayment"
+  class="mt-3"
+  :style="{ 
+    backgroundColor: '#4d148c', 
+    borderColor: '#4d148c', 
+    color: 'white',
+    borderRadius: '8px',  /* <-- adds rounded corners */
+    padding: '8px 18px'   /* optional: makes button bigger */
+  }"
 >
   <span v-if="loadingPayment">Processing...</span>
-  <span v-else>Buy Now</span>
+  <span v-else>Buy Now</span><div v-if="paymentError" class="text-danger mt-2" style="font-size: 0.85rem;">
+  {{ paymentError }}
+</div>
 </button>
+
 
         </div>
 
@@ -316,14 +334,15 @@
             ></textarea>
 
             <button
-              class="btn fw-bold mx-auto"
-              :disabled="submittingReview"
-              @click="submitReview"
-              style="width: 150px; font-size: 1rem; padding: 0.6rem 1.2rem; background-color: #4d148c; color: #fff; border: none;"
-            >
-              <span v-if="submittingReview" class="spinner-border spinner-border-sm me-1"></span>
-              {{ editingReviewId ? "Update" : "Submit" }}
-            </button>
+  class="btn fw-bold mx-auto"
+  :disabled="submittingReview"
+  @click="submitReview"
+  style="width: 150px; font-size: 1rem; padding: 0.6rem 1.2rem; background-color: #4d148c; color: #fff; border: none; border-radius: 8px;"
+>
+  <span v-if="submittingReview" class="spinner-border spinner-border-sm me-1"></span>
+  {{ editingReviewId ? "Update" : "Submit" }}
+</button>
+
           </div>
 
           <!-- Error Message -->
@@ -344,8 +363,10 @@
     <h4 class="fw-bold mb-3">Customer Reviews ({{ reviews.length }})</h4>
 
     <div v-if="reviews.length === 0" class="text-muted">
-      No reviews yet. Be the first to review this product!
-    </div>
+    No reviews yet. 
+    <span v-if="!user?._id">Please <a href="/sign-in">sign in</a> to write a review.</span>
+    <span v-else>Be the first to review this product!</span>
+  </div>
 
     <div
       v-for="review in reviews"
@@ -586,7 +607,7 @@
  
    data() {
      return {
-       // Navbar
+      paymentError: '' ,
        categories: [],
        user: null,
        userLoaded: false,
@@ -809,10 +830,10 @@
      },
  
      startEditReview(review) {
-       this.reviewText = review.review;
-       this.selectedRating = review.rating;
-       this.editingReviewId = review._id;
-     },
+  this.reviewText = review.review;
+  this.selectedRating = review.rating; // keep current rating
+  this.editingReviewId = review._id;   // signals editing mode
+},
  
      async deleteReview(reviewId) {
        if (!this.user?._id) return this.showError("Sign in to delete review!");

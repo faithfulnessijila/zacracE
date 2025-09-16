@@ -2,7 +2,7 @@
   <div class="page-wrapper">
     
     <nav class="navbar" style="padding: 20px 40px">
-      <div class="navbar-logo">
+      <div class="navbar-logo mt-4">
         <img
           src="/public/d.png"
           style="margin-top: -10px !important"

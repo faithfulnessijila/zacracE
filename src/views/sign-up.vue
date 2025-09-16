@@ -1,7 +1,7 @@
 <template>
   <div class="page-wrapper">
 
-    <nav class="navbar" style="padding: 20px 40px">
+    <nav class="navbar " style="padding: 20px 40px">
       <div class="navbar-logo">
         <img
           src="/public/d.png"
