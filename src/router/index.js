@@ -8,7 +8,8 @@ import Homepage from '@/views/homepage.vue';
 import Preview from '@/views/preview.vue';
 import AuthCallback from '@/views/AuthCallback.vue';
 
-import Product from '@/views/Product';
+import Product from '@/views/product.vue';
+
 
 
 
