@@ -87,10 +87,7 @@
           
           
   
-            <p class="signup-text mt-5" style="font-weight: 450">
-              Don't have an account?
-              <a style="color: gray; cursor: pointer; text-decoration: underline;" @click="$router.push('/sign-up')">Sign up</a>
-            </p>
+            
           </form>
         </div>
       </div>
