@@ -273,7 +273,7 @@ export default {
 
   if (!token) {
     // Redirect to login if no token
-    this.$router.push("/sign-in");
+    this.$router.push("/admin-signin");
     return;
   }
 

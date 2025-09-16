@@ -170,23 +170,44 @@
   </div>
 
   <!-- Category -->
-  <div class="row mb-3">
-    <div class="col-12 col-md-6">
-      <label class="form-label">Category</label>
-      <select 
-  v-model="form.category" 
-  class="form-select w-100"
-  style="padding: 6px 10px; font-size: 0.8rem; line-height: 1.2;"
->
-  <option value="">Select Category</option>
-  <option>Data Analytics</option>
-  <option>Programming</option>
-  <option>Design</option>
-</select>
+<!-- Category -->
+<div class="row mb-3">
+  <div class="col-12 col-md-6">
+    <label class="form-label">Category</label>
 
-      <small v-if="errors.category" class="text-danger">{{ errors.category }}</small>
-    </div>
+    <select 
+      v-model="form.category" 
+      class="form-select w-100" 
+      :disabled="categoriesLoading || categoriesError || categories.length === 0"
+    >
+      <option value="">Select Category</option>
+      <option 
+        v-for="cat in categories" 
+        :key="cat._id || cat" 
+        :value="cat.name || cat"
+      >
+        {{ cat.name || cat }}
+      </option>
+    </select>
+
+    <!-- Loading state -->
+    <small v-if="categoriesLoading" class="text-muted">Loading categories...</small>
+
+    <!-- Error state -->
+    <small v-else-if="categoriesError" class="text-danger">{{ categoriesError }}</small>
+
+    <!-- No categories found -->
+    <small v-else-if="!categoriesLoading && categories.length === 0" class="text-warning">
+      No categories found
+    </small>
+
+    <!-- Validation error -->
+    <small v-else-if="errors.category" class="text-danger">{{ errors.category }}</small>
   </div>
+</div>
+
+
+
 
   <!-- Description -->
   <div class="row mb-3">
@@ -389,7 +410,8 @@
 
           <!-- Remove -->
           <div>
-            <button class="btn btn-sm btn-danger mt-2" @click="removeFile">Remove</button>
+            <button class="btn btn-sm btn-danger mt-2" @click="removeFile('file')">Remove</button>
+
           </div>
         </div>
       </div>
@@ -538,16 +560,18 @@
         Back
       </button>
       <button 
-        type="submit" 
-        class="btn px-4 next-btn" 
-        :class="{
-          'btn-primary': form.audioDuration && form.audioSize && form.audioPrice && form.audioCurrency && form.audioFile, 
-          'btn-disabled': !form.audioDuration || !form.audioSize || !form.audioPrice || !form.audioCurrency || !form.audioFile
-        }"
-        :disabled="!form.audioDuration || !form.audioSize || !form.audioPrice || !form.audioCurrency || !form.audioFile"
-      >
-        Next
-      </button>
+  type="button" 
+  class="btn px-4 next-btn" 
+  :class="{
+    'btn-primary': form.audioDuration && form.audioSize && form.audioPrice && form.audioCurrency && form.audioFile, 
+    'btn-disabled': !form.audioDuration || !form.audioSize || !form.audioPrice || !form.audioCurrency || !form.audioFile
+  }"
+  :disabled="!form.audioDuration || !form.audioSize || !form.audioPrice || !form.audioCurrency || !form.audioFile"
+  @click="nextStep"
+>
+  Next
+</button>
+
     </div>
   </form>
 </div>
@@ -641,8 +665,11 @@ export default {
   name: "Sidebar",
   data() {
     return {
+      categories: [],
+      categoriesLoading: false,
+      categoriesError: null,
       submitting: false,
-      dropdowns: { ebook: true, products: true, },
+      dropdowns: { ebook: true, products: true },
       activeLink: "product",
       activeStep: 1,
       filePreviewUrl: null,
@@ -669,6 +696,7 @@ export default {
       alert: { show: false, type: "", message: "" },
     };
   },
+
   computed: {
     progressWidth() {
       const totalSteps = 4;
@@ -679,80 +707,75 @@ export default {
       return audioDuration && audioSize && audioPrice && audioCurrency && audioFile;
     },
     canProceedStep4() {
-      return this.form.authors.every((a) => a.name && a.name.trim() !== "");
+      return this.form.authors.every(a => a.name?.trim() !== "");
     },
   },
+
   methods: {
+    // --- Category Fetch ---
+    async fetchCategories() {
+      this.categoriesLoading = true;
+      this.categoriesError = null;
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("You must be logged in to fetch categories");
+
+        const res = await fetch(
+          "https://zacracebookwebsite.onrender.com/ebook/products/category",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
+        const result = await res.json();
+
+        if (!Array.isArray(result.categories)) throw new Error("Invalid response format");
+
+        this.categories = result.categories;
+        if (this.categories.length > 0) {
+          this.form.category = this.categories[0].name || this.categories[0];
+        }
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+        this.categoriesError = err.message;
+      } finally {
+        this.categoriesLoading = false;
+      }
+    },
+
+    // --- Navigation Helpers ---
     goToNewProduct() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    this.handleUnauthorized();
-    return;
-  }
-  this.setActiveLink("new-product");
-  this.$router.push("/product");
-},
-
-goToEdit(productId) {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    this.handleUnauthorized();
-    return;
-  }
-
-  this.activeLink = "edit-product";
-  if (productId) {
-    this.$router.push({ name: "EditProduct", params: { productId } });
-  } else {
-    this.$router.push({ name: "EditProduct" });
-  }
-},
-
-goToProductList() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    this.handleUnauthorized();
-    return;
-  }
-
-  this.setActiveLink("product-list");
-  this.$router.push("/product-list");
-},
-
-goToEdit(productId) {
-    this.activeLink = 'edit-product';
-
-    if (productId) {
-      this.$router.push({ name: 'EditProduct', params: { productId } });
-    } else {
-      this.$router.push({ name: 'EditProduct' }); // no ID → new product
-    }
-  },
-  goToProductList() {
-    this.setActiveLink('product-list'); // set the active link
-    this.$router.push('/product-list'); // navigate
-  },
-  
-  setActiveLink(link) {
-    this.activeLink = link;
-  },
+      const token = localStorage.getItem("token");
+      if (!token) return this.handleUnauthorized();
+      this.setActiveLink("new-product");
+      this.$router.push("/product");
+    },
+    goToEdit(productId) {
+      const token = localStorage.getItem("token");
+      if (!token) return this.handleUnauthorized();
+      this.activeLink = "edit-product";
+      this.$router.push({ name: "EditProduct", params: { productId } });
+    },
+    goToProductList() {
+      const token = localStorage.getItem("token");
+      if (!token) return this.handleUnauthorized();
+      this.setActiveLink("product-list");
+      this.$router.push("/product-list");
+    },
     setActiveLink(link) {
       this.activeLink = link;
-      this.dropdowns.ebook = ["overview", "products", "new-product", "edit-product", "product-list"].includes(link);
-      this.dropdowns.products = ["new-product", "edit-product", "product-list"].includes(link);
-      this.dropdowns.orders = ["orders", "pending-orders", "completed-orders", "refund-requests"].includes(link);
+      this.dropdowns.ebook = ["overview","products","new-product","edit-product","product-list"].includes(link);
+      this.dropdowns.products = ["new-product","edit-product","product-list"].includes(link);
+      this.dropdowns.orders = ["orders","pending-orders","completed-orders","refund-requests"].includes(link);
       if (link === "new-product") this.activeStep = 1;
     },
-   
-
     toggleDropdown(name) {
       this.dropdowns[name] = !this.dropdowns[name];
     },
-
     setStep(step) {
       this.activeStep = step;
     },
 
+    // --- Validation ---
     validateStep(step = this.activeStep) {
       this.errors = {};
 
@@ -762,6 +785,7 @@ goToEdit(productId) {
         if (!this.form.description) this.errors.description = "Description is required";
         if (!this.form.image) this.errors.image = "Product image is required";
       }
+
       if (step === 2) {
         if (!this.form.pages) this.errors.pages = "Pages required";
         if (!this.form.price) this.errors.price = "Price required";
@@ -769,6 +793,7 @@ goToEdit(productId) {
         if (!this.form.size) this.errors.size = "File size required";
         if (!this.form.file) this.errors.file = "File upload required";
       }
+
       if (step === 3) {
         if (!this.form.audioDuration) this.errors.audioDuration = "Duration required";
         if (!this.form.audioSize) this.errors.audioSize = "File size required";
@@ -776,21 +801,23 @@ goToEdit(productId) {
         if (!this.form.audioCurrency) this.errors.audioCurrency = "Currency required";
         if (!this.form.audioFile) this.errors.audioFile = "Audiobook file required";
       }
+
       if (step === 4) {
         this.form.authors.forEach((a, i) => {
-          if (!a.name || a.name.trim() === "") this.errors[`authorName_${i}`] = "Author name is required";
+          if (!a.name?.trim()) this.errors[`authorName_${i}`] = "Author name is required";
         });
       }
 
       return Object.keys(this.errors).length === 0;
     },
-
     nextStep() {
       if ((this.activeStep === 3 && !this.canProceedStep3) || !this.validateStep()) return;
       this.activeStep < 4 ? this.activeStep++ : this.submitForm();
     },
+
+    // --- Form Submission ---
     async submitForm() {
-  // validate all steps
+  // Validate all steps
   for (let step = 1; step <= 4; step++) {
     if (!this.validateStep(step)) {
       this.showAlert("danger", "Please fill all required fields correctly before submitting.");
@@ -798,63 +825,77 @@ goToEdit(productId) {
     }
   }
 
-  this.submitting = true; // start loading
+  this.submitting = true;
   try {
     const token = localStorage.getItem("token");
-    if (!token) {
-      this.handleUnauthorized();
-      return;
-    }
+    if (!token) return this.handleUnauthorized();
 
     const formData = new FormData();
-    for (const key in this.form) {
-      if (key === "authors") {
-        formData.append(key, JSON.stringify(this.form[key]));
-      } else if (this.form[key] !== null) {
-        formData.append(key, this.form[key]);
+
+    // Basic info
+    formData.append("category", this.form.category);
+    formData.append("title", this.form.title);
+    formData.append("bookDescription", this.form.description);
+
+    // Authors
+    this.form.authors.forEach(author => formData.append("author[]", author.name));
+
+    // Cover image
+    if (this.form.image) formData.append("coverImage", this.form.image);
+
+    // Ebook format
+    if (this.form.file) {
+      formData.append("formats[0][type]", "ebook");
+      formData.append("formats[0][numberOfPages]", this.form.pages);
+      formData.append("formats[0][price]", this.form.price);
+      formData.append("formats", this.form.file); // single file
+    }
+
+    // Audiobook format
+    if (this.form.audioFile) {
+      formData.append("formats[1][type]", "audiobook");
+      formData.append("formats[1][durationInMinutes]", this.form.audioDuration);
+      formData.append("formats[1][price]", this.form.audioPrice);
+      formData.append("formats", this.form.audioFile); // single file
+    }
+
+    // Send request
+    const res = await fetch(
+      "https://zacracebookwebsite.onrender.com/ebook/products/add-product",
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData
       }
-    }
+    );
 
-    const res = await fetch("https://zacracebookwebsite.onrender.com/ebook/products/add-product", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-
-    if (res.status === 401) {
-      this.handleUnauthorized();
-      return;
-    }
-
+    if (res.status === 401) return this.handleUnauthorized();
     if (!res.ok) {
-      // 🔹 Try to extract backend error message
       let errorMessage = `Server error: ${res.status}`;
       try {
         const errorData = await res.json();
         if (errorData?.message) errorMessage = errorData.message;
-      } catch (_) {
-        // ignore JSON parse errors
-      }
+      } catch (_) {}
       throw new Error(errorMessage);
     }
 
     const result = await res.json();
-    console.log("Submitted:", result);
+    if (result.productId) this.form.productId = result.productId;
 
-    if (result.productId) {
-      this.form.productId = result.productId;
-    }
-
-    this.showAlert("success", "Form submitted successfully!");
+    this.showAlert("success", "Product submitted successfully!");
     this.resetForm();
+
   } catch (err) {
     console.error("Submission error:", err);
     this.showAlert("danger", err.message || "Network error or server unreachable.");
   } finally {
-    this.submitting = false; // stop loading
+    this.submitting = false;
   }
-},
+}
 
+,
+
+    // --- Helpers ---
     handleUnauthorized() {
       this.showAlert("danger", "Session expired. Redirecting to login...");
       setTimeout(() => {
@@ -862,58 +903,40 @@ goToEdit(productId) {
         this.$router.push("/admin-signin");
       }, 2000);
     },
-
     showAlert(type, message) {
       this.alert = { show: true, type, message };
       setTimeout(() => (this.alert.show = false), 5000);
     },
-
     resetForm() {
       this.activeStep = 1;
-      Object.keys(this.form).forEach((key) => {
-        if (Array.isArray(this.form[key])) this.form[key] = [];
-        else this.form[key] = null;
+      Object.keys(this.form).forEach(key => {
+        this.form[key] = Array.isArray(this.form[key]) ? [] : null;
       });
       this.form.authors = [{ name: "" }];
       this.errors = {};
       this.filePreviewUrl = null;
     },
+    addAuthor() { this.form.authors.push({ name: "" }); },
+    removeAuthor(index) { this.form.authors.splice(index, 1); },
 
-    addAuthor() {
-      this.form.authors.push({ name: "" });
-    },
-
-    removeAuthor(index) {
-      this.form.authors.splice(index, 1);
-    },
-
+    // --- File Handling ---
     onFileChange(event, type) {
       const file = event.target.files?.[0];
       if (!file) return;
-
-      if (type === "image") {
-        this.form.image = file;
-        this.form.imagePreview = URL.createObjectURL(file);
-      }
-      if (type === "file") {
-        this.form.file = file;
-        this.filePreviewUrl = file.type === "application/pdf" ? URL.createObjectURL(file) : null;
-      }
+      if (type === "image") { this.form.image = file; this.form.imagePreview = URL.createObjectURL(file); }
+      if (type === "file") { this.form.file = file; this.filePreviewUrl = file.type === "application/pdf" ? URL.createObjectURL(file) : null; }
       if (type === "audiobook") this.form.audioFile = file;
     },
-
     onDrop(event, type) {
       const files = event.dataTransfer.files;
       if (!files.length) return;
       this.onFileChange({ target: { files } }, type);
     },
-
     removeFile(type) {
       if (type === "image") this.form.image = this.form.imagePreview = null;
       if (type === "file") this.form.file = this.filePreviewUrl = null;
       if (type === "audiobook") this.form.audioFile = null;
     },
-
     getFileIcon(fileName) {
       if (!fileName) return "bi bi-file-earmark";
       if (fileName.endsWith(".docx")) return "bi bi-file-earmark-word";
@@ -921,9 +944,23 @@ goToEdit(productId) {
       if (/\.(mp3|m4a|wav)$/.test(fileName)) return "bi bi-file-earmark-music";
       return "bi bi-file-earmark";
     },
+    removeImage(type) {
+  this.removeFile(type);
+},
+    removeFile(type) {
+  if (type === "image") this.form.image = this.form.imagePreview = null;
+  if (type === "file") this.form.file = this.filePreviewUrl = null;
+  if (type === "audiobook") this.form.audioFile = null;
+},
+
+  },
+
+  mounted() {
+    this.fetchCategories();
   },
 };
 </script>
+
 
 
 
