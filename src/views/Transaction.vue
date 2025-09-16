@@ -135,37 +135,67 @@
 </div>
 
 </nav>
-    <div class="container mt-4">
-        <h2 class="mb-4 fw-bold" style="color: #4d148c;">Transaction History</h2>
-  
-      <!-- Transaction Item -->
-      <div 
-        v-for="(tx, index) in transactions" 
-        :key="index" 
-        class="py-3 border-bottom"
-      >
-        <!-- First row -->
-        <div class="d-flex justify-content-between">
-          <span>Paid for "{{ tx.title }}"</span>
-          <strong>{{ tx.price }}</strong>
-        </div>
-  
-        <!-- Second row -->
-        <div class="d-flex justify-content-between mt-1">
-          <small class="text-muted">{{ tx.date }}</small>
-          <span 
-            class="badge"
-            :class="{
-              'bg-success': tx.status === 'Successful',
-              'bg-danger': tx.status === 'Failed',
-              'bg-warning text-dark': tx.status === 'Pending'
-            }"
-          >
-            {{ tx.status }}
-          </span>
-        </div>
+<div class=" py-5">
+  <!-- Heading -->
+  <h2 class="fw-bold mb-4 ps-3 ps-md-5 text-start" style="color:#4d148c">
+    Transaction History
+  </h2>
+
+  <!-- Loader -->
+  <div v-if="loadingTransactions" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <!-- No transactions fallback -->
+  <div v-else-if="transactions.length === 0" class="text-center py-5">
+    <h5 class="text-muted">💳 No transactions yet.</h5>
+    <router-link 
+      to="/" 
+      class="btn mt-3"
+      style="background-color: #4d148c; border: none; color: #fff; border-radius: 8px; padding: 10px 20px;"
+    >
+      Browse Books
+    </router-link>
+  </div>
+
+  <!-- Transactions list -->
+  <div v-else class="transaction-list container">
+    <div 
+      v-for="tx in transactions" 
+      :key="tx._id" 
+      class="transaction-item d-flex flex-column flex-md-row justify-content-between align-items-start py-3 px-3 px-md-4 border-bottom bg-white mb-2 rounded"
+    >
+      <!-- Left side: Book info -->
+      <div class="mb-2 mb-md-0">
+        <h6 class="fw-bold mb-1" style="color:#4d148c">{{ tx.product.title }}</h6>
+        <p class="text-muted small mb-1">By {{ tx.product.author[0] }}</p>
+        <p class="text-muted small mb-1">Format: {{ tx.format }}</p>
+        <p class="text-muted small mb-0">Ref: {{ tx.reference }}</p>
+      </div>
+
+      <!-- Right side: Amount & Status -->
+      <div class="text-md-end text-start">
+        <p class="fw-bold mb-1">₦{{ tx.price.toLocaleString() }}</p>
+        <span
+          class="badge px-3 py-1 text-uppercase mb-2 d-inline-block"
+          :class="{
+            'bg-success': tx.status === 'completed',
+            'bg-danger': tx.status === 'failed',
+            'bg-warning text-dark': tx.status === 'pending'
+          }"
+        >
+          {{ tx.status }}
+        </span>
+        <p class="text-muted small mb-0">{{ formatDate(tx.createdAt) }}</p>
       </div>
     </div>
+  </div>
+</div>
+
+
+
+
+
 
 
 
@@ -289,103 +319,118 @@
   </template>
   
   <script>
-import axios from "axios";
-
-export default {
-  name: "TransactionHistory",
-  data() {
-    return {
-      categories: [],
-      user: null,
-      loadingUser: true,
-      activeDropdown: null,
-
-      // Transactions (replace with API data later if needed)
-      transactions: [
-        { title: "Atomic Habits", price: "$10", date: "2025-09-01", status: "Successful" },
-        { title: "Deep Work", price: "$12", date: "2025-09-08", status: "Pending" },
-        { title: "Rich Dad Poor Dad", price: "$15", date: "2025-09-12", status: "Failed" }
-      ]
-    };
+  import axios from "axios";
+  
+  export default {
+    name: "Transaction",
+    data() {
+      return {
+        user: null,
+        loadingUser: true,
+        loadingTransactions: true,
+        transactions: [],
+      };
+    },
+    methods: {
+      formatDate(dateString) {
+    if (!dateString) return "";
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }).format(new Date(dateString));
   },
-
-  beforeUnmount() {
-    document.removeEventListener("click", this.handleClickOutside);
+      async fetchUser() {
+        try {
+          // 🔹 Get user directly from localStorage (saved at login)
+          const storedUser = localStorage.getItem("user");
+  
+          if (storedUser) {
+            this.user = JSON.parse(storedUser);
+  
+            // 🔹 Now fetch their transactions
+            if (this.user && this.user._id) {
+              this.fetchTransactions(this.user._id);
+            }
+          } else {
+            console.warn("⚠️ No user found in localStorage, redirecting...");
+            this.$router.push("/sign-in"); // redirect if not logged in
+          }
+        } catch (error) {
+          console.error("❌ Failed to load user from localStorage:", error);
+        } finally {
+          this.loadingUser = false;
+        }
+      },
+  
+      async fetchTransactions(userId) {
+        try {
+          this.loadingTransactions = true;
+          const token = localStorage.getItem("token");
+  
+          const { data } = await axios.get(
+            `https://zacracebookwebsite.onrender.com/user/transactions/${userId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+  
+          console.log("✅ Transactions response:", data);
+  
+          this.transactions = Array.isArray(data.transactions)
+            ? data.transactions
+            : Array.isArray(data)
+            ? data
+            : [];
+        } catch (error) {
+          console.error("❌ Failed to fetch transactions:", error);
+        } finally {
+          this.loadingTransactions = false;
+        }
+      },
+       // 🔹 Add this logout method
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.user = null;
+    this.$router.push("/sign-in");
   },
-
-  methods: {
-    handleClickOutside(event) {
-      if (!event.target.closest(".custom-dropdown")) {
-        this.activeDropdown = null;
-      }
     },
-
-    toggleDropdown(name) {
-      this.activeDropdown = this.activeDropdown === name ? null : name;
+    mounted() {
+      this.fetchUser();
     },
-
-    async api() {
-      try {
-        const response = await axios.get(
-          "https://zacracebookwebsite.onrender.com/ebook/products/shop",
-          { headers: { "Content-Type": "application/json" } }
-        );
-        this.categories = response.data.categories;
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-      }
-    },
-
-    async fetchUser() {
-      try {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-
-        if (storedUser) this.user = JSON.parse(storedUser);
-        if (!token) return;
-
-        const { data } = await axios.get(
-          "https://zacracebookwebsite.onrender.com/api/me",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        this.user = data.user || data;
-        localStorage.setItem("user", JSON.stringify(this.user));
-      } catch (error) {
-        console.error("Failed to fetch user:", error);
-      } finally {
-        this.loadingUser = false;
-      }
-    },
-
-    logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      this.user = null;
-      this.$router.push("/sign-in");
-    }
-  },
-
-  mounted() {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) this.user = JSON.parse(storedUser);
-
-    this.api();
-    this.fetchUser();
-
-    if (localStorage.getItem("fromGoogleLogin") === "true") {
-      localStorage.removeItem("fromGoogleLogin");
-      this.$router.replace("/auth-callback");
-    }
-
-    document.addEventListener("click", this.handleClickOutside);
-  }
-};
-</script>
-
+  };
+  </script>
+  
 
   
 <style scoped>
+.transaction-list {
+  max-width: 750px;
+  border-radius: 8px;
+}
+
+.transaction-item {
+  border-bottom: 1px solid #e0e0e0;
+  background: #fff;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-item .badge {
+  margin-top: 6px;
+  display: inline-block;
+}
+
+
+
+
+
 .dropdown-item:hover,
 .dropdown-item:focus {
   color: #fff;
