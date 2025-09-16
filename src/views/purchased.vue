@@ -202,23 +202,35 @@
         </div>
         <h4>Africa's No. 1 Data School</h4>
         <div class="d-flex gap-3">
-  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+  <!-- Facebook -->
+  <a href="https://facebook.com/yourpage" target="_blank" 
+     class="text-dark d-flex align-items-center justify-content-center"
      style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
     <i class="bi bi-facebook"></i>
   </a>
-  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+
+  <!-- Twitter (X) -->
+  <a href="https://twitter.com/yourhandle" target="_blank" 
+     class="text-dark d-flex align-items-center justify-content-center"
      style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
     <i class="bi bi-twitter"></i>
   </a>
-  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+
+  <!-- LinkedIn -->
+  <a href="https://linkedin.com/in/yourprofile" target="_blank" 
+     class="text-dark d-flex align-items-center justify-content-center"
      style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
     <i class="bi bi-linkedin"></i>
   </a>
-  <a href="#" class="text-dark d-flex align-items-center justify-content-center"
+
+  <!-- YouTube -->
+  <a href="https://youtube.com/@yourchannel" target="_blank" 
+     class="text-dark d-flex align-items-center justify-content-center"
      style="border: 5px solid #fff; background-color: #fff; width: 30px; height: 35px; border-radius: 10%;">
     <i class="bi bi-youtube"></i>
   </a>
 </div>
+
 
 
 <p class=" small d-block mt-5">
