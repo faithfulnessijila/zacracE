@@ -8,7 +8,10 @@ import Homepage from '@/views/homepage.vue';
 import Preview from '@/views/preview.vue';
 import AuthCallback from '@/views/AuthCallback.vue';
 
-import Product from '@/views/Product.vue';
+import Product from '@/views/Product';
+
+
+
 
 
 
@@ -53,13 +56,14 @@ const routes = [
   path: '/purchase', component: Purchase 
 
 },
-{
-  path: "/product",
-  name: "Product",
-  component: Product,
-  meta: { requiresAuth: true },
-  props: true,
-},
+
+  {
+    path: '/product',
+    name: 'Product',
+    component: Product,
+    meta: { requiresAuth: true },
+    props: true,
+  },
 
 
 {
