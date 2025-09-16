@@ -45,8 +45,16 @@
         <div class="text-muted small">{{ user.email }}</div>
       </li>
       <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item py-2" href="#"><i class="bi bi-credit-card me-2"></i> Transactions</a></li>
-      <li><a  @click="$router.push('/purchase')" class="dropdown-item py-2" href="#"><i class="bi bi-bag-check me-2"></i> Purchased</a></li>
+      <li>
+  <a
+    class="dropdown-item py-2"
+    href="#"
+    @click.prevent="$router.push('/Transaction')"
+  >
+    <i class="bi bi-credit-card me-2"></i> Transactions
+  </a>
+</li>
+      <li><a  @click="$router.push('/purchased')" class="dropdown-item py-2" href="#"><i class="bi bi-bag-check me-2"></i> Purchased</a></li>
       <li><hr class="dropdown-divider"></li>
       <li><button class="dropdown-item text-danger fw-semibold py-2" @click="logout"><i class="bi bi-box-arrow-right me-2"></i> Sign Out</button></li>
     </ul>

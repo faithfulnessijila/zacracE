@@ -10,6 +10,8 @@ import AuthCallback from '@/views/AuthCallback.vue';
 
 import Product from '@/views/product.vue';
 
+import Transaction from '@/views/Transaction.vue'; // adjust path if needed
+
 
 
 
@@ -26,7 +28,7 @@ import Productlist from '@/views/product-list.vue';
 
 import Admin from '@/views/admin.vue';
 
-import Purchase from '@/views/purchase.vue';
+import Purchased from '@/views/purchased.vue';
 import AdminSignin from '@/views/admin-signin.vue';
 
 
@@ -42,6 +44,11 @@ import AdminSignin from '@/views/admin-signin.vue';
 
 const routes = [
   {
+    path: '/Transaction',
+    name: 'Transaction',
+    component: Transaction
+  },
+  {
     path: '/sign-up', component:SignUp
   },
   {
@@ -54,7 +61,7 @@ const routes = [
     path: '/new-password',  component: Newpassword
 },
 {
-  path: '/purchase', component: Purchase 
+  path: '/purchased', component: Purchased 
 
 },
 

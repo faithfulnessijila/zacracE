@@ -1,6 +1,4 @@
 <template>
-  <div>
-    
     <nav
   class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-3 py-3"
   style="box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); display: block; padding: 10px 90px !important;"
@@ -66,7 +64,7 @@
 
 
   <!-- Dropdowns eBooks & Audio -->
-  <div class="container-fluid">
+  <div class="container-fluid" style="display: none;">
   <ul class="dropdowns-container d-flex gap-4 mt-4" style="padding-left: 0; list-style: none;">
     
     <!-- eBooks Dropdown -->
@@ -139,42 +137,59 @@
 </nav>
 
   
-    <div v-for="(category, index) in categories" :key="index" class="container my-5">
-      <button
-  :id="`${category.name}`"
-  class="btn fw-bold"
-  style="
-    background-color: #4d148c;
-    color: white;
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 4px;
-  "
->
-  {{ category.name }}
-</button>
+  <div class="container mt-4">
+    <h2 class="mb-4 fw-bold" style="color: #4d148c;">Purchased Books</h2>
 
 
-    
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Best-selling and Popular {{ category.name }}
-        </h4>
-      </div>
-      <div class="container my-5">
-        
-        <Carousel :lists=" category.products " />
+    <div
+      class="p-3 mb-4 border rounded shadow-sm bg-light"
+      v-for="(book, index) in purchasedBooks"
+      :key="index"
+    >
+      <!-- First Line -->
+      <div class="d-flex justify-content-between fw-semibold">
+        <span>Paid for</span>
+        <span>{{ book.title }}</span>
       </div>
 
+      <!-- Second Line -->
+      <div class="text-center my-2">
+        <span class="fw-bold">Price: {{ book.price }}</span>
+      </div>
+
+      <!-- Third Line (Status with Icon) -->
+      <div class="d-flex align-items-center mb-2">
+        <span v-if="book.status === 'completed'" class="text-success fw-bold">
+          <i class="bi bi-check-circle-fill me-1"></i> Completed
+        </span>
+        <span v-else-if="book.status === 'failed'" class="text-danger fw-bold">
+          <i class="bi bi-x-circle-fill me-1"></i> Failed
+        </span>
+        <span v-else-if="book.status === 'pending'" class="text-warning fw-bold">
+          <i class="bi bi-clock-fill me-1"></i> Pending
+        </span>
+      </div>
+
+      <!-- Fourth Line (Book Image Inner Box) -->
       <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
+        class="border rounded d-flex align-items-center justify-content-center mb-2"
+        style="height: 200px; background: #f9f9f9"
       >
-      
+        <img
+          :src="book.image"
+          alt="Book"
+          style="max-height: 180px; max-width: 100%; object-fit: contain"
+        />
+      </div>
+
+      <!-- Fifth Line (Format Type) -->
+      <div>
+        <span class="fw-semibold">Format Type:</span> {{ book.format }}
       </div>
     </div>
+
   </div>
-
-
+  
   <footer class="bg-secondary  text-white py-5 mt-5">
   <div class="container">
     <div class="row align-items-start">
@@ -274,71 +289,53 @@
     </div>
   </div>
 </footer>
-
 </template>
+
 <script>
 import axios from "axios";
-import Carousel from "../components/carousel.vue";
-import { ref } from "vue";
 
 export default {
-  components: {
-    Carousel,
-  },
+  name: "PurchasedPage",
   data() {
     return {
       categories: [],
       user: null,
       loadingUser: true,
-
-      // New: track which dropdown is active (ebooks, audiobooks, etc.)
       activeDropdown: null,
+      purchasedBooks: [
+        {
+          title: "The Great Gatsby",
+          price: "$10",
+          format: "Ebook",
+          status: "completed",
+          image: "https://via.placeholder.com/150x200.png?text=The+Great+Gatsby",
+        },
+        {
+          title: "Atomic Habits",
+          price: "$15",
+          format: "Audiobook",
+          status: "failed",
+          image: "https://via.placeholder.com/150x200.png?text=Atomic+Habits",
+        },
+        {
+          title: "Deep Work",
+          price: "$12",
+          format: "Ebook",
+          status: "pending",
+          image: "https://via.placeholder.com/150x200.png?text=Deep+Work",
+        },
+      ],
     };
   },
-
-  beforeUnmount() {
-    document.removeEventListener("click", this.handleClickOutside);
-  },
-
   methods: {
+    toggleDropdown(name) {
+      this.activeDropdown = this.activeDropdown === name ? null : name;
+    },
     handleClickOutside(event) {
-      // Close dropdowns if clicking outside
       if (!event.target.closest(".custom-dropdown")) {
         this.activeDropdown = null;
       }
     },
-
-    toggleDropdown(name) {
-      this.activeDropdown = this.activeDropdown === name ? null : name;
-    },
-
-    setupMultiCardCarousel() {
-      const items = document.querySelectorAll("#multiCardCarousel .carousel-item");
-      items.forEach((el) => {
-        const minPerSlide = 3;
-        let next = el.nextElementSibling;
-
-        for (let i = 1; i < minPerSlide; i++) {
-          if (!next) next = items[0];
-          const cloneChild = next.firstElementChild.cloneNode(true);
-          el.appendChild(cloneChild);
-          next = next.nextElementSibling;
-        }
-      });
-    },
-
-    async api() {
-      try {
-        const response = await axios.get(
-          "https://zacracebookwebsite.onrender.com/ebook/products/shop",
-          { headers: { "Content-Type": "application/json" } }
-        );
-        this.categories = response.data.categories;
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-      }
-    },
-
     async fetchUser() {
       try {
         const token = localStorage.getItem("token");
@@ -360,39 +357,43 @@ export default {
         this.loadingUser = false;
       }
     },
-
     logout() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       this.user = null;
       this.$router.push("/sign-in");
     },
+    async fetchCategories() {
+      try {
+        const response = await axios.get(
+          "https://zacracebookwebsite.onrender.com/ebook/products/shop",
+          { headers: { "Content-Type": "application/json" } }
+        );
+        this.categories = response.data.categories;
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    },
   },
-
   mounted() {
-    // Load user from localStorage
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) this.user = JSON.parse(storedUser);
-
-    // Initialize categories & carousel
-    this.api();
-    this.setupMultiCardCarousel();
     this.fetchUser();
-
-    // Redirect after Google login if needed
-    if (localStorage.getItem("fromGoogleLogin") === "true") {
-      localStorage.removeItem("fromGoogleLogin");
-      this.$router.replace("/auth-callback");
-    }
-
-    // Add global listener for outside click
+    this.fetchCategories();
     document.addEventListener("click", this.handleClickOutside);
+  },
+  beforeUnmount() {
+    document.removeEventListener("click", this.handleClickOutside);
   },
 };
 </script>
 
 
 <style scoped>
+.container > div {
+  border-radius: 12px;
+}
+
+
+
 .dropdown-item:hover,
 .dropdown-item:focus {
   color: #fff;

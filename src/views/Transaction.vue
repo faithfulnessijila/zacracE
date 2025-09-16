@@ -1,7 +1,5 @@
 <template>
-  <div>
-    
-    <nav
+      <nav
   class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-3 py-3"
   style="box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); display: block; padding: 10px 90px !important;"
 >
@@ -66,7 +64,7 @@
 
 
   <!-- Dropdowns eBooks & Audio -->
-  <div class="container-fluid">
+  <div class="container-fluid" style="display: none;">
   <ul class="dropdowns-container d-flex gap-4 mt-4" style="padding-left: 0; list-style: none;">
     
     <!-- eBooks Dropdown -->
@@ -137,44 +135,46 @@
 </div>
 
 </nav>
-
+    <div class="container mt-4">
+        <h2 class="mb-4 fw-bold" style="color: #4d148c;">Transaction History</h2>
   
-    <div v-for="(category, index) in categories" :key="index" class="container my-5">
-      <button
-  :id="`${category.name}`"
-  class="btn fw-bold"
-  style="
-    background-color: #4d148c;
-    color: white;
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 4px;
-  "
->
-  {{ category.name }}
-</button>
+      <!-- Transaction Item -->
+      <div 
+        v-for="(tx, index) in transactions" 
+        :key="index" 
+        class="py-3 border-bottom"
+      >
+        <!-- First row -->
+        <div class="d-flex justify-content-between">
+          <span>Paid for "{{ tx.title }}"</span>
+          <strong>{{ tx.price }}</strong>
+        </div>
+  
+        <!-- Second row -->
+        <div class="d-flex justify-content-between mt-1">
+          <small class="text-muted">{{ tx.date }}</small>
+          <span 
+            class="badge"
+            :class="{
+              'bg-success': tx.status === 'Successful',
+              'bg-danger': tx.status === 'Failed',
+              'bg-warning text-dark': tx.status === 'Pending'
+            }"
+          >
+            {{ tx.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
 
 
     
-      <div class="mt-2 d-flex justify-content-between align-items-center mb-4">
-        <h4 class="hover-red-bold fw-semibold m-0">
-          Best-selling and Popular {{ category.name }}
-        </h4>
-      </div>
-      <div class="container my-5">
-        
-        <Carousel :lists=" category.products " />
-      </div>
-
-      <div
-        style="border-bottom: 1px solid rgba(108, 117, 125, 0.5); height: 20px"
-      >
-      
-      </div>
-    </div>
-  </div>
-
-
   <footer class="bg-secondary  text-white py-5 mt-5">
   <div class="container">
     <div class="row align-items-start">
@@ -274,25 +274,26 @@
     </div>
   </div>
 </footer>
-
-</template>
-<script>
+  </template>
+  
+  <script>
 import axios from "axios";
-import Carousel from "../components/carousel.vue";
-import { ref } from "vue";
 
 export default {
-  components: {
-    Carousel,
-  },
+  name: "TransactionHistory",
   data() {
     return {
       categories: [],
       user: null,
       loadingUser: true,
-
-      // New: track which dropdown is active (ebooks, audiobooks, etc.)
       activeDropdown: null,
+
+      // Transactions (replace with API data later if needed)
+      transactions: [
+        { title: "Atomic Habits", price: "$10", date: "2025-09-01", status: "Successful" },
+        { title: "Deep Work", price: "$12", date: "2025-09-08", status: "Pending" },
+        { title: "Rich Dad Poor Dad", price: "$15", date: "2025-09-12", status: "Failed" }
+      ]
     };
   },
 
@@ -302,7 +303,6 @@ export default {
 
   methods: {
     handleClickOutside(event) {
-      // Close dropdowns if clicking outside
       if (!event.target.closest(".custom-dropdown")) {
         this.activeDropdown = null;
       }
@@ -310,21 +310,6 @@ export default {
 
     toggleDropdown(name) {
       this.activeDropdown = this.activeDropdown === name ? null : name;
-    },
-
-    setupMultiCardCarousel() {
-      const items = document.querySelectorAll("#multiCardCarousel .carousel-item");
-      items.forEach((el) => {
-        const minPerSlide = 3;
-        let next = el.nextElementSibling;
-
-        for (let i = 1; i < minPerSlide; i++) {
-          if (!next) next = items[0];
-          const cloneChild = next.firstElementChild.cloneNode(true);
-          el.appendChild(cloneChild);
-          next = next.nextElementSibling;
-        }
-      });
     },
 
     async api() {
@@ -366,32 +351,28 @@ export default {
       localStorage.removeItem("user");
       this.user = null;
       this.$router.push("/sign-in");
-    },
+    }
   },
 
   mounted() {
-    // Load user from localStorage
     const storedUser = localStorage.getItem("user");
     if (storedUser) this.user = JSON.parse(storedUser);
 
-    // Initialize categories & carousel
     this.api();
-    this.setupMultiCardCarousel();
     this.fetchUser();
 
-    // Redirect after Google login if needed
     if (localStorage.getItem("fromGoogleLogin") === "true") {
       localStorage.removeItem("fromGoogleLogin");
       this.$router.replace("/auth-callback");
     }
 
-    // Add global listener for outside click
     document.addEventListener("click", this.handleClickOutside);
-  },
+  }
 };
 </script>
 
 
+  
 <style scoped>
 .dropdown-item:hover,
 .dropdown-item:focus {
