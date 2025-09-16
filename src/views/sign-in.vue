@@ -1,17 +1,14 @@
 <template>
   <div class="page-wrapper">
     
-    <nav class="navbar" style="padding: 20px 40px">
-      <div class="navbar-logo mt-4">
-        <img
-          src="/public/d.png"
-          style="margin-top: -10px !important"
-          alt="Logo"
-          class="logo-icon"
-        />
-        <h3 class="logo-text">Zacrac <span>Learning</span></h3>
-      </div>
-    </nav>
+    <nav class="navbar" style="padding: 20px 40px;">
+  <div class="navbar-logo">
+    <img src="/public/d.png" style="margin-top: -10px !important;" alt="Logo" class="logo-icon" />
+    <h3 class="logo-text">Zacrac <span>Learning</span></h3>
+  </div>
+
+
+</nav>
 
    
     <div class="main-section">
