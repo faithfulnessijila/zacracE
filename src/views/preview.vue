@@ -227,23 +227,31 @@
           <h6 class="text-danger mb-0">
             ₦{{ format.price.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
           </h6>
-          <button
-  @click="initiatePayment"
-  :disabled="!book || !book._id || loadingPayment"
+     <!-- Buy Now Button -->
+<!-- Inside v-for="format in book.formats" -->
+<button
+  @click="initiatePayment(format)"
+  :disabled="!book || !book._id || (loadingPayment && loadingFormat === format.type)"
   class="mt-3"
   :style="{ 
     backgroundColor: '#4d148c', 
     borderColor: '#4d148c', 
     color: 'white',
-    borderRadius: '8px',  /* <-- adds rounded corners */
-    padding: '8px 18px'   /* optional: makes button bigger */
+    borderRadius: '8px',
+    padding: '8px 18px'
   }"
 >
-  <span v-if="loadingPayment">Processing...</span>
-  <span v-else>Buy Now</span><div v-if="paymentError" class="text-danger mt-2" style="font-size: 0.85rem;">
-  {{ paymentError }}
-</div>
+  <span v-if="loadingPayment && loadingFormat === format.type">
+    <span class="spinner-border spinner-border-sm me-1"></span> Processing...
+  </span>
+  <span v-else>
+    Buy {{ format.type === 'ebook' ? 'eBook' : 'Audiobook' }}
+  </span>
 </button>
+
+
+
+
 
 
         </div>
@@ -636,6 +644,8 @@
        userLoaded: false,
        bsCollapse: null,
        hoverRating: 0,
+       loadingPayment: {}, // object keyed by format type
+    paymentError: "",
  
        // Book
        book: { coverImageUrl: null, formats: [] },
@@ -663,35 +673,54 @@
    },
  
    methods: {
-     // ---------------- Payment ----------------
-     async initiatePayment() {
-       if (!this.user?._id) {
-         this.showError("You need to be signed in to make a payment!");
-         return this.$router.push("/sign-in");
-       }
- 
-       const { productId } = this.$route.params;
-       if (!productId) return this.showError("Invalid product.");
- 
-       const formatType = this.book?.formats?.some(f => f.type === "ebook") ? "ebook" : "audiobook";
- 
-       try {
-         const { data } = await axios.post(
-           `${API_BASE}/initiate-payment/${productId}`,
-           { email: this.user.email, formatType },
-           { headers: { Authorization: `Bearer ${this.token}` } }
-         );
- 
-         if (data?.authorization_url) {
-           window.location.href = data.authorization_url;
-         } else {
-           this.showError(`Payment failed: ${data?.message || "No payment URL returned"}`);
-         }
-       } catch (err) {
-         console.error("[Payment] Error response:", err.response?.data || err.message);
-         this.showError(`Payment initiation failed: ${err.response?.data?.message || err.message}`);
-       }
-     },
+    async initiatePayment(format) {
+  if (!this.user?._id) {
+    this.showError("You need to be signed in to make a payment!");
+    return this.$router.push("/sign-in");
+  }
+
+  const { productId } = this.$route.params;
+  if (!productId) return this.showError("Invalid product.");
+
+  console.log("[Payment ProductId]", productId);
+  console.log("[Payment Payload]", {
+    email: this.user.email,
+    formatType: format.type
+  });
+
+  try {
+    this.loadingPayment = true;
+    this.loadingFormat = format.type;
+    this.paymentError = "";
+
+    const { data } = await axios.post(
+      `${API_BASE}/initiate-payment/${productId}`,
+      { 
+        email: this.user.email, 
+        formatType: format.type.toLowerCase() // ✅ ensure lowercase
+      },
+      {
+        headers: { Authorization: `Bearer ${this.token}` }
+      }
+    );
+
+    if (data?.authorization_url) {
+      window.location.href = data.authorization_url;
+    } else {
+      this.showError(`Payment failed: ${data?.message || "No payment URL returned"}`);
+    }
+  } catch (err) {
+    console.error("[Payment] Error response:", err.response?.data || err.message);
+    this.showError(
+      `Payment initiation failed: ${err.response?.data?.message || err.message}`
+    );
+  } finally {
+    this.loadingPayment = false;
+    this.loadingFormat = null;
+  }
+}
+
+,
  
      // ---------------- Navbar ----------------
      toggleNavbar() {
