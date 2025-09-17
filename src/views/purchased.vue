@@ -244,32 +244,21 @@
       <strong>Price:</strong> ₦{{ formatPrice(book.price) }}
     </p>
 
-    <!-- Status -->
-    <p class="mb-2">
-      <span v-if="book.status === 'completed'" class="badge bg-success">
-        <i class="bi bi-check-circle me-1"></i> Completed
-      </span>
-      <span v-else-if="book.status === 'failed'" class="badge bg-danger">
-        <i class="bi bi-x-circle me-1"></i> Failed
-      </span>
-      <span v-else class="badge bg-warning text-dark">
-        <i class="bi bi-clock me-1"></i> Pending
-      </span>
-    </p>
+ 
 
     <!-- Preview Button -->
     <div class="mt-auto">
       <button
   class="btn btn-sm w-100 text-white"
-  style="background-color: #4d148c;"
-  @click="() => {
-    console.log('Book object:', book);
-    console.log('Streaming book ID:', book._id || (book.book && book.book._id) || book.bookId);
-    streamBook(book);
-  }"
+  :style="{ backgroundColor: processingBookId === book._id ? '#6a49a3' : '#4d148c' }"
+  :disabled="processingBookId === book._id"
+  @click="handleStream(book)"
 >
-  Stream
+  {{ processingBookId === book._id ? 'Processing...' : 'Stream' }}
 </button>
+
+
+
 
 
 
@@ -495,7 +484,8 @@ export default {
       user: null,
       loadingUser: true,
       activeDropdown: null,
-      purchasedBooks: [], // will be loaded from API
+      purchasedBooks: [],
+      processingBookId: null,// will be loaded from API
     };
   },
   methods: {
@@ -541,38 +531,29 @@ export default {
   }
 }
 ,
+async fetchPurchasedBooks(userId) {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axios.get(
+      `https://zacracebookwebsite.onrender.com/user/purchased-books/${userId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-  async fetchPurchasedBooks(userId) {
-    try {
-      const token = localStorage.getItem("token");
-      const { data } = await axios.get(
-        `https://zacracebookwebsite.onrender.com/user/purchased-books/${userId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+    console.log("Purchased books raw data:", data);
 
-      console.log("Purchased books raw data:", data);
+    // Map purchase productId for streaming
+    this.purchasedBooks = data.purchases.map((purchase) => ({
+      ...purchase,
+      _id: purchase.productId, // product ID for streaming
+      book: purchase,          // keep the full book info
+    }));
 
-      // Map each book to ensure a valid _id exists for streaming
-      this.purchasedBooks = Array.isArray(data.purchases)
-        ? data.purchases.map((book) => {
-            // If book is nested inside another object (like book.book)
-            const actualBook = book.book || book;
-
-            const id =
-              actualBook._id || actualBook.id || actualBook.bookId;
-
-            return {
-              ...book,
-              _id: id,       // always set _id for streaming
-              book: actualBook, // optional: keep actual book object for reference
-            };
-          })
-        : [];
-      console.log("Mapped purchased books:", this.purchasedBooks);
-    } catch (error) {
-      console.error("Failed to fetch purchased books:", error);
-    }
-  },
+    console.log("Mapped purchased books:", this.purchasedBooks);
+  } catch (error) {
+    console.error("Failed to fetch purchased books:", error);
+  }
+}
+,
 
 
 
@@ -593,38 +574,44 @@ export default {
     } catch (error) {
       console.error("Failed to fetch categories:", error);
     }
-  },
+    },
+    async handleStream(book) {
+  this.processingBookId = book._id; // mark this book as processing
+  try {
+    await this.streamBook(book);
+  } finally {
+    this.processingBookId = null; // clear when done
+  }
+},
 
-  async streamBook(book) {
-    // Determine the correct ID
-    const productId = book._id || (book.book && book.book._id) || book.bookId;
+async streamBook(book) {
+  const productId = book._id;
+  if (!productId) {
+    alert("This book cannot be streamed because it has no ID.");
+    return;
+  }
 
-    if (!productId) {
-      alert("This book cannot be streamed because it has no ID.");
-      return;
-    }
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("You must be signed in to stream books");
 
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("You must be signed in to stream books");
+    const url = `https://zacracebookwebsite.onrender.com/user/stream-book/${productId}?format=${book.format}&user=${this.user._id}`;
 
-      const url = `https://zacracebookwebsite.onrender.com/user/stream-book/${productId}?format=${book.format}&user=${this.user._id}`;
+    const response = await axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "blob",
+    });
 
-      const response = await axios.get(url, {
-        headers: { Authorization: `Bearer ${token}` },
-        responseType: "blob",
-      });
-
-      const fileURL = URL.createObjectURL(response.data);
-      window.open(fileURL);
-    } catch (error) {
-      console.error(
-        "Streaming error:",
-        error.response ? error.response.data : error
-      );
-      alert("Unable to stream this book. Please try again later.");
-    }
-  },
+    const fileURL = URL.createObjectURL(response.data);
+    window.open(fileURL);
+  } catch (error) {
+    console.error(
+      "Streaming error:",
+      error.response ? error.response.data : error
+    );
+    alert("Unable to stream this book. Please try again later.");
+  }
+},
 
 },
 

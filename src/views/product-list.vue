@@ -2,16 +2,16 @@
   <div class="d-flex flex-column flex-md-row">
     <!-- Sidebar -->
     <aside class="sidebar border-end p-3">
-      <!-- Logo & Title -->
+
       <div class="text-center mb-4">
         <img src="/d.png" alt="Logo" class="img-fluid mb-3" style="max-width: 50px;" />
         <h5  @click="$router.push('/admin')" style= "cursor:pointer; color: #4d148c;  font-weight: bold;" class="fw-bold brand-title">Zacrac Learning</h5>
       </div>
 
-      <!-- Sidebar Navigation -->
+     
       <nav>
         <ul class="nav flex-column mt-4">
-          <!-- Zacrack E-book Dropdown -->
+      
           <li class="nav-item">
             <a
               href="#"
@@ -90,63 +90,101 @@
 
     <!-- Main Content -->
     <main v-if="isAuthenticated" class="flex-grow-1 p-4 bg-light">
-     
-      <div class="container">
-        <div class="d-flex align-items-center mb-4">
-  <h3 style="color: #4d148c; font-weight: bold;" class="mb-0">Product List</h3>
+  <div class="container">
+    <div class="d-flex align-items-center mb-4">
+      <h3 
+  class="me-3 mb-0 fw-bold text-nowrap"
+  style="color: #4d148c; font-size: clamp(16px, 3vw, 24px);"
+>
+  Product List
+</h3>
+
+  
+  <div class="position-relative" style="width: 250px; margin-left: 10px;">
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Search products..."
+      class="form-control search-input"
+    />
+    <i class="bi bi-search search-icon"></i>
+  </div>
 </div>
 
 
-        <!-- Product Table -->
-        <div class="card shadow-sm">
-  <div class="card-body p-0">
-    <div class="table-responsive">
-      <table class="table table-hover mb-0">
-        <thead class="table-light">
-          <tr>
-  <th class="sticky-col">Product</th>
-  <th>Category</th>
-  <th>Sold</th>
-  <th>Ebook</th>
-  <th>Price (₦)</th>
-  <th>Audio</th>
-  <th>Audio (₦)</th>
-</tr>
 
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in filteredProducts" :key="index">
-            <td class="sticky-col">
-              <div class="d-flex align-items-center">
-                <img :src="item.image" alt="" class="rounded-circle me-2" width="35" height="35" />
-                <span>{{ item.name }}</span>
-              </div>
-            </td>
-            <td>{{ item.category }}</td>
-            <td>{{ item.amountSold }}</td>
-            <td>
-              <i :class="item.hasEbook ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"></i>
-            </td>
-            <td>₦{{ item.ebookPrice }}</td>
-            <td>
-              <i :class="item.hasAudio ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"></i>
-            </td>
-            <td>₦{{ item.audioPrice }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center my-3">
+      <span class="spinner-border text-primary"></span> Loading products...
+    </div>
+
+    <!-- Error Message -->
+    <div v-if="error" class="text-danger my-2">{{ error }}</div>
+
+    <!-- Product Table -->
+    <div v-if="!loading && filteredProducts.length" class="card shadow-sm">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th class="sticky-col">Product</th>
+                <th>Category</th>
+                <th>Sold</th>
+                <th>Ebook</th>
+                <th>Price (₦)</th>
+                <th>Audio</th>
+                <th>Audio (₦)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in filteredProducts" :key="index">
+                <td class="sticky-col">
+                  <div class="d-flex align-items-center">
+                    <img
+                      :src="item.image || 'https://via.placeholder.com/35'"
+                      alt=""
+                      class="rounded-circle me-2"
+                      width="35"
+                      height="35"
+                    />
+                    <span>{{ item.name || 'No Name' }}</span>
+                  </div>
+                </td>
+                <td>{{ item.category || 'N/A' }}</td>
+                <td>{{ item.amountSold ?? 0 }}</td>
+                <td>
+                  <i
+                    :class="item.hasEbook ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"
+                  ></i>
+                </td>
+                <td>{{ formatPrice(item.ebookPrice) }}</td>
+                <td>
+                  <i
+                    :class="item.hasAudio ? 'bi bi-check-circle-fill text-success' : 'bi bi-x-circle-fill text-danger'"
+                  ></i>
+                </td>
+                <td>{{ formatPrice(item.audioPrice) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div v-if="!loading && !filteredProducts.length" class="text-center my-3">
+      No products found.
     </div>
   </div>
-</div>
+</main>
 
-      </div>
-    </main>
-    <main v-else class="flex-grow-1 p-4 bg-light">
+<main v-else class="flex-grow-1 p-4 bg-light">
   <p>Please log in to access this page.</p>
 </main>
+
   </div>
 </template>
-
 <script>
 export default {
   name: "ProductList",
@@ -155,56 +193,16 @@ export default {
       activeLink: "product-list",
       dropdowns: { ebook: true, products: true, orders: false },
       search: "",
-      products: [
-        {
-          name: "Data with Python",
-          category: "Data Analytics",
-          amountSold: 120,
-          hasEbook: true,
-          ebookPrice: 25,
-          hasAudio: true,
-          audioPrice: 40,
-          image: "https://randomuser.me/api/portraits/men/11.jpg"
-        },
-        {
-          name: "MacBook Pro",
-          category: "Electronics",
-          amountSold: 60,
-          hasEbook: true,
-          ebookPrice: 100,
-          hasAudio: true,
-          audioPrice: 120,
-          image: "https://randomuser.me/api/portraits/men/12.jpg"
-        },
-        {
-          name: "Metro Bar Stool",
-          category: "Furniture",
-          amountSold: 86,
-          hasEbook: false,
-          ebookPrice: 0,
-          hasAudio: true,
-          audioPrice: 75,
-          image: "https://randomuser.me/api/portraits/men/13.jpg"
-        },
-        {
-          name: "Alchimia Chair",
-          category: "Furniture",
-          amountSold: 22,
-          hasEbook: true,
-          ebookPrice: 35,
-          hasAudio: false,
-          audioPrice: 0,
-          image: "https://randomuser.me/api/portraits/men/14.jpg"
-        }
-      ],
+      loadingAuth: true,
+      products: [], 
       loading: false,
       error: null
     };
   },
   computed: {
     isAuthenticated() {
-    return !!localStorage.getItem("token");
-  },
+      return !!localStorage.getItem("token");
+    },
     filteredProducts() {
       if (!this.search) return this.products;
       return this.products.filter(
@@ -215,30 +213,63 @@ export default {
     }
   },
   methods: {
-    // Placeholder: future dynamic API fetch
     async fetchProducts() {
-  this.loading = true;
-  this.error = null;
+    this.loading = true;
+    this.error = null;
 
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("No token found, cannot fetch products");
+    try {
+      const token = localStorage.getItem("token");
+console.log("Token being sent:", token);
 
-    const headers = { Authorization: `Bearer ${token}` };
-    const response = await fetch("https://zacracebookwebsite.onrender.com/admin-details", { headers });
 
-    if (!response.ok) throw new Error("Failed to fetch products");
-
-    const data = await response.json();
-    this.products = data.products || this.products;
-
-  } catch (err) {
-    console.error(err);
-    this.error = "Unable to fetch products. Showing default list.";
-  } finally {
-    this.loading = false;
+const response = await fetch(
+  `https://zacracebookwebsite.onrender.com/admin-details?timestamp=${Date.now()}`,
+  {
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    cache: "no-store"
   }
-},
+);
+
+
+      // Handle unauthorized / missing token
+      if (response.status === 401) {
+        throw new Error("Unauthorized: token missing or invalid");
+      }
+
+      if (!response.ok) throw new Error("Failed to fetch products");
+
+      const data = await response.json();
+
+      this.products = (data.products || []).map(p => ({
+        name: p.title || "No Title",
+        category: p.category || "N/A",
+        amountSold: p.amountSold ?? 0,
+        hasEbook: p.price?.ebook > 0,
+        ebookPrice: p.price?.ebook || 0,
+        hasAudio: p.price?.audio > 0,
+        audioPrice: p.price?.audio || 0,
+        image: p.image || "https://via.placeholder.com/35"
+      }));
+
+    } catch (err) {
+      console.error(err);
+      this.error = err.message || "Unable to fetch products. Please try again.";
+
+      // Optional: redirect if unauthorized
+      if (err.message.toLowerCase().includes("unauthorized")) {
+        localStorage.removeItem("token");
+        this.$router.push("/admin-signin");
+      }
+
+      this.products = [];
+    } finally {
+      this.loading = false;
+    }
+  }
+,
 
     goToNewProduct() {
       this.setActiveLink("new-product");
@@ -246,7 +277,7 @@ export default {
     },
 
     goToEdit(productId) {
-      this.activeLink = "edit-product";
+      this.setActiveLink("edit-product");
       this.$router.push({ name: "EditProduct", params: { productId } });
     },
 
@@ -271,18 +302,18 @@ export default {
   mounted() {
   const token = localStorage.getItem("token");
 
+  // If no token, redirect to admin sign-in
   if (!token) {
-    // Redirect to login if no token
     this.$router.push("/admin-signin");
     return;
   }
 
-  // Token exists, fetch products
+  // Fetch products with token
   this.fetchProducts();
-}
-
+},
 };
 </script>
+
 
 <style scoped>
 /* Optional: for better contrast on active nested links */
@@ -309,12 +340,12 @@ export default {
 .table-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  max-height: 70vh;   /* keeps table from stretching too tall */
+  max-height: 70vh;  
 }
 
 .table th,
 .table td {
-  white-space: nowrap;   /* keeps columns compact */
+  white-space: nowrap;  
   font-size: 0.8rem;     
   padding: 0.5rem 0.75rem;
   vertical-align: middle;
@@ -322,7 +353,7 @@ export default {
 
 .table td span {
   display: inline-block;
-  max-width: 150px;   /* cut long product names */
+  max-width: 150px;  
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -333,7 +364,7 @@ export default {
   position: sticky;
   left: 0;
   background: #fff; /* match table bg */
-  z-index: 2;       /* keep above other cells */
+  z-index: 2;      
 }
 
 @media (max-width: 767px) {

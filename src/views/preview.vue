@@ -614,11 +614,11 @@
        bsCollapse: null,
        hoverRating: 0,
  
-       // Book
+    
        book: { coverImageUrl: null, formats: [] },
        loadingBook: true,
  
-       // Reviews
+
        reviews: [],
        reviewText: "",
        selectedRating: 0,
@@ -627,7 +627,7 @@
        voting: false,
        activeReviewId: null,
  
-       // UI
+     
        errorMessage: "",
        successMessage: "",
        token: localStorage.getItem("token"),
@@ -672,7 +672,7 @@
 }
 ,
  
-     // ---------------- Navbar ----------------
+
      toggleNavbar() {
        this.bsCollapse?.toggle();
      },
