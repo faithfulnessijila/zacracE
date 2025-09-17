@@ -292,147 +292,170 @@
 
 
   
-  
-  <!-- Review Form -->
-  <div v-if="user" class="container my-5">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8">
-        <div class="p-5 bg-secondary rounded-3 shadow-sm text-center text-white">
-          <h2 class="fw-bold mb-3">
-            {{ editingReviewId ? "Edit Your Review" : "Write a Review" }}
-          </h2>
+<!-- Review Form -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="p-5 bg-secondary rounded-3 shadow-sm text-center text-white">
+        <h2 class="fw-bold mb-3">
+          {{ editingReviewId ? "Edit Your Review" : "Write a Review" }}
+        </h2>
 
-          <!-- Success Message -->
-          <div v-if="successMessage" class="alert alert-success text-start">
-            {{ successMessage }}
-          </div>
+        <!-- Success Message -->
+        <div v-if="successMessage" class="alert alert-success text-start">
+          {{ successMessage }}
+        </div>
 
-          <!-- Star Rating -->
-          <div class="mb-3">
-            <span
-  v-for="star in 5"
-  :key="star"
-  class="rating-star"
-  :class="{ empty: star > (hoverRating || selectedRating) }"
-  @mouseover="hoverRating = star"
-  @mouseleave="hoverRating = 0"
-  @click="selectedRating = star"
->
-              ★
-            </span>
-          </div>
-
-          <!-- Review Input & Submit -->
-          <div class="d-flex flex-column gap-2">
-            <textarea
-              v-model="reviewText"
-              class="form-control review-input"
-              placeholder="Write your review here..."
-              rows="4"
-              style="resize: vertical; font-size: 1rem; padding: 10px;"
-              @keyup.enter="submitReview"
-            ></textarea>
-
-            <button
-  class="btn fw-bold mx-auto"
-  :disabled="submittingReview"
-  @click="submitReview"
-  style="width: 150px; font-size: 1rem; padding: 0.6rem 1.2rem; background-color: #4d148c; color: #fff; border: none; border-radius: 8px;"
->
-  <span v-if="submittingReview" class="spinner-border spinner-border-sm me-1"></span>
-  {{ editingReviewId ? "Update" : "Submit" }}
-</button>
-
-          </div>
-
-          <!-- Error Message -->
-          <div
-            v-if="errorMessage"
-            class="mt-2 px-2 py-1 rounded text-start"
-            style="background-color: #f8d7da; color: #842029; display: inline-block; word-wrap: break-word; white-space: normal;"
+        <!-- Star Rating -->
+        <div class="mb-3">
+          <span
+            v-for="star in 5"
+            :key="star"
+            class="rating-star"
+            :class="{ empty: star > (hoverRating || selectedRating) }"
+            @mouseover="hoverRating = star"
+            @mouseleave="hoverRating = 0"
+            @click="selectedRating = star"
           >
-            {{ errorMessage }}
-          </div>
+            ★
+          </span>
+        </div>
+
+        <!-- Review Input & Submit -->
+        <div class="d-flex flex-column gap-2">
+          <textarea
+            v-model="reviewText"
+            class="form-control review-input"
+            placeholder="Write your review here..."
+            rows="4"
+            style="resize: vertical; font-size: 1rem; padding: 10px;"
+            @keyup.enter="submitReview"
+          ></textarea>
+
+          <!-- Sign in hint for guests -->
+          <p v-if="!user?._id" class="text-light small">
+            You’ll need to <a href="/sign-in" class="text-warning">sign in</a> to post your review.
+          </p>
+
+          <button
+            class="btn fw-bold mx-auto"
+            :disabled="submittingReview"
+            @click="submitReview"
+            style="width: 150px; font-size: 1rem; padding: 0.6rem 1.2rem; background-color: #4d148c; color: #fff; border: none; border-radius: 8px;"
+          >
+            <span v-if="submittingReview" class="spinner-border spinner-border-sm me-1"></span>
+            {{ editingReviewId ? "Update" : "Submit" }}
+          </button>
+        </div>
+
+        <!-- Error Message -->
+        <div
+          v-if="errorMessage"
+          class="mt-2 px-2 py-1 rounded text-start"
+          style="background-color: #f8d7da; color: #842029; display: inline-block; word-wrap: break-word; white-space: normal;"
+        >
+          {{ errorMessage }}
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Reviews List -->
-  <div class="container my-5">
-    <h4 class="fw-bold mb-3">Customer Reviews ({{ reviews.length }})</h4>
 
-    <div v-if="reviews.length === 0" class="text-muted">
-    No reviews yet. 
+<!-- Reviews List -->
+<div class="container my-5">
+  <h4 class="fw-bold mb-3">Customer Reviews ({{ reviews.length }})</h4>
+
+  <!-- No reviews -->
+  <div v-if="reviews.length === 0" class="text-muted">
+    No reviews yet.
     <span v-if="!user?._id">Please <a href="/sign-in">sign in</a> to write a review.</span>
     <span v-else>Be the first to review this product!</span>
   </div>
 
-    <div
-      v-for="review in reviews"
-      :key="review._id"
-      class="card mb-3 shadow-sm"
-      @mouseover="hover = review._id"
-      @mouseleave="hover = false"
-    >
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <strong>{{ review.user?.name || "Anonymous" }}</strong>
-            <small class="text-muted ms-2">
-              {{ new Date(review.createdAt).toLocaleDateString() }}
-            </small>
-            <div class="mt-1">
-              <i
-                v-for="n in 5"
-                :key="n"
-                class="bi"
-                :class="n <= review.rating ? 'bi-star-fill text-warning' : 'bi-star text-secondary'"
-              ></i>
-            </div>
-          </div>
-
-          <!-- Edit/Delete only for review owner -->
-          <div v-if="user?._id === review.user?._id && hover === review._id" class="btn-group">
-            <button class="btn btn-sm btn-outline-primary" @click="startEditReview(review)">
-              Edit
-            </button>
-            <button class="btn btn-sm btn-outline-danger" @click="deleteReview(review._id)">
-              Delete
-            </button>
+  <!-- Show preview or all -->
+  <div
+    v-for="review in displayedReviews"
+    :key="review._id"
+    class="card mb-3 shadow-sm"
+    @mouseover="hover = review._id"
+    @mouseleave="hover = false"
+  >
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <strong>{{ review.user?.name || "Anonymous" }}</strong>
+          <small class="text-muted ms-2">
+            {{ new Date(review.createdAt).toLocaleDateString() }}
+          </small>
+          <div class="mt-1">
+            <i
+              v-for="n in 5"
+              :key="n"
+              class="bi"
+              :class="n <= review.rating ? 'bi-star-fill text-warning' : 'bi-star text-secondary'"
+            ></i>
           </div>
         </div>
 
-        <p class="mt-2">{{ review.review }}</p>
+        <!-- Edit/Delete only for review owner -->
+        <div
+          v-if="user?._id === review.user?._id && hover === review._id"
+          class="btn-group"
+        >
+          <button class="btn btn-sm btn-outline-primary" @click="startEditReview(review)">
+            Edit
+          </button>
+          <button class="btn btn-sm btn-outline-danger" @click="deleteReview(review._id)">
+            Delete
+          </button>
+        </div>
+      </div>
 
-        <!-- Like/Dislike Buttons -->
-        <div class="d-flex gap-2">
-  <button
-    class="btn btn-sm"
-    :class="[
-      review.userVote === 'like' ? 'btn-success' : 'btn-light',
-      voting && review._id === activeReviewId ? 'disabled' : ''
-    ]"
-    @click="likeReview(review)"
-  >
-    👍 {{ review.likes }}
-  </button>
+      <p class="mt-2">{{ review.review }}</p>
 
-  <button
-    class="btn btn-sm"
-    :class="[
-      review.userVote === 'dislike' ? 'btn-danger' : 'btn-light',
-      voting && review._id === activeReviewId ? 'disabled' : ''
-    ]"
-    @click="dislikeReview(review)"
-  >
-    👎 {{ review.dislikes }}
-  </button>
+      <!-- Like/Dislike Buttons -->
+      <!-- Like/Dislike Buttons -->
+<div class="d-flex gap-2">
+  <template v-if="user?._id">
+    <button
+      class="btn btn-sm"
+      :class="[review.userVote === 'like' ? 'btn-success' : 'btn-light']"
+      @click="likeReview(review)"
+    >
+      👍 {{ review.likes }}
+    </button>
+
+    <button
+      class="btn btn-sm"
+      :class="[review.userVote === 'dislike' ? 'btn-danger' : 'btn-light']"
+      @click="dislikeReview(review)"
+    >
+      👎 {{ review.dislikes }}
+    </button>
+  </template>
+
+  <template v-else>
+    <small class="text-muted">Sign in to like or dislike reviews</small>
+  </template>
 </div>
 
-      </div>
     </div>
   </div>
+
+  <!-- Toggle button -->
+  <div v-if="reviews.length > previewLimit" class="text-center mt-3">
+    <button
+      class="btn btn-sm text-white fw-bold"
+      style="background-color: #4d148c;"
+      @click="showAllReviews = !showAllReviews"
+    >
+      {{ showAllReviews ? "Show Less" : "Show All Reviews" }}
+    </button>
+  </div>
+</div>
+
+
 
 
   
@@ -607,18 +630,18 @@
  
    data() {
      return {
-      paymentError: '' ,
+       paymentError: "",
        categories: [],
        user: null,
        userLoaded: false,
        bsCollapse: null,
        hoverRating: 0,
  
-    
+       // Book
        book: { coverImageUrl: null, formats: [] },
        loadingBook: true,
  
-
+       // Reviews
        reviews: [],
        reviewText: "",
        selectedRating: 0,
@@ -626,8 +649,9 @@
        submittingReview: false,
        voting: false,
        activeReviewId: null,
+       showAllReviews: false, // ✅ control preview vs full
  
-     
+       // UI
        errorMessage: "",
        successMessage: "",
        token: localStorage.getItem("token"),
@@ -641,38 +665,35 @@
    methods: {
      // ---------------- Payment ----------------
      async initiatePayment() {
-  if (!this.user?._id) {
-    this.showError("You need to be signed in to make a payment!");
-    return this.$router.push("/sign-in");
-  }
-
-  const { productId } = this.$route.params;
-  if (!productId) return this.showError("Invalid product.");
-
-  const formatType = this.book?.formats?.some(f => f.type === "ebook") ? "ebook" : "audiobook";
-
-  try {
-    const { data } = await axios.post(
-      `${API_BASE}/initiate-payment/${productId}`,
-      { email: this.user.email, formatType },
-      { headers: { Authorization: `Bearer ${this.token}` } }
-    );
-
-    console.log("Payment API response:", data);
-
-    if (data?.authorization_url) {
-      window.location.href = data.authorization_url;
-    } else {
-      this.showError(`Payment failed: ${data?.message || "No payment URL returned"}`);
-    }
-  } catch (err) {
-    console.error("[Payment] Error response:", err.response?.data || err.message);
-    this.showError(`Payment initiation failed: ${err.response?.data?.message || err.message}`);
-  }
-}
-,
+       if (!this.user?._id) {
+         this.showError("You need to be signed in to make a payment!");
+         return this.$router.push("/sign-in");
+       }
  
-
+       const { productId } = this.$route.params;
+       if (!productId) return this.showError("Invalid product.");
+ 
+       const formatType = this.book?.formats?.some(f => f.type === "ebook") ? "ebook" : "audiobook";
+ 
+       try {
+         const { data } = await axios.post(
+           `${API_BASE}/initiate-payment/${productId}`,
+           { email: this.user.email, formatType },
+           { headers: { Authorization: `Bearer ${this.token}` } }
+         );
+ 
+         if (data?.authorization_url) {
+           window.location.href = data.authorization_url;
+         } else {
+           this.showError(`Payment failed: ${data?.message || "No payment URL returned"}`);
+         }
+       } catch (err) {
+         console.error("[Payment] Error response:", err.response?.data || err.message);
+         this.showError(`Payment initiation failed: ${err.response?.data?.message || err.message}`);
+       }
+     },
+ 
+     // ---------------- Navbar ----------------
      toggleNavbar() {
        this.bsCollapse?.toggle();
      },
@@ -681,9 +702,11 @@
      },
      handleClickOutside(event) {
        const navbar = this.$refs.navbarCollapse;
-       if (navbar?.classList.contains("show") &&
-           !navbar.contains(event.target) &&
-           !event.target.closest(".navbar-toggler")) {
+       if (
+         navbar?.classList.contains("show") &&
+         !navbar.contains(event.target) &&
+         !event.target.closest(".navbar-toggler")
+       ) {
          this.bsCollapse.hide();
        }
      },
@@ -712,33 +735,37 @@
      },
  
      async fetchReviews() {
-       try {
-         const { productId } = this.$route.params;
-         const { data } = await axios.get(`${API_BASE}/review/${productId}`);
- 
-         if (!Array.isArray(data.reviews)) {
-           console.warn("[Reviews] Unexpected response:", data);
-           this.reviews = [];
-           return;
-         }
- 
-         this.reviews = data.reviews.map(r => {
-           const userObj = r.user || r.userInfo || {};
-           const userId = userObj._id || userObj.userId || null;
-           const userName = userObj.name || userObj.fullName || userObj.username || (userId ? `User-${userId.slice(-4)}` : "Anonymous");
- 
-           return {
-             ...r,
-             user: { _id: userId, name: userName },
-             likes: r.likes?.length || 0,
-             dislikes: r.dislikes?.length || 0,
-             userVote: r.userVote || null,
-           };
-         });
-       } catch (err) {
-         console.error("[Reviews] Failed:", err.response?.data || err.message);
-       }
-     },
+  try {
+    const { productId } = this.$route.params;
+    if (!productId) return;
+
+    const { data } = await axios.get(`${API_BASE}/review/${productId}`);
+
+    this.reviews = Array.isArray(data.reviews)
+      ? data.reviews.map(r => {
+          const userObj = r.user || r.userInfo || {};
+          const userId = userObj._id || userObj.userId || null;
+          const userName =
+            userObj.name ||
+            userObj.fullName ||
+            userObj.username ||
+            (userId ? `User-${userId.slice(-4)}` : "Anonymous");
+
+          return {
+            ...r,
+            user: { _id: userId, name: userName },
+            likes: r.likes?.length || 0,
+            dislikes: r.dislikes?.length || 0,
+            userVote: r.userVote || null,
+          };
+        })
+      : [];
+  } catch (err) {
+    console.error("[Reviews] Failed:", err.response?.data || err.message);
+    this.reviews = []; // fallback to empty
+  }
+}
+,
  
      async fetchUser() {
        if (!this.token) {
@@ -755,7 +782,7 @@
            _id: data.user._id,
            name: data.user.name || data.user.username,
            gender: data.user.gender || "N/A",
-           email: data.user.email || "N/A"
+           email: data.user.email || "N/A",
          };
  
          localStorage.setItem("user", JSON.stringify(this.user));
@@ -779,7 +806,13 @@
        this.clearMessages();
        if (!this.reviewText.trim()) return this.showError("Please write a review!");
        if (!this.selectedRating) return this.showError("Please select a rating!");
-       if (!this.user?._id) return this.$router.push("/sign-in");
+       if (!this.user?._id) {
+  return this.$router.push({
+    path: "/sign-in",
+    query: { redirect: this.$route.fullPath },
+  });
+}
+
  
        this.submittingReview = true;
        const { productId } = this.$route.params;
@@ -789,12 +822,20 @@
            await axios.put(
              `${API_BASE}/review/${productId}/edit-review`,
              { review: this.reviewText, rating: this.selectedRating },
-             { params: { userId: this.user._id, reviewId: this.editingReviewId }, headers: { Authorization: `Bearer ${this.token}` } }
+             {
+               params: { userId: this.user._id, reviewId: this.editingReviewId },
+               headers: { Authorization: `Bearer ${this.token}` },
+             }
            );
  
            const index = this.reviews.findIndex(r => r._id === this.editingReviewId);
            if (index !== -1) {
-             this.reviews[index] = { ...this.reviews[index], review: this.reviewText, rating: this.selectedRating, user: { _id: this.user._id, name: this.user.name } };
+             this.reviews[index] = {
+               ...this.reviews[index],
+               review: this.reviewText,
+               rating: this.selectedRating,
+               user: { _id: this.user._id, name: this.user.name },
+             };
            }
  
            this.showSuccess("Review updated!");
@@ -830,10 +871,10 @@
      },
  
      startEditReview(review) {
-  this.reviewText = review.review;
-  this.selectedRating = review.rating; // keep current rating
-  this.editingReviewId = review._id;   // signals editing mode
-},
+       this.reviewText = review.review;
+       this.selectedRating = review.rating;
+       this.editingReviewId = review._id;
+     },
  
      async deleteReview(reviewId) {
        if (!this.user?._id) return this.showError("Sign in to delete review!");
@@ -869,11 +910,23 @@
  
          // Optimistic UI update
          if (type === "like") {
-           if (review.userVote === "like") { review.likes--; review.userVote = null; }
-           else { if (review.userVote === "dislike") review.dislikes--; review.likes++; review.userVote = "like"; }
+           if (review.userVote === "like") {
+             review.likes--;
+             review.userVote = null;
+           } else {
+             if (review.userVote === "dislike") review.dislikes--;
+             review.likes++;
+             review.userVote = "like";
+           }
          } else {
-           if (review.userVote === "dislike") { review.dislikes--; review.userVote = null; }
-           else { if (review.userVote === "like") review.likes--; review.dislikes++; review.userVote = "dislike"; }
+           if (review.userVote === "dislike") {
+             review.dislikes--;
+             review.userVote = null;
+           } else {
+             if (review.userVote === "like") review.likes--;
+             review.dislikes++;
+             review.userVote = "dislike";
+           }
          }
        } catch (err) {
          console.error("[Vote Review] Failed:", err.response?.data || err.message);
@@ -883,8 +936,12 @@
        }
      },
  
-     likeReview(review) { this.voteReview(review, "like"); },
-     dislikeReview(review) { this.voteReview(review, "dislike"); },
+     likeReview(review) {
+       this.voteReview(review, "like");
+     },
+     dislikeReview(review) {
+       this.voteReview(review, "dislike");
+     },
  
      // ---------------- Helpers ----------------
      resetReviewForm() {
@@ -908,21 +965,29 @@
  
    mounted() {
      const navbarEl = this.$refs.navbarCollapse;
-     if (navbarEl) this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, { toggle: false });
+     if (navbarEl) {
+       this.bsCollapse = bootstrap.Collapse.getOrCreateInstance(navbarEl, { toggle: false });
+     }
  
      document.addEventListener("click", this.handleClickOutside);
  
      this.fetchCategories();
-     this.fetchUser().then(() => {
-       this.fetchBook();
-       this.fetchReviews();
-     });
+     this.fetchBook();
+     this.fetchReviews(); // ✅ Always load reviews (guest or logged in)
+     this.fetchUser();    // ✅ Only loads if token exists
+   },
+ 
+   computed: {
+     // ✅ Reviews shown in UI (5 preview or all)
+     displayedReviews() {
+       return this.showAllReviews ? this.reviews : this.reviews.slice(0, 5);
+     },
    },
  };
  </script>
  
-  
 
+ 
  <style scoped>
  .dropdown-item:hover,
 .dropdown-item:focus {
